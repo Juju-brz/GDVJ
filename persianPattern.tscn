@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://qywxpr5vvcjj"]
+[gd_scene load_steps=7 format=3 uid="uid://qywxpr5vvcjj"]
 
 [ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="1_l6xcm"]
 [ext_resource type="Shader" uid="uid://drwjc53tvusib" path="res://square.gdshader" id="2_bym46"]
 [ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://Square.svg" id="3_oevug"]
+[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="4_oevug"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f05lg"]
 shader = ExtResource("1_l6xcm")
@@ -13,6 +14,7 @@ shader_parameter/offset = Vector2(50, 0)
 shader_parameter/speed = 1.0
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("4_oevug")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_f05lg")
