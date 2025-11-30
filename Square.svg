@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="125.08696mm"
+   height="125.08696mm"
+   viewBox="0 0 125.08696 125.08696"
    version="1.1"
    id="svg1"
    sodipodi:docname="Square.svg"
@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.73"
-     inkscape:cx="395.89041"
-     inkscape:cy="374.65753"
+     inkscape:cx="234.24658"
+     inkscape:cy="114.38356"
      inkscape:window-width="1920"
      inkscape:window-height="992"
      inkscape:window-x="0"
@@ -37,9 +37,10 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-42.717392,-68.934784)">
     <rect
-       style="fill:none;stroke-width:3;stroke-linecap:round;paint-order:stroke fill markers;stroke:#000000;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-opacity:1;paint-order:stroke fill markers"
        id="rect1"
        width="122.08696"
        height="122.08696"
