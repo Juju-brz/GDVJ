@@ -40,12 +40,13 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	nb_duplicates += delta *1.4               # float qui s'incrémente
+	nb_duplicates += delta *1.0           # float qui s'incrémente
 	NB_DUPLICATES = int(nb_duplicates)    # conversion propre2.0
-	print(NB_DUPLICATES)
-	if NB_DUPLICATES > old_nb:
-		print("La valeur augmente :", NB_DUPLICATES)
-		transform()
+	print(NB_DUPLICATES, " NB_DUPLICATES")
+	if NB_DUPLICATES < 6:
+		if NB_DUPLICATES > old_nb:
+			print("La valeur augmente :", NB_DUPLICATES)
+			transform()
 
 	# Met à jour l’ancienne valeur pour la frame suivante
 	old_nb = NB_DUPLICATES
