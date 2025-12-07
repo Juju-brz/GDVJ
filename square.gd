@@ -5,7 +5,6 @@ const SPACING: float = 50.0
 #var original_sprite = $Square  
 
 @export var angle = 0.0
-@onready var hud = $"/root/Node2D/HUD"  # Chemin absolu vers ton HUD
 
 
 func transform():
@@ -43,20 +42,31 @@ func Inputcontrol(slider): # I must making Input to have variable of control ins
 
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
+	var slider = $Control/HSlider
 
 
 func _process(delta: float) -> void:
 	nb_duplicates += delta *1.0           # float qui s'incrémente
 	NB_DUPLICATES = int(nb_duplicates)    # conversion propre2.0
-	print(NB_DUPLICATES, " NB_DUPLICATES")
-	if NB_DUPLICATES < 6:
-		if NB_DUPLICATES > old_nb:
-			print("La valeur augmente :", NB_DUPLICATES)
-			transform()
+	#print(NB_DUPLICATES, " NB_DUPLICATES")
+	#if NB_DUPLICATES < 6:
+		#if NB_DUPLICATES > old_nb:
+			#print("La valeur augmente :", NB_DUPLICATES)
+			#transform()
 	
 	# Met à jour l’ancienne valeur pour la frame suivante
 	old_nb = NB_DUPLICATES
 	# INPUT
-	var slider = $HSlider
-	if Inputcontrol(slider) : #so for the scene input change for be good whatetever scene
-		print(slider)
+	var slider = $Control/HSlider
+	#if slider == 1 : #so for the scene input change for be good whatetever scene
+		#print(slider)
+	#$Control/HSlider.value
+	#print($Control/HSlider.value)
+	#print(slider.value)
+	if slider.value_changed:
+		print(slider.value)
+
+
+func _on_h_slider_value_changed(value: float, slider) -> void:
+	if true:
+		print(slider.value)
