@@ -1,9 +1,9 @@
 extends Control
 
-#@export var ma_variable: float = 0.0
-#@onready var slider : HSlider = $HSlider
-#
-#signal valeur_slider_modifiee(nouvelle_valeur)
+@export var ma_variable: float = 0.0
+@onready var slider : HSlider = $HSlider
+
+signal valeur_slider_modifiee(nouvelle_valeur)
 #
 #func _ready():
 	## Remplace "Slider" par le chemin correct

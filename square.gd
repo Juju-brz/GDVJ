@@ -35,6 +35,12 @@ var NB_DUPLICATES: int = 1
 
 var old_nb: float = NB_DUPLICATES
 
+func Inputcontrol(slider): # I must making Input to have variable of control inside
+	slider = $HSlider
+	print(slider) 
+	slider = nb_duplicates
+
+
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
 
@@ -47,6 +53,10 @@ func _process(delta: float) -> void:
 		if NB_DUPLICATES > old_nb:
 			print("La valeur augmente :", NB_DUPLICATES)
 			transform()
-
+	
 	# Met à jour l’ancienne valeur pour la frame suivante
 	old_nb = NB_DUPLICATES
+	# INPUT
+	var slider = $HSlider
+	if Inputcontrol(slider) : #so for the scene input change for be good whatetever scene
+		print(slider)

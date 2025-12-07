@@ -25,3 +25,4 @@ scale = Vector2(0.63, 0.63)
 texture = ExtResource("3_oevug")
 
 [node name="Control" parent="." instance=ExtResource("5_73kxq")]
+ma_variable = 0.0
