@@ -6,7 +6,7 @@ const SPACING: float = 50.0
 
 @export var angle = 0.0
 
-
+@onready var slider = $Control/HSlider
 func transform():
 	var original_sprite = $Square  
 	if not original_sprite:
@@ -42,7 +42,8 @@ func Inputcontrol(slider): # I must making Input to have variable of control ins
 
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
-	var slider = $Control/HSlider
+	#slider = $Control/HSlider
+	var old_value: float = slider.value  # Stocke l'ancienne valeur
 
 
 func _process(delta: float) -> void:
@@ -65,8 +66,7 @@ func _process(delta: float) -> void:
 	#print(slider.value)
 	if slider.value_changed:
 		print(slider.value)
-
+		#transform()
 
 func _on_h_slider_value_changed(value: float, slider) -> void:
-	if true:
-		print(slider.value)
+	transform()
