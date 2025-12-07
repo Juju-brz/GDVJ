@@ -16,15 +16,15 @@ var duplicated_spriteslist = []
 var last_sprite
 
 #### FUNCTION ####
-func increment():
+func increment(): #ADD SQUARE
 	var original_sprite = $Square  
 	if not original_sprite:
 		print("No Sprint2D found")
 		return
 
-	var duplicated_sprite = original_sprite.duplicate()
+	duplicated_sprite = original_sprite.duplicate()
 	add_child(duplicated_sprite)
-	var angle = duplicated_spriteslist.size() * SPACING
+	angle = duplicated_spriteslist.size() * SPACING
 	duplicated_sprite.position = Vector2(
 		original_sprite.position.x + cos(angle) * RADIUS,
 		original_sprite.position.y + sin(angle) * RADIUS
@@ -33,7 +33,7 @@ func increment():
 	duplicated_spriteslist.append(duplicated_sprite)
 	print(duplicated_spriteslist)
 
-func decrement():
+func decrement(): #delete Square
 	#duplicated_sprite.queue_free()
 	if duplicated_spriteslist.size() == 0:
 		pass
@@ -60,14 +60,14 @@ func _process(delta: float) -> void:
 	#THIS make the change of square
 	if slider.value > old_slder_value:
 		
-		print("pouet!")
+		print("increment!")
 		increment()
-		old_slder_value = slider.value
+		old_slder_value = slider.value # for modify value again
 		nb_duplicates += 1
 		
 	if slider.value < old_slder_value:
-		print("proute!")
+		print("decrement!")
 		decrement()
-		old_slder_value = slider.value
+		old_slder_value = slider.value  # for modify value again
 		nb_duplicates -= 1
 		#last_sprite = duplicated_spriteslist.pop_back()
