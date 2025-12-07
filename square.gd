@@ -3,10 +3,9 @@ extends Node2D
 #### VARIABLES ####
 const SPACING: float = 50.0
 #var original_sprite = $Square  
-
+const RADIUS: float = 0.0
 @export var angle = 0.0
-
-@onready var slider = $Control/VBoxContainer/HSlider#Import Slider Input
+@onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
 @onready var old_slder_value: float = slider.value  # Stocke l'ancienne valeur
 var nb_duplicates =  1
 var NB_DUPLICATES: int = 1
@@ -14,7 +13,7 @@ var NB_DUPLICATES: int = 1
 var old_nb: float = NB_DUPLICATES
 var duplicated_sprite
 var duplicated_spriteslist = []
-
+var last_sprite
 
 #### FUNCTION ####
 func increment():
@@ -23,17 +22,16 @@ func increment():
 		print("No Sprint2D found")
 		return
 
-	for i in range(NB_DUPLICATES):
-		duplicated_sprite = original_sprite.duplicate()
-		add_child(duplicated_sprite)
-		angle = (i + 1) * SPACING
-		duplicated_sprite.position = Vector2(
-			original_sprite.position.x + cos(angle) * 0,
-			original_sprite.position.y + sin(angle) * 0
-		)
-		duplicated_sprite.rotation = angle
-		duplicated_spriteslist.append(duplicated_sprite) #ARRAY of Duplication
-		print(duplicated_spriteslist)
+	var duplicated_sprite = original_sprite.duplicate()
+	add_child(duplicated_sprite)
+	var angle = duplicated_spriteslist.size() * SPACING
+	duplicated_sprite.position = Vector2(
+		original_sprite.position.x + cos(angle) * RADIUS,
+		original_sprite.position.y + sin(angle) * RADIUS
+	)
+	duplicated_sprite.rotation = angle
+	duplicated_spriteslist.append(duplicated_sprite)
+	print(duplicated_spriteslist)
 
 func decrement():
 	#duplicated_sprite.queue_free()
@@ -41,9 +39,11 @@ func decrement():
 		pass
 	else:
 		
-		var last_sprite = duplicated_spriteslist.pop_back()
+		last_sprite = duplicated_spriteslist.pop_back()
 		last_sprite.queue_free()
+		#last_sprite.remove()
 		print(duplicated_spriteslist)
+		#NB_DUPLICATES -= 1
 
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
@@ -66,4 +66,8 @@ func _process(delta: float) -> void:
 		nb_duplicates += 1
 		
 	if slider.value < old_slder_value:
+		print("proute!")
 		decrement()
+		old_slder_value = slider.value
+		nb_duplicates -= 1
+		#last_sprite = duplicated_spriteslist.pop_back()
