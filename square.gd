@@ -7,7 +7,7 @@ const SPACING: float = 50.0
 @export var angle = 0.0
 
 @onready var slider = $Control/HSlider
-@onready var old_value: float = slider.value  # Stocke l'ancienne valeur
+@onready var old_slder_value: float = slider.value  # Stocke l'ancienne valeur
 
 
 #### FUNCTION ####
@@ -33,7 +33,7 @@ func transform():
 		)
 		duplicated_sprite.rotation = angle
 
-var nb_duplicates: float = 1.0
+var nb_duplicates =  1
 var NB_DUPLICATES: int = 1
 
 var old_nb: float = NB_DUPLICATES
@@ -50,31 +50,19 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	nb_duplicates += delta *1.0           # float qui s'incrémente
+	#nb_duplicates = 1          # float qui s'incrémente
 	NB_DUPLICATES = int(nb_duplicates)    # conversion propre2.0
-	#print(NB_DUPLICATES, " NB_DUPLICATES")
-	#if NB_DUPLICATES < 6:
-		#if NB_DUPLICATES > old_nb:
-			#print("La valeur augmente :", NB_DUPLICATES)
-			#transform()
-	
-	# Met à jour l’ancienne valeur pour la frame suivante
+
 	old_nb = NB_DUPLICATES
 	# INPUT
 	var slider = $Control/HSlider
-	#if slider == 1 : #so for the scene input change for be good whatetever scene
-		#print(slider)
-	#$Control/HSlider.value
-	#print($Control/HSlider.value)
-	#print(slider.value)
-	#if slider.value_changed:
-		#print(slider.value)
-		#transform()
-	if slider.value != old_value:
+
+	if slider.value != old_slder_value:
 		
 		print("pouet!")
 		transform()
-		
+		old_slder_value = slider.value
+		nb_duplicates += 1
 
 func _on_h_slider_value_changed(value: float, slider) -> void:
 	transform()
