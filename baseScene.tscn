@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bp8w6tlng3j86"]
+[gd_scene load_steps=8 format=3 uid="uid://bp8w6tlng3j86"]
 
 [ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="1_u2bk3"]
 [ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="2_gb5ns"]
@@ -9,6 +9,8 @@
 shader = ExtResource("2_gb5ns")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_73kxq"]
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_u2bk3"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_u2bk3")
@@ -64,6 +66,9 @@ offset_left = 3.0
 offset_top = 87.0
 offset_right = 394.0
 offset_bottom = 609.0
+syntax_highlighter = SubResource("SyntaxHighlighter_u2bk3")
+highlight_all_occurrences = true
+highlight_current_line = true
 script = ExtResource("4_bgty4")
 
 [node name="Button" type="Button" parent="Control/CodeEdit"]
