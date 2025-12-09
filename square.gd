@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 	
 	
 	# HIDE #
-	if Input.is_action_just_pressed("hide"):
+	if Input.is_action_just_pressed("hide_all_ctrl"):
 
 		if hide:
 			control.show()
