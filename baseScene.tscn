@@ -36,6 +36,10 @@ offset_top = 26.0
 offset_right = 1118.0
 offset_bottom = 254.0
 
+[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Duplication"
+
 [node name="HSlider" type="HSlider" parent="Control/VBoxContainer"]
 layout_mode = 2
 max_value = 10.0
@@ -48,9 +52,10 @@ text = "Animation"
 layout_mode = 2
 text = "Spacing"
 
-[node name="HSlider2" type="HSlider" parent="Control/VBoxContainer"]
+[node name="HSlider_spacing" type="HSlider" parent="Control/VBoxContainer"]
 layout_mode = 2
-max_value = 10.0
+min_value = 50.0
+value = 50.0
 
 [node name="CodeEdit" type="CodeEdit" parent="Control"]
 layout_mode = 0

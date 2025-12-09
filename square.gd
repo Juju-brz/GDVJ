@@ -1,14 +1,19 @@
 extends Node2D
 
 #### VARIABLES ####
-const SPACING: float = 50.0
+var SPACING: float = 50.0
 #var original_sprite = $Square  
-const RADIUS: float = 0.0
+@export var RADIUS: float = 0.0
 @export var angle = 0.0
-@onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
-@onready var old_slder_value: float = slider.value  # Stocke l'ancienne valeur
+
+### CONTROLES ###
 @onready var control = $Control
 var hide :bool = false
+@onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
+@onready var old_slder_value: float = slider.value  
+
+@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
+@onready var old_slider_spacing_value = slider_spacing.value
 
 var nb_duplicates =  1
 var NB_DUPLICATES: int = 1
@@ -60,7 +65,7 @@ func _process(delta: float) -> void:
 	old_nb = NB_DUPLICATES
 	# INPUT
 	
-	#THIS make the change of square
+	#THIS make the change of shape
 	if slider.value > old_slder_value:
 		
 		print("increment!")
@@ -75,13 +80,25 @@ func _process(delta: float) -> void:
 		nb_duplicates -= 1
 		#last_sprite = duplicated_spriteslist.pop_back()
 	
+	if slider_spacing.value > old_slider_spacing_value:
+		RADIUS = RADIUS + 1
+		print(RADIUS)
+		old_slider_spacing_value = slider_spacing.value
+	
+	if slider_spacing.value < old_slider_spacing_value:
+		RADIUS = RADIUS - 1
+		print(RADIUS)
+		old_slider_spacing_value = slider_spacing.value
+	
 	if Input.is_action_just_pressed("hide"):
-		print("truc")
+
 		if hide:
 			control.show()
 			hide = false
-			print("hide")
 		else:
 			control.hide()
 			hide = true
 			
+
+	
+	
