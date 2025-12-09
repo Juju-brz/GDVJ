@@ -41,8 +41,7 @@ func increment(): #ADD SQUARE
 	duplicated_spriteslist.append(duplicated_sprite)
 	print(duplicated_spriteslist)
 
-func decrement(): #delete Square
-	#duplicated_sprite.queue_free()
+func decrement(): #delete Shape
 	if duplicated_spriteslist.size() == 0:
 		pass
 	else:
@@ -55,7 +54,6 @@ func decrement(): #delete Square
 
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
-	#slider = $Control/HSlider
 
 
 func _process(delta: float) -> void:
@@ -63,7 +61,7 @@ func _process(delta: float) -> void:
 	NB_DUPLICATES = int(nb_duplicates)    # conversion propre2.0
 
 	old_nb = NB_DUPLICATES
-	# INPUT
+	# INPUT #
 	
 	#THIS make the change of shape
 	if slider.value > old_slder_value:
@@ -90,6 +88,8 @@ func _process(delta: float) -> void:
 		print(RADIUS)
 		old_slider_spacing_value = slider_spacing.value
 	
+	
+	# HIDE #
 	if Input.is_action_just_pressed("hide"):
 
 		if hide:

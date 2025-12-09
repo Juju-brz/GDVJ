@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp8w6tlng3j86"]
+[gd_scene load_steps=7 format=3 uid="uid://bp8w6tlng3j86"]
 
 [ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="1_u2bk3"]
 [ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="2_gb5ns"]
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_bgty4"]
+[ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="5_6jx8c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f05lg"]
 shader = ExtResource("2_gb5ns")
@@ -13,10 +14,10 @@ shader = ExtResource("2_gb5ns")
 script = ExtResource("1_u2bk3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_f05lg")
 offset_right = 1164.0
 offset_bottom = 674.0
+color = Color(1, 1, 1, 0)
 
 [node name="Square" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_73kxq")
@@ -67,10 +68,15 @@ script = ExtResource("4_bgty4")
 
 [node name="Button" type="Button" parent="Control/CodeEdit"]
 layout_mode = 0
-offset_left = 306.0
-offset_top = 493.0
-offset_right = 385.0
+offset_left = 305.0
+offset_top = 478.0
+offset_right = 388.0
 offset_bottom = 520.0
+
+[node name="Play" type="Sprite2D" parent="Control/CodeEdit/Button"]
+position = Vector2(21.5, 22.135)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("5_6jx8c")
 
 [connection signal="value_changed" from="Control/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="Control/CodeEdit/Button" to="Control/CodeEdit" method="_on_button_pressed"]
