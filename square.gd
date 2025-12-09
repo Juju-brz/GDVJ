@@ -7,6 +7,9 @@ const RADIUS: float = 0.0
 @export var angle = 0.0
 @onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
 @onready var old_slder_value: float = slider.value  # Stocke l'ancienne valeur
+@onready var control = $Control
+var hide :bool = false
+
 var nb_duplicates =  1
 var NB_DUPLICATES: int = 1
 
@@ -72,3 +75,13 @@ func _process(delta: float) -> void:
 		nb_duplicates -= 1
 		#last_sprite = duplicated_spriteslist.pop_back()
 	
+	if Input.is_action_just_pressed("hide"):
+		print("truc")
+		if hide:
+			control.show()
+			hide = false
+			print("hide")
+		else:
+			control.hide()
+			hide = true
+			

@@ -13,6 +13,7 @@ shader = ExtResource("2_gb5ns")
 script = ExtResource("1_u2bk3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_f05lg")
 offset_right = 1164.0
 offset_bottom = 674.0
@@ -42,6 +43,14 @@ max_value = 10.0
 [node name="Button" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 text = "Animation"
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Spacing"
+
+[node name="HSlider2" type="HSlider" parent="Control/VBoxContainer"]
+layout_mode = 2
+max_value = 10.0
 
 [node name="CodeEdit" type="CodeEdit" parent="Control"]
 layout_mode = 0

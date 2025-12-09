@@ -7,3 +7,6 @@
 
 [node name="Square" parent="." index="1"]
 texture = ExtResource("2_y5bui")
+
+[node name="HSlider2" parent="Control/VBoxContainer" index="3"]
+max_value = 20.0
