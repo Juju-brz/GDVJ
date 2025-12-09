@@ -1,17 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://qywxpr5vvcjj"]
+[gd_scene load_steps=6 format=3 uid="uid://bp8w6tlng3j86"]
 
-[ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="1_l6xcm"]
-[ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://Square.svg" id="3_oevug"]
-[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_73kxq"]
-[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="4_oevug"]
+[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="1_u2bk3"]
+[ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="2_gb5ns"]
+[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_bgty4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f05lg"]
-shader = ExtResource("1_l6xcm")
+shader = ExtResource("2_gb5ns")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_73kxq"]
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("4_oevug")
+script = ExtResource("1_u2bk3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_f05lg")
@@ -22,7 +21,6 @@ offset_bottom = 674.0
 material = SubResource("ShaderMaterial_73kxq")
 position = Vector2(576, 420)
 scale = Vector2(0.63, 0.63)
-texture = ExtResource("3_oevug")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -51,7 +49,7 @@ offset_left = 3.0
 offset_top = 87.0
 offset_right = 394.0
 offset_bottom = 609.0
-script = ExtResource("4_73kxq")
+script = ExtResource("4_bgty4")
 
 [node name="Button" type="Button" parent="Control/CodeEdit"]
 layout_mode = 0
