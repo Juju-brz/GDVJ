@@ -11,6 +11,8 @@ shader = ExtResource("2_xvsy8")
 
 [node name="ColorRect" parent="." index="0"]
 material = SubResource("ShaderMaterial_yts1c")
+offset_right = 1153.0
+offset_bottom = 647.0
 
 [node name="Square" parent="." index="1"]
 texture = ExtResource("2_qwwtv")

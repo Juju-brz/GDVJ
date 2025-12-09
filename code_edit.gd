@@ -25,3 +25,6 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("hide_Code"):
 		self.visible = !self.visible
 		hide = !self.visible
+	
+	if Input.is_action_just_pressed("execute_shader"):
+		_on_button_pressed()
