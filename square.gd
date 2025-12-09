@@ -14,7 +14,8 @@ var hide :bool = false
 
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
 @onready var old_slider_spacing_value = slider_spacing.value
-
+@onready var button_animation = $Control/VBoxContainer/Button_animation
+var animation = false
 var nb_duplicates =  1
 var NB_DUPLICATES: int = 1
 
@@ -23,9 +24,11 @@ var duplicated_sprite
 var duplicated_spriteslist = []
 var last_sprite
 
+@onready var original_sprite = $Square 
+ 
 #### FUNCTION ####
 func increment(): #ADD SQUARE
-	var original_sprite = $Square  
+	#var original_sprite = $Square  
 	if not original_sprite:
 		print("No Sprint2D found")
 		return
@@ -88,6 +91,8 @@ func _process(delta: float) -> void:
 		print(RADIUS)
 		old_slider_spacing_value = slider_spacing.value
 	
+	if button_animation.button_pressed:
+		print("caca")
 	
 	# HIDE #
 	if Input.is_action_just_pressed("hide"):
@@ -98,7 +103,16 @@ func _process(delta: float) -> void:
 		else:
 			control.hide()
 			hide = true
-			
+	
+	if animation == true:
+		original_sprite.position += Vector2(randf(), randf()) * 100.0 * delta
 
-	
-	
+
+func _input(event: InputEvent) -> void:
+	if button_animation.button_pressed:
+		print("caca")
+		#for i in 10: 
+			#increment()
+		var original_sprite = $Square  
+		animation = true
+		#original_sprite.position = original_sprite.position * randf()

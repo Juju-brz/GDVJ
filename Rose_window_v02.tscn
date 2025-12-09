@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://bn7vi0ij7uxq6"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_wihox"]
-[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="2_y5bui"]
+[ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://Square.svg" id="2_wihox"]
 
 [node name="Node2D" instance=ExtResource("1_wihox")]
 
 [node name="Square" parent="." index="1"]
-texture = ExtResource("2_y5bui")
+texture = ExtResource("2_wihox")
 
 [node name="HSlider_spacing" parent="Control/VBoxContainer" index="4"]
 max_value = 400.0

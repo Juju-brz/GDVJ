@@ -45,7 +45,7 @@ text = "Duplication"
 layout_mode = 2
 max_value = 10.0
 
-[node name="Button" type="Button" parent="Control/VBoxContainer"]
+[node name="Button_animation" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 text = "Animation"
 
