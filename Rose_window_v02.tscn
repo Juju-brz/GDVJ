@@ -11,8 +11,13 @@ texture = ExtResource("2_y5bui")
 [node name="VBoxContainer" parent="Control" index="0"]
 offset_bottom = 334.0
 
+[node name="HSlider" parent="Control/VBoxContainer" index="1"]
+min_value = 3.0
+value = 3.0
+
 [node name="HSlider_spacing" parent="Control/VBoxContainer" index="4"]
-max_value = 400.0
+min_value = 60.0
+value = 60.0
 
 [node name="Label3" type="Label" parent="Control/VBoxContainer" index="5"]
 layout_mode = 2
@@ -20,9 +25,9 @@ text = "Offset Number"
 
 [node name="HSlider_nb_groups" type="HSlider" parent="Control/VBoxContainer" index="6"]
 layout_mode = 2
-min_value = 50.0
-max_value = 400.0
-value = 50.0
+min_value = 3.0
+max_value = 5.0
+value = 3.0
 
 [node name="Label4" type="Label" parent="Control/VBoxContainer" index="7"]
 layout_mode = 2
@@ -30,6 +35,16 @@ text = "Offset Distance"
 
 [node name="HSlider_group_offset" type="HSlider" parent="Control/VBoxContainer" index="8"]
 layout_mode = 2
+min_value = 3.0
+max_value = 5.0
+value = 5.0
+
+[node name="HSlider_grid_width" type="HSlider" parent="Control/VBoxContainer" index="9"]
+layout_mode = 2
+min_value = 25.0
+value = 25.0
+
+[node name="HSlider_grid_height" type="HSlider" parent="Control/VBoxContainer" index="10"]
+layout_mode = 2
 min_value = 50.0
-max_value = 400.0
 value = 50.0
