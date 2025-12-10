@@ -1,7 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqij3omad8m3m"]
+[gd_scene load_steps=9 format=3 uid="uid://dqij3omad8m3m"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_s3gco"]
-[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="3_xvsy8"]
+[ext_resource type="Script" uid="uid://c45n1qu43b8hc" path="res://addons/godot_svg/node/svg_2d.gd" id="2_dtmyg"]
+[ext_resource type="Resource" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="3_xvsy8"]
+[ext_resource type="Shader" uid="uid://6l3x4vbp4wnq" path="res://Test/Testshader.gdshader" id="4_fpfhi"]
+[ext_resource type="Resource" uid="uid://cxk1yqvdskdin" path="res://Square.svg" id="5_dtmyg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfhi"]
+shader = ExtResource("4_fpfhi")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6j4b0"]
+shader = ExtResource("4_fpfhi")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a4k4k"]
+shader = ExtResource("4_fpfhi")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
 
 [node name="Node2D" instance=ExtResource("1_s3gco")]
 
@@ -9,8 +39,33 @@
 offset_right = 1153.0
 offset_bottom = 647.0
 
-[node name="Square" parent="." index="1"]
-texture = ExtResource("3_xvsy8")
+[node name="SVG2D" type="Node2D" parent="." index="1"]
+material = SubResource("ShaderMaterial_fpfhi")
+position = Vector2(600, 400)
+script = ExtResource("2_dtmyg")
+svg = ExtResource("3_xvsy8")
+fixed_scaling_ratio = 0.75
+antialiased = true
+triangulation_method = 0
+assume_no_self_intersections = false
+assume_no_holes = false
+disable_render_cache = false
+metadata/_custom_type_script = "uid://c45n1qu43b8hc"
+
+[node name="SVG2D" type="Node2D" parent="SVG2D" index="1"]
+material = SubResource("ShaderMaterial_6j4b0")
+script = ExtResource("2_dtmyg")
+svg = ExtResource("5_dtmyg")
+fixed_scaling_ratio = 0
+antialiased = true
+triangulation_method = 0
+assume_no_self_intersections = false
+assume_no_holes = false
+disable_render_cache = false
+metadata/_custom_type_script = "uid://c45n1qu43b8hc"
+
+[node name="Square" parent="." index="2"]
+material = SubResource("ShaderMaterial_a4k4k")
 
 [node name="CodeEdit" parent="Control" index="1"]
 gutters_draw_line_numbers = true
