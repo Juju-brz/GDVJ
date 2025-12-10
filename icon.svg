@@ -5,7 +5,7 @@
    version="1.1"
    id="svg6"
    sodipodi:docname="icon.svg"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +36,18 @@
        apply_with_weight="true"
        only_selected="false"
        uniform="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect8-3-0"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
   </defs>
   <sodipodi:namedview
      id="namedview6"
@@ -46,13 +58,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="2.9648438"
-     inkscape:cx="49.243742"
-     inkscape:cy="86.176548"
-     inkscape:window-width="1920"
-     inkscape:window-height="992"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:zoom="5.9296876"
+     inkscape:cx="65.517786"
+     inkscape:cy="44.60606"
+     inkscape:window-width="2560"
+     inkscape:window-height="1351"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg6" />
   <rect
@@ -80,7 +92,8 @@
        style="fill:#93a5b3;fill-opacity:1" />
     <path
        d="M483 600c0 34 58 34 58 0v-86c0-34-58-34-58 0z"
-       id="path3" />
+       id="path3"
+       style="fill:#323232;fill-opacity:1" />
     <circle
        cx="725"
        cy="526"
@@ -164,16 +177,19 @@
      d="M 55.331338,56.04683 H 72.980127"
      id="path7" />
   <path
-     style="fill:none;fill-opacity:1;stroke:#1f1f1f;stroke-width:4;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-     d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 25.836381,20.126921 34.491672,12.695574 48.734271,10.739173 62.977154,8.7827332"
-     id="path8"
-     inkscape:original-d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 19.570673,14.745162 34.984497,16.283343 48.980686,12.533076 62.977154,8.7827332"
-     inkscape:path-effect="#path-effect8" />
-  <path
-     style="fill:none;fill-opacity:1;stroke:#1f1f1f;stroke-width:4;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-     d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 25.836381,20.126921 34.491672,12.695574 48.734271,10.739173 62.977154,8.7827332"
+     style="fill:none;fill-opacity:1;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+     d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 25.916091,20.460255 34.651092,13.362242 49.045864,12.042198 63.440922,10.722127"
      id="path8-6"
      transform="matrix(-1,0,0,1,126.42964,0.2632782)"
-     inkscape:original-d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 19.570673,14.745162 34.984497,16.283343 48.980686,12.533076 62.977154,8.7827332"
-     inkscape:path-effect="#path-effect8-3" />
+     inkscape:original-d="m 12.401852,53.184864 c 2.389655,-12.81349 4.779238,-25.626596 7.168821,-38.439702 15.080419,-1.38292 29.475191,-2.702964 43.870249,-4.023035"
+     inkscape:path-effect="#path-effect8-3"
+     sodipodi:nodetypes="ccc" />
+  <path
+     style="fill:none;fill-opacity:1;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+     d="M 12.401852,53.184864 C 14.791507,40.371374 17.18109,27.558268 25.916091,20.460255 34.651092,13.362242 49.045864,12.042198 63.440922,10.722127"
+     id="path8-6-4"
+     transform="translate(-0.31963339,0.28440749)"
+     inkscape:original-d="m 12.401852,53.184864 c 2.389655,-12.81349 4.779238,-25.626596 7.168821,-38.439702 15.080419,-1.38292 29.475191,-2.702964 43.870249,-4.023035"
+     inkscape:path-effect="#path-effect8-3-0"
+     sodipodi:nodetypes="ccc" />
 </svg>
