@@ -1,14 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://bp8w6tlng3j86"]
+[gd_scene load_steps=7 format=3 uid="uid://bp8w6tlng3j86"]
 
 [ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="1_u2bk3"]
-[ext_resource type="Shader" uid="uid://cmfsoauknrqx6" path="res://persianPattern.gdshader" id="2_gb5ns"]
+[ext_resource type="Shader" uid="uid://dey07dsilauuk" path="res://shaderEmpty.gdshader" id="3_gb5ns"]
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_bgty4"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="5_6jx8c"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f05lg"]
-shader = ExtResource("2_gb5ns")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_73kxq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u2bk3"]
+shader = ExtResource("3_gb5ns")
 
 [sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_u2bk3"]
 
@@ -16,13 +14,12 @@ shader = ExtResource("2_gb5ns")
 script = ExtResource("1_u2bk3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_f05lg")
+material = SubResource("ShaderMaterial_u2bk3")
 offset_right = 1164.0
 offset_bottom = 674.0
 color = Color(1, 1, 1, 0)
 
 [node name="Square" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_73kxq")
 position = Vector2(576, 420)
 scale = Vector2(0.63, 0.63)
 
@@ -66,6 +63,12 @@ offset_left = 3.0
 offset_top = 87.0
 offset_right = 394.0
 offset_bottom = 609.0
+text = "shader_type canvas_item;
+
+void fragment() {
+    vec3 color = vec3(1.0, 1.0, 1.0);
+    COLOR = vec4(color, 1.0);
+}"
 syntax_highlighter = SubResource("SyntaxHighlighter_u2bk3")
 highlight_all_occurrences = true
 highlight_current_line = true

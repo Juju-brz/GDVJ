@@ -1,27 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqij3omad8m3m"]
+[gd_scene load_steps=3 format=3 uid="uid://dqij3omad8m3m"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_s3gco"]
-[ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://Square.svg" id="2_qwwtv"]
-[ext_resource type="Shader" uid="uid://dey07dsilauuk" path="res://shaderEmpty.gdshader" id="2_xvsy8"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yts1c"]
-shader = ExtResource("2_xvsy8")
+[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="3_xvsy8"]
 
 [node name="Node2D" instance=ExtResource("1_s3gco")]
 
 [node name="ColorRect" parent="." index="0"]
-material = SubResource("ShaderMaterial_yts1c")
 offset_right = 1153.0
 offset_bottom = 647.0
 
 [node name="Square" parent="." index="1"]
-texture = ExtResource("2_qwwtv")
+texture = ExtResource("3_xvsy8")
 
 [node name="CodeEdit" parent="Control" index="1"]
-text = "shader_type canvas_item;
-
-void fragment() {
-    vec3 color = vec3(1.0, 1.0, 1.0);
-    COLOR = vec4(color, 1.0);
-}"
 gutters_draw_line_numbers = true
