@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqij3omad8m3m"]
+[gd_scene load_steps=5 format=3 uid="uid://dqij3omad8m3m"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_s3gco"]
-[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="3_xvsy8"]
+[ext_resource type="Shader" uid="uid://6l3x4vbp4wnq" path="res://Test/Testshader.gdshader" id="2_xvsy8"]
+[ext_resource type="Texture2D" uid="uid://d4hhm1finjbfu" path="res://geometries/triangle.svg" id="3_xvsy8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yts1c"]
+shader = ExtResource("2_xvsy8")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
 
 [node name="Node2D" instance=ExtResource("1_s3gco")]
 
@@ -10,6 +20,7 @@ offset_right = 1153.0
 offset_bottom = 647.0
 
 [node name="Square" parent="." index="1"]
+material = SubResource("ShaderMaterial_yts1c")
 texture = ExtResource("3_xvsy8")
 
 [node name="CodeEdit" parent="Control" index="1"]
