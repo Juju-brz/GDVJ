@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dqij3omad8m3m"]
+[gd_scene load_steps=10 format=3 uid="uid://dqij3omad8m3m"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_s3gco"]
 [ext_resource type="Script" uid="uid://c45n1qu43b8hc" path="res://addons/godot_svg/node/svg_2d.gd" id="2_dtmyg"]
@@ -16,6 +16,15 @@ shader_parameter/wind_speed = 1.0
 shader_parameter/scale = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6j4b0"]
+shader = ExtResource("4_fpfhi")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dtmyg"]
 shader = ExtResource("4_fpfhi")
 shader_parameter/wind_start_threshold = 0.1
 shader_parameter/wind_end_threshold = 2.0
@@ -52,7 +61,8 @@ assume_no_holes = false
 disable_render_cache = false
 metadata/_custom_type_script = "uid://c45n1qu43b8hc"
 
-[node name="SVG2D" type="Node2D" parent="SVG2D" index="1"]
+[node name="SVG2D" type="Node2D" parent="SVG2D" index="0"]
+visible = false
 material = SubResource("ShaderMaterial_6j4b0")
 script = ExtResource("2_dtmyg")
 svg = ExtResource("5_dtmyg")
@@ -64,8 +74,15 @@ assume_no_holes = false
 disable_render_cache = false
 metadata/_custom_type_script = "uid://c45n1qu43b8hc"
 
+[node name="Sprite2D" type="Sprite2D" parent="SVG2D" index="2"]
+material = SubResource("ShaderMaterial_dtmyg")
+position = Vector2(-24, 20)
+scale = Vector2(0.63, 0.63)
+
 [node name="Square" parent="." index="2"]
 material = SubResource("ShaderMaterial_a4k4k")
 
 [node name="CodeEdit" parent="Control" index="1"]
 gutters_draw_line_numbers = true
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="4"]
