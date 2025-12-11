@@ -18,8 +18,10 @@ script = ExtResource("1_um0o5")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_f05lg")
-offset_right = 1164.0
-offset_bottom = 674.0
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 1163.0
+offset_bottom = 672.0
 color = Color(0.3770668, 0.3770668, 0.3770668, 1)
 
 [node name="Square" type="Sprite2D" parent="."]
@@ -96,10 +98,10 @@ value = 50.0
 
 [node name="CodeEdit" type="CodeEdit" parent="Control"]
 layout_mode = 0
-offset_left = 3.0
-offset_top = 87.0
-offset_right = 394.0
-offset_bottom = 609.0
+offset_left = 9.0
+offset_top = 12.0
+offset_right = 405.0
+offset_bottom = 664.0
 text = "shader_type canvas_item;
 
 void fragment() {
@@ -113,14 +115,14 @@ script = ExtResource("4_pyqlm")
 
 [node name="Button" type="Button" parent="Control/CodeEdit"]
 layout_mode = 0
-offset_left = 305.0
-offset_top = 478.0
-offset_right = 388.0
-offset_bottom = 520.0
+offset_left = 320.0
+offset_top = 620.0
+offset_right = 384.0
+offset_bottom = 644.0
 
 [node name="Play" type="Sprite2D" parent="Control/CodeEdit/Button"]
-position = Vector2(21.5, 22.135)
-scale = Vector2(0.15, 0.15)
+position = Vector2(34, 12.000027)
+scale = Vector2(0.09466306, 0.095990025)
 texture = ExtResource("5_4e16f")
 
 [connection signal="pressed" from="Control/CodeEdit/Button" to="Control/CodeEdit" method="_on_button_pressed"]
