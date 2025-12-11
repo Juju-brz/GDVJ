@@ -93,7 +93,9 @@ func _process(delta: float) -> void:
 		old_slider_spacing_value = slider_spacing.value
 	
 	
-	# HIDE #
+
+
+func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("hide_all_ctrl"):
 
 		if hide:
@@ -106,6 +108,3 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
-
-
-	
