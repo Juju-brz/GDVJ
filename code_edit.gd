@@ -1,12 +1,30 @@
-extends Node
+extends CodeEdit
+
+var hide = false
+@onready var code = $CodeEdit
+var shader_path = "res://shaders/shaderEmpty.gdshader"
+@onready var colorRect = get_node("../../ColorRect")  # Remonte de deux niveaux
 
 func _ready():
-	# Connecte le signal "pressed" du bouton à la fonction d'exécution
 	var button = $Button
-	#button.pressed.connect(_on_button_pressed)
 	button.pressed.connect(_on_button_pressed)
 
+
 func _on_button_pressed():
-	print("truc")
-	# Récupère le texte du CodeEdit
+	var user_code = self.text
 	
+
+	var mat = colorRect.material
+	if mat is ShaderMaterial:
+		var shader = mat.shader
+		if shader:
+			shader.code = user_code   # ✔️ Modifie directement le shader
+
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("hide_Code"):
+		self.visible = !self.visible
+		hide = !self.visible
+	
+	if Input.is_action_just_pressed("execute_shader"):
+		_on_button_pressed()
