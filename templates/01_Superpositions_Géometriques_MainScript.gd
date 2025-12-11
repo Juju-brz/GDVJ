@@ -93,7 +93,6 @@ func clear_board():
 # --- DRAW ONE STAR (Helper with Dynamic Scaling) ---
 # Now accepts two specific scales: one for the outer squares, one for the inner
 func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float):
-	var original_sprite = $Square
 	
 	# Helper creates a sprite with a specific scale
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
@@ -123,7 +122,6 @@ func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float
 
 # --- MAIN DRAW FUNCTION ---
 func draw_board():
-	var original_sprite = $Square
 	if not original_sprite:
 		return
 

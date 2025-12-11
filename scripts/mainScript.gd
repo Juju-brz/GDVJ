@@ -23,10 +23,12 @@ var old_nb: float = NB_DUPLICATES
 var duplicated_sprite
 var duplicated_spriteslist = []
 var last_sprite
+@onready var original_sprite = $Square  
+
 
 #### FUNCTION ####
 func increment(): #ADD SQUARE
-	var original_sprite = $Square  
+	
 	if not original_sprite:
 		print("No Sprint2D found")
 		return
