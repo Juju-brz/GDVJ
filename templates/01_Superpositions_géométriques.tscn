@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://qywxpr5vvcjj"]
 
-[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://01_Superpositions_Géometriques_MainScript.gd" id="1_um0o5"]
+[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://templates/01_Superpositions_Géometriques_MainScript.gd" id="1_um0o5"]
 [ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://geometries/Square.svg" id="3_evy8j"]
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_pyqlm"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="5_4e16f"]

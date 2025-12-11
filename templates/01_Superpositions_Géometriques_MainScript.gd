@@ -1,4 +1,4 @@
-extends Node2D
+extends mainScript
 
 #### VARIABLES ####
 
@@ -29,11 +29,12 @@ const COLOR_PALETTE: Array[Color] = [
 	Color("000000")  # Black
 ]
 
-var duplicated_spriteslist: Array = []
+#duplicated_spriteslist: Array = []
 
 #### CORE FUNCTIONS ####
 
 func _ready() -> void:
+	super._ready()
 	$Square.hide()
 	if backsquare:
 		backsquare.hide()
