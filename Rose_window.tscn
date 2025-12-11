@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b30yp4ghnqw3t"]
 
 [ext_resource type="Script" uid="uid://sdanmghveoj4" path="res://rose_window.gd" id="1_4ghl8"]
-[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://Circle.svg" id="1_v1r3m"]
+[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://geometries/Circle.svg" id="1_v1r3m"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_4ghl8")
