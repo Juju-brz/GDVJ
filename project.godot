@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Quantum_Project_juju_Ali"
+run/main_scene="uid://qywxpr5vvcjj"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
 
 [input]
 
