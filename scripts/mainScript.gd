@@ -1,5 +1,6 @@
 extends Node2D
 class_name  mainScript
+
 #### VARIABLES ####
 var SPACING: float = 50.0
 #var original_sprite = $Square  
@@ -39,7 +40,7 @@ func increment(): #ADD SQUARE
 	)
 	duplicated_sprite.rotation = angle
 	duplicated_spriteslist.append(duplicated_sprite)
-	print(duplicated_spriteslist)
+	#print(duplicated_spriteslist)
 
 func decrement(): #delete Shape
 	if duplicated_spriteslist.size() == 0:
@@ -49,7 +50,7 @@ func decrement(): #delete Shape
 		last_sprite = duplicated_spriteslist.pop_back()
 		last_sprite.queue_free()
 		#last_sprite.remove()
-		print(duplicated_spriteslist)
+		#print(duplicated_spriteslist)
 		#NB_DUPLICATES -= 1
 
 func _ready() -> void:
