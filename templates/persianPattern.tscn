@@ -7,7 +7,6 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wovf"]
 shader = ExtResource("3_jlpmm")
-shader_parameter/resolution = Vector2(1024, 768)
 
 [node name="Node2D" instance=ExtResource("1_77fe4")]
 script = ExtResource("2_rak5h")

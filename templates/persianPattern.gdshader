@@ -1,18 +1,15 @@
 shader_type canvas_item;
 
-// Uniform pour la résolution de l'écran (optionnel, si tu veux passer la résolution manuellement)
-uniform vec2 resolution = vec2(1024.0, 768.0);
-
 void fragment() {
-    // Coordonnées normalisées (de 0 à 1)
-    vec2 uv = UV;
+	vec3 color1 = vec3(1.0, 0.5, 0.0); //orange
+	vec3 color2 = vec3(0.3, 0.4, 0.7); //blue
+	vec3 color3 = vec3(0.5, 1.0, 0.0); // green
+	vec2 uv = UV;
+	float facteur = 0.4;  // Facteur de mélange (0.0 à 1.0)
+	uv += vec2(0.4, 0.4);
+	//float valeur_melangee = mix(uv.x, facteur, 0.5);  // Mélange à 50%
 
-    // Si tu veux utiliser la résolution réelle de l'écran :
-    // vec2 uv = UV * resolution;
-
-    // Couleur basée sur la position horizontale (comme dans ton exemple)
-    vec3 col = vec3(uv.x);
-
-    // Sortie finale
-    COLOR = vec4(col, 1.0);
+	vec3 col = mix(color3, color2, uv.x + sin(TIME *0.5));
+	COLOR = vec4(col, 1.0);
 }
+
