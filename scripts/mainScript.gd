@@ -41,6 +41,8 @@ func increment(): #ADD SQUARE
 	duplicated_sprite.rotation = angle
 	duplicated_spriteslist.append(duplicated_sprite)
 	#print(duplicated_spriteslist)
+	#slider_spacing.value = RADIUS
+
 
 func decrement(): #delete Shape
 	if duplicated_spriteslist.size() == 0:
