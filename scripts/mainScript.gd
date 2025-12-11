@@ -57,7 +57,8 @@ func decrement(): #delete Shape
 
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
-
+	control.hide()
+	hide = true
 
 func _process(delta: float) -> void:
 	#nb_duplicates = 1          # float qui s'incrémente
@@ -103,5 +104,8 @@ func _process(delta: float) -> void:
 			hide = true
 			
 
-	
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+
+
 	

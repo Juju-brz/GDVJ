@@ -2,6 +2,7 @@ extends mainScript
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	super._ready()
 	#SPACING = SPACING + 800.0
 	RADIUS = 50.0
 	pass

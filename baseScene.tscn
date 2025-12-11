@@ -42,15 +42,16 @@ text = "Duplication"
 
 [node name="HSlider" type="HSlider" parent="Control/VBoxContainer"]
 layout_mode = 2
-max_value = 10.0
+max_value = 50.0
 
 [node name="Button" type="Button" parent="Control/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Animation"
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 layout_mode = 2
-text = "Spacing"
+text = "RADIUS"
 
 [node name="HSlider_spacing" type="HSlider" parent="Control/VBoxContainer"]
 layout_mode = 2

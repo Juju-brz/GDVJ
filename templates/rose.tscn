@@ -9,6 +9,3 @@ script = ExtResource("2_qmblj")
 
 [node name="Square" parent="." index="1"]
 texture = ExtResource("3_qmblj")
-
-[node name="Label" parent="Control/VBoxContainer" index="3"]
-text = "RADIUS"
