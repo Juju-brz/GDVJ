@@ -3,14 +3,18 @@ extends Node2D
 #### VARIABLES ####
 # Rotation variables
 var overall_rotation: float = 0.0
-@export var ROTATION_SPEED: float = deg_to_rad(10.0) # Very slow rotation
+@export var ROTATION_SPEED: float = deg_to_rad(10.0)
 
-# This array will hold the generated angles: 45, 67.5, 112.5, 135, 180...
+# Array for the pattern
 var stamp_angles: Array[float] = []
 
 # Gradient Variables
-@export var GRADIENT_SPEED: float = 0.1         
-@export var GRADIENT_ANGLE_SPEED: float = 5.0   
+@export var GRADIENT_SPEED: float = 0.1
+@export var GRADIENT_ANGLE_SPEED: float = 10.0 # Increased slightly for visibility
+
+# We use the ColorRect only to know the size of the screen
+@onready var backsquare = $ColorRect
+
 var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
 
@@ -28,57 +32,72 @@ var duplicated_spriteslist: Array = []
 func _ready() -> void:
 	$Square.hide()
 	
-	# --- GENERATE THE PATTERN AUTOMATICALLY ---
-	# We start at 45 degrees
-	var current_angle = 45.0
+	# HIDE the ColorRect so it doesn't block our custom drawing
+	if backsquare:
+		backsquare.hide()
 	
-	# We want to toggle between adding 22.5 and 45.0
-	# Pattern: 45 -> (+22.5) -> 67.5 -> (+45) -> 112.5 -> (+22.5) -> 135 ...
+	# --- GENERATE PATTERN ---
+	var current_angle = 45.0
 	var add_small_step = true 
 	
-	# Generate angles for a long time (e.g., up to 3600 degrees / 10 laps)
 	while current_angle < 3600.0:
 		stamp_angles.append(deg_to_rad(current_angle))
-		
 		if add_small_step:
 			current_angle += 22.5
 		else:
 			current_angle += 45.0
-			
-		# Flip the toggle for the next step
 		add_small_step = not add_small_step
 
 	draw_board()
 	queue_redraw() 
 
+# --- HELPER TO GET COLOR FROM PALETTE ---
+func get_gradient_color(time_val: float) -> Color:
+	var size = COLOR_PALETTE.size()
+	var idx = int(time_val) % size
+	var next_idx = (idx + 1) % size
+	var t = time_val - float(int(time_val))
+	return COLOR_PALETTE[idx].lerp(COLOR_PALETTE[next_idx], t)
+
 func _draw():
-	# --- Draw Rotating Gradient Background (UNCHANGED) ---
-	var viewport_size = get_viewport_rect().size
+	# 1. Determine Screen Size
+	var viewport_size = Vector2(1000, 1000)
+	if backsquare:
+		viewport_size = backsquare.size
 	var center = viewport_size / 2.0
 	
-	# Color Cycling
-	var palette_size = COLOR_PALETTE.size()
-	var cycle_index = int(current_color_time) % palette_size
-	var next_cycle_index = (cycle_index + 1) % palette_size
-	var lerp_factor = current_color_time - float(int(current_color_time))
-	var current_color = COLOR_PALETTE[cycle_index].lerp(COLOR_PALETTE[next_cycle_index], lerp_factor)
+	# 2. Calculate Gradient Colors
+	# To make a gradient, we need TWO different colors at the same time.
+	# Color A is the current time. Color B is the next color in the sequence (+1).
+	var color_a = get_gradient_color(current_color_time)
+	var color_b = get_gradient_color(current_color_time + 1.0) # Offset by 1 to get the next color
 	
-	# Gradient Orientation
-	var angle_rad = deg_to_rad(current_gradient_angle)
-	var line_length = viewport_size.length() 
-	var gradient_start_pos = center + Vector2.RIGHT.rotated(angle_rad) * line_length
-	var gradient_end_pos = center + Vector2.LEFT.rotated(angle_rad) * line_length
-
-	# Draw Background
-	draw_rect(Rect2(Vector2.ZERO, viewport_size), Color.BLACK, true)
-	draw_line(gradient_start_pos, gradient_end_pos, current_color, line_length * 2.0, true)
+	# 3. Create a Giant Rotated Rectangle (Polygon)
+	# We make it much larger than the screen so edges aren't seen when rotating
+	var radius = viewport_size.length() 
+	var angle = deg_to_rad(current_gradient_angle)
+	
+	# Calculate 4 corners rotated around the center
+	# Top-Left, Top-Right, Bottom-Right, Bottom-Left
+	var tl = center + Vector2(-radius, -radius).rotated(angle)
+	var tr = center + Vector2(radius, -radius).rotated(angle)
+	var br = center + Vector2(radius, radius).rotated(angle)
+	var bl = center + Vector2(-radius, radius).rotated(angle)
+	
+	var points = PackedVector2Array([tl, tr, br, bl])
+	
+	# 4. Assign Colors to Vertices
+	# Left side gets Color A, Right side gets Color B. Godot interpolates the middle.
+	var colors = PackedColorArray([color_a, color_b, color_b, color_a])
+	
+	# Draw the gradient
+	draw_polygon(points, colors)
 
 func clear_board():
 	for sprite in duplicated_spriteslist:
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-# --- EXACT SAME LOGIC, BUT USING THE LIST ---
 func draw_board():
 	var center = get_local_mouse_position()
 	var original_sprite = $Square
@@ -86,7 +105,6 @@ func draw_board():
 	if not original_sprite:
 		return
 
-	# Helper to create a sprite quickly
 	var create_sprite = func(rot_angle_rad: float):
 		var s = original_sprite.duplicate()
 		add_child(s)
@@ -95,32 +113,22 @@ func draw_board():
 		s.show()
 		duplicated_spriteslist.append(s)
 
-	# 1. SQUARE A (Static Base at 0)
 	create_sprite.call(0.0)
 	
-	# 2. CHECK ALL STAMPS
-	# This replaces the manual "if current_deg > ANGLE_C" lines
-	# It loops through the generated list and draws every stamp passed so far.
 	for target_angle in stamp_angles:
 		if overall_rotation >= target_angle:
 			create_sprite.call(target_angle)
 		else:
-			# Optimization: Since the list is sorted, if we haven't reached this one,
-			# we haven't reached the rest either.
 			break
 		
-	# 3. SQUARE B (The Active Rotator)
 	create_sprite.call(overall_rotation)
 
 func _process(delta: float) -> void:
-	# Update Rotation
 	overall_rotation += ROTATION_SPEED * delta
 	
-	# Update Gradient
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	queue_redraw() 
 
-	# Redraw Sprites
 	clear_board()
 	draw_board()
