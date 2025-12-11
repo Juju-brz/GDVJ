@@ -1,19 +1,25 @@
 extends Node2D
 
 #### VARIABLES ####
-# Rotation variables
+
+# --- GRID VARIABLES ---
+@export var GRID_COLUMNS: int = 10    # Horizontal count
+@export var GRID_ROWS: int = 5        # Vertical count
+
+# Set this to the exact width of your square texture
+@export var CELL_SIZE: float = 100.0  
+
+# --- ROTATION VARIABLES ---
 var overall_rotation: float = 0.0
 @export var ROTATION_SPEED: float = deg_to_rad(10.0)
 
-# Array for the pattern
+# Array for the star pattern angles
 var stamp_angles: Array[float] = []
 
-# Gradient Variables
+# --- GRADIENT VARIABLES ---
 @export var GRADIENT_SPEED: float = 0.1
-@export var GRADIENT_ANGLE_SPEED: float = 10.0 # Increased slightly for visibility
-
-# We use the ColorRect only to know the size of the screen
-@onready var backsquare = $ColorRect
+@export var GRADIENT_ANGLE_SPEED: float = 10.0
+@onready var backsquare = $ColorRect 
 
 var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
@@ -31,12 +37,10 @@ var duplicated_spriteslist: Array = []
 
 func _ready() -> void:
 	$Square.hide()
-	
-	# HIDE the ColorRect so it doesn't block our custom drawing
 	if backsquare:
 		backsquare.hide()
 	
-	# --- GENERATE PATTERN ---
+	# --- GENERATE PATTERN ANGLES ---
 	var current_angle = 45.0
 	var add_small_step = true 
 	
@@ -51,7 +55,7 @@ func _ready() -> void:
 	draw_board()
 	queue_redraw() 
 
-# --- HELPER TO GET COLOR FROM PALETTE ---
+# --- HELPER: GRADIENT COLOR ---
 func get_gradient_color(time_val: float) -> Color:
 	var size = COLOR_PALETTE.size()
 	var idx = int(time_val) % size
@@ -59,38 +63,27 @@ func get_gradient_color(time_val: float) -> Color:
 	var t = time_val - float(int(time_val))
 	return COLOR_PALETTE[idx].lerp(COLOR_PALETTE[next_idx], t)
 
+# --- BACKGROUND DRAWING ---
 func _draw():
-	# 1. Determine Screen Size
 	var viewport_size = Vector2(1000, 1000)
 	if backsquare:
 		viewport_size = backsquare.size
 	var center = viewport_size / 2.0
 	
-	# 2. Calculate Gradient Colors
-	# To make a gradient, we need TWO different colors at the same time.
-	# Color A is the current time. Color B is the next color in the sequence (+1).
 	var color_a = get_gradient_color(current_color_time)
-	var color_b = get_gradient_color(current_color_time + 1.0) # Offset by 1 to get the next color
+	var color_b = get_gradient_color(current_color_time + 1.0)
 	
-	# 3. Create a Giant Rotated Rectangle (Polygon)
-	# We make it much larger than the screen so edges aren't seen when rotating
 	var radius = viewport_size.length() 
 	var angle = deg_to_rad(current_gradient_angle)
 	
-	# Calculate 4 corners rotated around the center
-	# Top-Left, Top-Right, Bottom-Right, Bottom-Left
 	var tl = center + Vector2(-radius, -radius).rotated(angle)
 	var tr = center + Vector2(radius, -radius).rotated(angle)
 	var br = center + Vector2(radius, radius).rotated(angle)
 	var bl = center + Vector2(-radius, radius).rotated(angle)
 	
 	var points = PackedVector2Array([tl, tr, br, bl])
-	
-	# 4. Assign Colors to Vertices
-	# Left side gets Color A, Right side gets Color B. Godot interpolates the middle.
 	var colors = PackedColorArray([color_a, color_b, color_b, color_a])
 	
-	# Draw the gradient
 	draw_polygon(points, colors)
 
 func clear_board():
@@ -98,30 +91,67 @@ func clear_board():
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
+# --- DRAW ONE STAR (Helper) ---
+func draw_star_pattern(location: Vector2):
+	var original_sprite = $Square
+	
+	# Define your scales here
+	var main_scale = 0.4
+	var half_scale = 0.2
+	
+	# This helper creates a sprite with a specific rotation AND scale
+	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
+		var s = original_sprite.duplicate()
+		add_child(s)
+		s.position = location
+		s.rotation = rot_angle_rad
+		s.scale = Vector2(sprite_scale, sprite_scale) # Set scale on the duplicate
+		s.show()
+		duplicated_spriteslist.append(s)
+
+	# 1. Base (Static) - Draw BOTH sizes
+	create_sprite.call(0.0, main_scale)
+	create_sprite.call(0.0, half_scale)
+	
+	# 2. Stamps - Draw BOTH sizes
+	for target_angle in stamp_angles:
+		if overall_rotation >= target_angle:
+			create_sprite.call(target_angle, main_scale)
+			create_sprite.call(target_angle, half_scale)
+		else:
+			break
+	
+	# 3. Active Rotator - Draw BOTH sizes
+	create_sprite.call(overall_rotation, main_scale)
+	create_sprite.call(overall_rotation, half_scale)
+
+# --- MAIN DRAW FUNCTION ---
 func draw_board():
-	var center = get_local_mouse_position()
+	var mouse_pos = get_local_mouse_position()
 	var original_sprite = $Square
 	
 	if not original_sprite:
 		return
 
-	var create_sprite = func(rot_angle_rad: float):
-		var s = original_sprite.duplicate()
-		add_child(s)
-		s.position = center
-		s.rotation = rot_angle_rad
-		s.show()
-		duplicated_spriteslist.append(s)
-
-	create_sprite.call(0.0)
+	# --- CALCULATE GRID OFFSET TO CENTER ON MOUSE ---
+	# Note: using CELL_SIZE * 2 as requested in your code for wider spacing
+	var step = CELL_SIZE * 2.0
+	var total_width = GRID_COLUMNS * step
+	var total_height = GRID_ROWS * step
 	
-	for target_angle in stamp_angles:
-		if overall_rotation >= target_angle:
-			create_sprite.call(target_angle)
-		else:
-			break
-		
-	create_sprite.call(overall_rotation)
+	var start_x = -(total_width / 2.0) + (step / 2.0)
+	var start_y = -(total_height / 2.0) + (step / 2.0)
+
+	# --- GRID LOOP ---
+	for col in range(GRID_COLUMNS):
+		for row in range(GRID_ROWS):
+			
+			var x_pos = start_x + (col * step)
+			var y_pos = start_y + (row * step)
+			
+			var star_pos = mouse_pos + Vector2(x_pos, y_pos)
+			
+			draw_star_pattern(star_pos)
 
 func _process(delta: float) -> void:
 	overall_rotation += ROTATION_SPEED * delta
