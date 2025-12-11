@@ -1,15 +1,14 @@
 extends mainScript
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	RADIUS = 50
-
+	#SPACING = SPACING + 800.0
+	RADIUS = 50.0
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#super._process(delta)
-	increment() 
-	#print(delta)
-	RADIUS = RADIUS + 1
+	super._process(delta)
+	increment()
+	RADIUS += 1.0 * delta
 	print(RADIUS)

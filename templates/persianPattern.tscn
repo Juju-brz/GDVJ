@@ -7,7 +7,6 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wovf"]
 shader = ExtResource("3_jlpmm")
-shader_parameter/resolution = Vector2(1024, 768)
 
 [node name="Node2D" instance=ExtResource("1_77fe4")]
 script = ExtResource("2_rak5h")
@@ -17,9 +16,6 @@ material = SubResource("ShaderMaterial_7wovf")
 
 [node name="Square" parent="." index="1"]
 texture = ExtResource("2_87oag")
-
-[node name="Control" parent="." index="2"]
-visible = false
 
 [node name="CodeEdit" parent="Control" index="1"]
 text = "shader_type canvas_item;
