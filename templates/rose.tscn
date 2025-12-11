@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://sf1vxwd7p2xm"]
+
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_g5qay"]
+[ext_resource type="Texture2D" uid="uid://wbmbcwrbpj8n" path="res://geometries/Circle.svg" id="2_mwnw7"]
+[ext_resource type="Script" uid="uid://db75rmjmjjq1k" path="res://templates/rose.gd" id="2_qmblj"]
+
+[node name="Node2D" instance=ExtResource("1_g5qay")]
+script = ExtResource("2_qmblj")
+
+[node name="Square" parent="." index="1"]
+texture = ExtResource("2_mwnw7")
+
+[node name="Control" parent="." index="2"]
+visible = false
