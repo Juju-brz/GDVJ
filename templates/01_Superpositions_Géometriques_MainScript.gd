@@ -35,7 +35,7 @@ const COLOR_PALETTE: Array[Color] = [
 
 func _ready() -> void:
 	super._ready()
-	$Square.hide()
+	original_sprite.hide()
 	if backsquare:
 		backsquare.hide()
 	

@@ -25,8 +25,7 @@ GRADIENT_ANGLE_SPEED = 10.0
 visible = false
 material = SubResource("ShaderMaterial_qwknm")
 
-[node name="Square" parent="." index="1"]
-z_index = 2
+[node name="Geo" parent="." index="1"]
 texture = ExtResource("4_qwknm")
 
 [node name="ColorRect2" type="ColorRect" parent="." index="2"]
@@ -35,9 +34,6 @@ material = SubResource("ShaderMaterial_m48li")
 offset_right = 1164.0
 offset_bottom = 674.0
 color = Color(1, 1, 1, 0)
-
-[node name="Control" parent="." index="3"]
-z_index = 5
 
 [node name="CodeEdit" parent="Control" index="1"]
 offset_left = 37.0

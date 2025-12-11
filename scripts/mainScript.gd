@@ -23,7 +23,7 @@ var old_nb: float = NB_DUPLICATES
 var duplicated_sprite
 var duplicated_spriteslist = []
 var last_sprite
-@onready var original_sprite = $Square  
+@onready var original_sprite = $Geo  
 
 
 #### FUNCTION ####

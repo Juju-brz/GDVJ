@@ -19,11 +19,13 @@ offset_right = 1164.0
 offset_bottom = 674.0
 color = Color(1, 1, 1, 0)
 
-[node name="Square" type="Sprite2D" parent="."]
+[node name="Geo" type="Sprite2D" parent="."]
+z_index = 2
 position = Vector2(576, 420)
 scale = Vector2(0.63, 0.63)
 
 [node name="Control" type="Control" parent="."]
+z_index = 5
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
