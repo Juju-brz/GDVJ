@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bp8w6tlng3j86"]
 
-[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://square.gd" id="1_u2bk3"]
+[ext_resource type="Script" uid="uid://dnuhwquuowlht" path="res://scripts/mainScript.gd" id="1_u2bk3"]
 [ext_resource type="Shader" uid="uid://dey07dsilauuk" path="res://shaderEmpty.gdshader" id="3_gb5ns"]
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="4_bgty4"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="5_6jx8c"]

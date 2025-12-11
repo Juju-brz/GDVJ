@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://b36s10wft8s3r"]
+
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_77fe4"]
+[ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://geometries/Square.svg" id="2_87oag"]
+[ext_resource type="Script" uid="uid://db8kufyo2ktxk" path="res://templates/persian_pattern.gd" id="2_rak5h"]
+
+[node name="Node2D" instance=ExtResource("1_77fe4")]
+script = ExtResource("2_rak5h")
+
+[node name="Square" parent="." index="1"]
+texture = ExtResource("2_87oag")
