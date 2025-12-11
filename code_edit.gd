@@ -3,7 +3,7 @@ extends CodeEdit
 var hide = false
 @onready var code = $CodeEdit
 var shader_path = "res://shaders/shaderEmpty.gdshader"
-@onready var colorRect = get_node("../../ColorRect")  # Remonte de deux niveaux
+@onready var colorRect = get_node("../../ColorRect2")  # Remonte de deux niveaux
 
 func _ready():
 	var button = $Button

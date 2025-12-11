@@ -10,6 +10,5 @@ void fragment() {
 	//float valeur_melangee = mix(uv.x, facteur, 0.5);  // Mélange à 50%
 
 	vec3 col = mix(color3, color2, uv.x + sin(TIME *0.5));
-	COLOR = vec4(col, 1.0);
+	COLOR = vec4(col, 0.5);
 }
-
