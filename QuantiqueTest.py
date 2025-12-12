@@ -22,7 +22,7 @@ measurement = max(counts, key=counts.get)
 
 output = {
     "result": measurement,
-    "myvar": "myVariable23456"
+    "myvar": "myVariable23456789"
 }
 
 print(json.dumps(output))
