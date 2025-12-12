@@ -4,7 +4,7 @@ extends mainScript
 
 # --- GRID VARIABLES ---
 @export var GRID_COLUMNS: int = 10    
-@export var GRID_ROWS: int = 5        
+@export var GRID_ROWS: int = 9        
 @export var CELL_SIZE: float = 100.0  
 
 # --- ROTATION VARIABLES ---
@@ -29,7 +29,15 @@ const COLOR_PALETTE: Array[Color] = [
 	Color("000000")  # Black
 ]
 
-#duplicated_spriteslist: Array = []
+# --- RANDOM LERP VARIABLES ---
+var cycle_timer: float = 0.0
+const CYCLE_INTERVAL: float = 10.0 
+var rand_val_a: float = 0.0
+var rand_val_b: float = 0.0
+var smooth_random_value: float = 0.0 
+
+# Ensure this array exists for sprite management
+#var duplicated_spriteslist: Array = []
 
 #### CORE FUNCTIONS ####
 
@@ -51,8 +59,17 @@ func _ready() -> void:
 			current_angle += 45.0
 		add_small_step = not add_small_step
 
+	rand_val_a = randf()
+	rand_val_b = randf()
+
 	draw_board()
 	queue_redraw() 
+
+# --- NEW: INPUT HANDLING (ESCAPE TO QUIT) ---
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			get_tree().quit()
 
 # --- HELPER: GRADIENT COLOR ---
 func get_gradient_color(time_val: float) -> Color:
@@ -61,6 +78,18 @@ func get_gradient_color(time_val: float) -> Color:
 	var next_idx = (idx + 1) % size
 	var t = time_val - float(int(time_val))
 	return COLOR_PALETTE[idx].lerp(COLOR_PALETTE[next_idx], t)
+
+# --- RANDOM CYCLE LOGIC ---
+func process_random_cycle(delta: float):
+	cycle_timer += delta
+	if cycle_timer >= CYCLE_INTERVAL:
+		cycle_timer = 0.0
+		rand_val_a = rand_val_b
+		rand_val_b = randf()
+		print("Cycle Reset! A: ", rand_val_a, " B: ", rand_val_b)
+
+	var t = cycle_timer / CYCLE_INTERVAL
+	smooth_random_value = lerp(rand_val_a, rand_val_b, t)
 
 # --- BACKGROUND DRAWING ---
 func _draw():
@@ -90,12 +119,14 @@ func clear_board():
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-# --- DRAW ONE STAR (Helper with Dynamic Scaling) ---
-# Now accepts two specific scales: one for the outer squares, one for the inner
-func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float):
+# --- DRAW ONE STAR (UPDATED: Accepts 3 scales) ---
+func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float, scale_ghost: float):
 	
-	# Helper creates a sprite with a specific scale
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
+		# Optimization: If scale is basically 0, don't create the sprite
+		if sprite_scale <= 0.01:
+			return
+			
 		var s = original_sprite.duplicate()
 		add_child(s)
 		s.position = location
@@ -104,21 +135,24 @@ func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float
 		s.show()
 		duplicated_spriteslist.append(s)
 
-	# 1. Base (Static) - Draw BOTH
+	# 1. Base (Static)
 	create_sprite.call(0.0, scale_outer)
 	create_sprite.call(0.0, scale_inner)
+	create_sprite.call(0.0, scale_ghost) # Draw the ghost
 	
-	# 2. Stamps - Draw BOTH
+	# 2. Stamps
 	for target_angle in stamp_angles:
 		if overall_rotation >= target_angle:
 			create_sprite.call(target_angle, scale_outer)
 			create_sprite.call(target_angle, scale_inner)
+			create_sprite.call(target_angle, scale_ghost) # Draw the ghost
 		else:
 			break
 	
-	# 3. Active Rotator - Draw BOTH
+	# 3. Active Rotator
 	create_sprite.call(overall_rotation, scale_outer)
 	create_sprite.call(overall_rotation, scale_inner)
+	create_sprite.call(overall_rotation, scale_ghost) # Draw the ghost
 
 # --- MAIN DRAW FUNCTION ---
 func draw_board():
@@ -129,43 +163,42 @@ func draw_board():
 	var viewport_rect = get_viewport_rect()
 	var mouse_pos = get_viewport().get_mouse_position()
 	
-	# Normalize mouse position (0.0 to 1.0) across the screen
 	var norm_x = clamp(mouse_pos.x / viewport_rect.size.x, 0.0, 1.0)
 	var norm_y = clamp(mouse_pos.y / viewport_rect.size.y, 0.0, 1.0)
 	
-	# HORIZONTAL (Outer Square): Base 0.4 -> Range [0.2, 0.8]
-	var current_scale_outer = lerp(0.2, 0.8, norm_x)
+	# Outer Square (Horizontal Mouse)
+	var current_scale_outer = lerp(0.2, 0.8, norm_x) 
 	
-	# VERTICAL (Inner Square): Base 0.2 -> Range [0.1, 0.4]
-	# (Up/0 is smaller, Down/1 is bigger)
+	# Primary Inner Square (Vertical Mouse) - Standard behavior
 	var current_scale_inner = lerp(0.1, 0.4, norm_y)
 
-	# --- 2. CENTER THE GRID (Static Position) ---
+	# --- NEW: GHOST INNER SQUARE ---
+	# Starts at 0.0 (Invisible) and grows to 0.15.
+	var current_scale_ghost = lerp(0.0, 0.15, norm_y)
+
+	# --- 2. CENTER THE GRID ---
 	var screen_center = viewport_rect.size / 2.0
-	
-	# Note: using CELL_SIZE * 2 as requested in previous code
 	var step = CELL_SIZE * 2.0
 	var total_width = GRID_COLUMNS * step
 	var total_height = GRID_ROWS * step
 	
-	# Calculate top-left corner relative to screen center
 	var start_x = -(total_width / 2.0) + (step / 2.0)
 	var start_y = -(total_height / 2.0) + (step / 2.0)
 
 	# --- 3. GRID LOOP ---
 	for col in range(GRID_COLUMNS):
 		for row in range(GRID_ROWS):
-			
 			var x_pos = start_x + (col * step)
 			var y_pos = start_y + (row * step)
+			var star_pos =  screen_center + Vector2(x_pos, y_pos)
 			
-			# Position is now relative to screen center, not mouse
-			var star_pos = screen_center + Vector2(x_pos, y_pos)
-			
-			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner)
+			# Pass all 3 scales to the drawer
+			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner, current_scale_ghost)
 
 func _process(delta: float) -> void:
-	overall_rotation += ROTATION_SPEED * delta
+	process_random_cycle(delta)
+	
+	overall_rotation += ROTATION_SPEED * delta 
 	
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta

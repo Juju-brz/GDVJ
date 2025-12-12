@@ -10,10 +10,10 @@ var SPACING: float = 50.0
 ### CONTROLES ###
 @onready var control = $Control
 var hide :bool = false
-@onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
+@onready var slider = $Control/BG/VBoxContainer/HSlider #Import Slider Input
 @onready var old_slder_value: float = slider.value  
 
-@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
+@onready var slider_spacing = $Control/BG/VBoxContainer/HSlider_spacing
 @onready var old_slider_spacing_value = slider_spacing.value
 
 var nb_duplicates =  1

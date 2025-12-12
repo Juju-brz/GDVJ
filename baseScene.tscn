@@ -29,36 +29,43 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="BG" type="ColorRect" parent="Control"]
+material = SubResource("ShaderMaterial_u2bk3")
+layout_mode = 0
+offset_right = 1164.0
+offset_bottom = 674.0
+color = Color(0.5609549, 0.5609549, 0.5609549, 0.8509804)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/BG"]
 layout_mode = 0
 offset_left = 809.0
 offset_top = 26.0
 offset_right = 1118.0
 offset_bottom = 254.0
 
-[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+[node name="Label2" type="Label" parent="Control/BG/VBoxContainer"]
 layout_mode = 2
 text = "Duplication"
 
-[node name="HSlider" type="HSlider" parent="Control/VBoxContainer"]
+[node name="HSlider" type="HSlider" parent="Control/BG/VBoxContainer"]
 layout_mode = 2
 max_value = 50.0
 
-[node name="Button" type="Button" parent="Control/VBoxContainer"]
+[node name="Button" type="Button" parent="Control/BG/VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Animation"
 
-[node name="Label" type="Label" parent="Control/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/BG/VBoxContainer"]
 layout_mode = 2
 text = "RADIUS"
 
-[node name="HSlider_spacing" type="HSlider" parent="Control/VBoxContainer"]
+[node name="HSlider_spacing" type="HSlider" parent="Control/BG/VBoxContainer"]
 layout_mode = 2
 min_value = 50.0
 value = 50.0
 
-[node name="CodeEdit" type="CodeEdit" parent="Control"]
+[node name="CodeEdit" type="CodeEdit" parent="Control/BG"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 87.0
@@ -75,17 +82,17 @@ highlight_all_occurrences = true
 highlight_current_line = true
 script = ExtResource("4_bgty4")
 
-[node name="Button" type="Button" parent="Control/CodeEdit"]
+[node name="Button" type="Button" parent="Control/BG/CodeEdit"]
 layout_mode = 0
 offset_left = 305.0
 offset_top = 478.0
 offset_right = 388.0
 offset_bottom = 520.0
 
-[node name="Play" type="Sprite2D" parent="Control/CodeEdit/Button"]
+[node name="Play" type="Sprite2D" parent="Control/BG/CodeEdit/Button"]
 position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("5_6jx8c")
 
-[connection signal="value_changed" from="Control/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="pressed" from="Control/CodeEdit/Button" to="Control/CodeEdit" method="_on_button_pressed"]
+[connection signal="value_changed" from="Control/BG/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="Control/BG/CodeEdit/Button" to="Control/BG/CodeEdit" method="_on_button_pressed"]
