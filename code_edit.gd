@@ -3,12 +3,13 @@ extends CodeEdit
 var hide = false
 @onready var code = $CodeEdit
 var shader_path = "res://shaders/shaderEmpty.gdshader"
-@onready var colorRect = get_node("../../ColorRect2")  # Remonte de deux niveaux
+@onready var colorRect = get_node("../../../ColorRect2")  # Remonte de deux niveaux
 
 func _ready():
 	var button = $Button
 	button.pressed.connect(_on_button_pressed)
-
+	if colorRect == null:
+		print("Error: colorRect is null.")
 
 func _on_button_pressed():
 	var user_code = self.text
