@@ -1,13 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctn2bivge2p0p"]
+[gd_scene load_steps=5 format=3 uid="uid://ctn2bivge2p0p"]
 
 [ext_resource type="Shader" uid="uid://6l3x4vbp4wnq" path="res://Test/Testshader.gdshader" id="1_kah6c"]
+[ext_resource type="Script" uid="uid://dlny1rys6ijr1" path="res://Test/py_test.gd" id="1_ya282"]
 [ext_resource type="Script" uid="uid://b6es2o4fhai0s" path="res://Test/TestHUD.gd" id="2_6rcc8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6rcc8"]
 shader = ExtResource("1_kah6c")
-shader_parameter/angle = 0.0
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_ya282")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_6rcc8")
