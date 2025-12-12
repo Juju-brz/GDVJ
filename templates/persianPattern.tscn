@@ -14,7 +14,7 @@ script = ExtResource("2_rak5h")
 [node name="ColorRect" parent="." index="0"]
 material = SubResource("ShaderMaterial_7wovf")
 
-[node name="Square" parent="." index="1"]
+[node name="Geo" parent="." index="1"]
 texture = ExtResource("2_87oag")
 
 [node name="CodeEdit" parent="Control" index="1"]
