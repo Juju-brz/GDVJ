@@ -23,8 +23,9 @@ var array_points: Array[Vector2] = []
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square  
-
+@onready var original_sprite = $Square
+@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
 # Trackers
 var hide_ui :bool = false
 var duplicated_spriteslist = []
@@ -58,7 +59,10 @@ func _ready() -> void:
 		placeholder.size = Vector2(64, 64)
 		original_sprite.texture = placeholder
 		original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
-	
+		
+	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		next_tpt.pressed.connect(_on_next_tpt_pressed)
+		
 	# 2. Hide original setup elements
 	original_sprite.hide()
 	if backsquare: backsquare.hide()
@@ -250,3 +254,15 @@ func _on_file_selected(path: String):
 			sp.modulate = Color(1,1,1)
 			
 	_close_all_ui()
+	
+func _on_next_tpt_pressed() -> void:
+	# 1. Close the external Python thread cleanly (important!)
+	# We don't want the thread trying to write back to the old, closing scene.
+
+	# 2. Get the SceneTree and change the scene
+	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+
+	if error != OK:
+		# Handle the error if the scene file wasn.t found
+		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	print("Error code: ", error)

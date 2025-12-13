@@ -64,7 +64,7 @@ layout_mode = 2
 size_flags_stretch_ratio = 0.35
 alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Btn_Switch_algorythme" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 15
 text = "Switch to Next Algorythme"

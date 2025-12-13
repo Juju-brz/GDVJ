@@ -55,7 +55,8 @@ var duplicated_spriteslist: Array = []
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
-
+@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" # <-- CHANGE THIS PATH!
 var hide_ui :bool = false
 
 #############################################################
@@ -161,8 +162,14 @@ func _ready() -> void:
 	
 	if not dialogue_change_image.canceled.is_connected(_close_all_ui):
 		dialogue_change_image.canceled.connect(_close_all_ui)
-
+		
+	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		next_tpt.pressed.connect(_on_next_tpt_pressed)
+		
 	print("!!! SCRIPT READY: Slower + Random Directions !!!")
+	# 3. CONNECT SIGNALS (Add this block)
+	# Ensure the button is connected to the function that will perform the switch
+
 
 
 func _process(delta: float) -> void:
@@ -547,6 +554,7 @@ func _handle_new_quantum_data(data: Dictionary):
 
 # --- CONTINUOUS SCALING ACTIVATION (Called every frame via _process) ---
 func update_cell_scaling():
+	
 	# 1. Count how many cells are currently animating (target 0.1 or 1.0)
 	var currently_animating = 0
 	for i in range(TOTAL_CELLS):
@@ -570,3 +578,20 @@ func update_cell_scaling():
 			var cell_index = idle_indices.pick_random()
 			cell_scale_target[cell_index] = 0.1 # Shrink target
 			cell_scale_timer[cell_index] = 0.0 # Start timer for SHRINK_DURATION
+
+
+func _on_next_tpt_pressed() -> void:
+	# 1. Close the external Python thread cleanly (important!)
+	# We don't want the thread trying to write back to the old, closing scene.
+	if quantum_thread != null and quantum_thread.is_started():
+		# Stop the thread if Qiskit is still running
+		quantum_thread.wait_to_finish() 
+		quantum_thread = null
+
+	# 2. Get the SceneTree and change the scene
+	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+
+	if error != OK:
+		# Handle the error if the scene file wasn.t found
+		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	print("Error code: ", error)

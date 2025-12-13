@@ -26,7 +26,8 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
-
+@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+const NEXT_SCENE_PATH = "res://templates/01_Superpositions_géométriques.tscn"
 # Trackers
 var hide_ui :bool = false
 var duplicated_spriteslist = []
@@ -53,6 +54,9 @@ func _ready() -> void:
 	dialogue_change_image.hide()
 	hide_ui = true
 	
+	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		next_tpt.pressed.connect(_on_next_tpt_pressed)
+		
 	# 4. Connect Signals
 	if not btn_change_image.pressed.is_connected(open_dialog):
 		btn_change_image.pressed.connect(open_dialog)
@@ -179,3 +183,15 @@ func _on_file_selected(path: String):
 			sp.texture = new_tex
 			
 	_close_all_ui()
+	
+func _on_next_tpt_pressed() -> void:
+	# 1. Close the external Python thread cleanly (important!)
+	# We don't want the thread trying to write back to the old, closing scene.
+
+	# 2. Get the SceneTree and change the scene
+	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+
+	if error != OK:
+		# Handle the error if the scene file wasn.t found
+		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	print("Error code: ", error)
