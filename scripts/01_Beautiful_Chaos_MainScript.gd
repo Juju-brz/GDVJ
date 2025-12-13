@@ -1,5 +1,5 @@
 extends Node2D
-class_name mainScript
+class_name BeautifulChaos
 
 #### VARIABLES ####
 

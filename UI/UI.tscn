@@ -51,7 +51,7 @@ text = "Choose Pattern Motif"
 
 [node name="Dlg_Change_Image" type="FileDialog" parent="VBoxContainer"]
 oversampling_override = 1.0
-title = "Choose a pattern motif"
+title = "Open a File"
 initial_position = 1
 visible = true
 file_mode = 0
@@ -68,7 +68,7 @@ text = "shader_type canvas_item;
 
 void fragment() {
     vec3 color = vec3(1.0, 1.0, 1.0);
-    COLOR = vec4(color, 1.0);
+    COLOR = vec4(color, 0.3);
 }"
 syntax_highlighter = SubResource("SyntaxHighlighter_e707p")
 highlight_all_occurrences = true

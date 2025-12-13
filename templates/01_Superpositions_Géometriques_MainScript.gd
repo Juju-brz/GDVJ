@@ -1,5 +1,5 @@
 extends Node2D
-class_name StarGridRandomJitter
+class_name StarGridRandomRotate
 
 # ---------------------------------------------------------
 # VARIABLES: VISUAL SETTINGS
@@ -10,14 +10,17 @@ class_name StarGridRandomJitter
 @export var GRID_ROWS: int = 9 
 @export var CELL_SIZE: float = 100.0 
 
-# --- RANDOM MOVEMENT SETTINGS (UPDATED) ---
+# --- RANDOM MOVEMENT SETTINGS ---
 var time_passed: float = 0.0
-@export var JITTER_SPEED: float = 1.5      # <--- CHANGED FROM 5.0 TO 1.5 (3x Slower)
-@export var JITTER_HEIGHT: float = 20.0    # How far they move
+@export var JITTER_SPEED: float = 1.5      
+@export var JITTER_HEIGHT: float = 20.0    
 
-# --- ROTATION & STAMPS ---
-var overall_rotation: float = 0.0
+# --- ROTATION SETTINGS ---
+var overall_rotation: float = 0.0      # Rotates the "Active" sprite
+var group_rotation: float = 0.0        # Rotates the WHOLE GROUP
 @export var ROTATION_SPEED: float = deg_to_rad(10.0)
+@export var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0) # <--- SLOWER (Was 20.0)
+
 var stamp_angles: Array[float] = []
 
 # --- BACKGROUND GRADIENT ---
@@ -33,7 +36,7 @@ var current_gradient_angle: float = 0.0
 @export var GRADIENT_SPEED: float = 0.1
 @export var GRADIENT_ANGLE_SPEED: float = 10.0
 
-# --- RANDOMNESS (FOR COLORS) ---
+# --- RANDOMNESS ---
 var cycle_timer: float = 0.0
 const CYCLE_INTERVAL: float = 10.0 
 var rand_val_a: float = 0.0
@@ -97,15 +100,22 @@ func _ready() -> void:
 	if not dialogue_change_image.canceled.is_connected(_close_all_ui):
 		dialogue_change_image.canceled.connect(_close_all_ui)
 
-	print("!!! SCRIPT READY: Slow Random Jitter !!!")
+	print("!!! SCRIPT READY: Slower + Random Directions !!!")
 
 
 func _process(delta: float) -> void:
-	# 1. Update Animation Timers
+	# 1. Update Timers
 	time_passed += delta * JITTER_SPEED  
 	
 	process_random_cycle(delta)
+	
+	# Rotate the "Duplicator"
 	overall_rotation += ROTATION_SPEED * delta 
+	
+	# Rotate the "Whole Group"
+	group_rotation += GROUP_ROTATION_SPEED * delta
+	
+	# Background
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
@@ -131,7 +141,7 @@ func _input(event: InputEvent) -> void:
 
 
 # ---------------------------------------------------------
-# VISUAL LOGIC (GRID + RANDOM JITTER)
+# VISUAL LOGIC
 # ---------------------------------------------------------
 
 func clear_board():
@@ -141,6 +151,22 @@ func clear_board():
 
 func draw_board():
 	if not original_sprite: return
+
+	# --- OPTIMIZATION: CALCULATE ACTIVE STAMPS ONCE ---
+	var active_stamps: Array[float] = []
+	var passed_count = 0
+	for angle in stamp_angles:
+		if overall_rotation >= angle:
+			passed_count += 1
+		else:
+			break
+	
+	# Get last 8 stamps only
+	var start_index = max(0, passed_count - 8)
+	for i in range(start_index, passed_count):
+		active_stamps.append(stamp_angles[i])
+	
+	# --------------------------------------------------
 
 	# 1. Interactive Scales (Mouse)
 	var viewport_rect = get_viewport_rect()
@@ -166,44 +192,48 @@ func draw_board():
 	for col in range(GRID_COLUMNS):
 		for row in range(GRID_ROWS):
 			
-			# Base Grid Position
 			var x_pos = start_x + (col * step)
 			var base_y = start_y + (row * step)
 			
-			# --- DETERMINISTIC RANDOMNESS ---
-			# We use the col/row ID to generate a pseudo-random number (0-99)
-			# This ensures the SAME squares move every frame.
+			# Deterministic Random Jitter
 			var random_seed = (col * 11 + row * 17) % 100
-			
 			var y_offset = 0.0
 			
-			# If the random number is < 30 (30% Chance)
 			if random_seed < 30:
-				# Apply animation!
-				# We add random_seed to time so they don't all move in sync
 				y_offset = sin(time_passed + random_seed) * JITTER_HEIGHT
 			else:
-				# Stay Fixed
 				y_offset = 0.0
 			
 			var y_pos = base_y + y_offset
-			
-			# Combine into final position
 			var star_pos = screen_center + Vector2(x_pos, y_pos)
 			
-			# Draw the star stack
-			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner, current_scale_ghost)
+			# --- NEW: RANDOM ROTATION DIRECTION ---
+			# Use the same seeds to decide Left (-1) or Right (1)
+			# Modulo 2 gives us 0 or 1.
+			var dir_seed = (col * 7 + row * 3) % 2 
+			var rot_direction = 1.0
+			if dir_seed == 0:
+				rot_direction = -1.0
+			
+			# Draw the star stack passing the direction
+			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction)
 
 
-func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float, scale_ghost: float):
+func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float):
 	
 	# Helper to create sprite
+	# NOTE: We multiply group_rotation by 'rot_dir' (+1 or -1)
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
 		if sprite_scale <= 0.01: return
 		var s = original_sprite.duplicate()
 		add_child(s)
 		s.position = location
-		s.rotation = rot_angle_rad
+		
+		# --- APPLY RANDOM GROUP ROTATION HERE ---
+		# rot_angle_rad is the internal spinning (duplication)
+		# group_rotation * rot_dir is the slow group spinning (left or right)
+		s.rotation = rot_angle_rad + (group_rotation * rot_dir)
+		
 		s.scale = Vector2(sprite_scale, sprite_scale)
 		s.visible = true 
 		s.show()
@@ -214,16 +244,13 @@ func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float
 	create_sprite.call(0.0, scale_inner)
 	create_sprite.call(0.0, scale_ghost) 
 	
-	# 2. Stamps
-	for target_angle in stamp_angles:
-		if overall_rotation >= target_angle:
-			create_sprite.call(target_angle, scale_outer)
-			create_sprite.call(target_angle, scale_inner)
-			create_sprite.call(target_angle, scale_ghost) 
-		else:
-			break
+	# 2. Stamps (Trails relative to group)
+	for target_angle in active_stamps_list:
+		create_sprite.call(target_angle, scale_outer)
+		create_sprite.call(target_angle, scale_inner)
+		create_sprite.call(target_angle, scale_ghost) 
 	
-	# 3. Active Rotator
+	# 3. Active Rotator (Moving relative to group)
 	create_sprite.call(overall_rotation, scale_outer)
 	create_sprite.call(overall_rotation, scale_inner)
 	create_sprite.call(overall_rotation, scale_ghost)

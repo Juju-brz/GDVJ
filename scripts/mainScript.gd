@@ -1,5 +1,5 @@
 extends Node2D
-class_name  mainScript
+#class_name  mainScript
 
 #### VARIABLES ####
 var SPACING: float = 50.0
