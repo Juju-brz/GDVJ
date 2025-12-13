@@ -19,7 +19,7 @@ var time_passed: float = 0.0
 var overall_rotation: float = 0.0      # Rotates the "Active" sprite
 var group_rotation: float = 0.0        # Rotates the WHOLE GROUP
 @export var ROTATION_SPEED: float = deg_to_rad(10.0)
-@export var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0) # <--- SLOWER (Was 20.0)
+@export var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0) 
 
 var stamp_angles: Array[float] = []
 
@@ -59,46 +59,46 @@ var duplicated_spriteslist: Array = []
 var hide_ui :bool = false
 
 #############################################################
-#############################################################
-#Quantique VARIABLES
-#############################################################
-#############################################################
-#############################################################
+# Quantique VARIABLES
 #############################################################
 # The array to hold the raw output from the external process
 var output: Array = []
 
-# Timer for calling the Python script (5 seconds)
+# Timer for calling the Python script
 var quantum_call_timer: float = 0.0
-const QUANTUM_CALL_INTERVAL: float = 10.0  # <--- Changed to 10 seconds per your request
+const QUANTUM_CALL_INTERVAL: float = 5.5
 
 # Timer for the smooth interpolation (5 seconds)
 var lerp_time: float = 0.0
 const LERP_DURATION: float = 5.0      # Time taken for the smooth transition
 
-# --- LERP STATE VARIABLES (NEW) ---
+# --- LERP STATE VARIABLES ---
 var lerp_a: float = 0.0 # Start value of the current interpolation
 var lerp_b: float = 0.0 # Target value (derived from the latest quantum result)
 var lerp_c: float = 0.0 # Current smoothed result (the output of the lerp)
-
 
 # Global variables to store the last result (for debugging)
 var last_entangled_result: String = "N/A"
 var last_qubit_count: int = 0
 var last_quantum_state: String = "Idle"
 
+# --- THREAD VARIABLES (NEW) ---
+var quantum_thread: Thread = null
+var thread_mutex: Mutex = Mutex.new()
+var thread_data_ready: bool = false
+var thread_output: Array = []
+
 # ----------------------------------------------------------------------
 # 1. Configuration 
 # ----------------------------------------------------------------------
 const PYTHON_SCRIPT_RESOURCE_PATH = "res://QuantiqueTest.py"
 const VENV_PYTHON_RELATIVE_PATH = "ve/venv/Scripts/python.exe"
-#############################################################
-#############################################################
-#############################################################
-#############################################################
-#############################################################
-#############################################################
-#############################################################
+
+# --- BLINKING VARIABLES ---
+const MAX_BLINKING_GROUPS = 10 
+var group_blink_array: Array[bool] = []
+var blink_pulse_time: float = 0.0 
+const BLINK_PULSE_SPEED = 5.0 
 #############################################################
 
 # ---------------------------------------------------------
@@ -108,10 +108,16 @@ const VENV_PYTHON_RELATIVE_PATH = "ve/venv/Scripts/python.exe"
 func _ready() -> void:
 	
 	#################### Quantique and Python Setup
-	lerp_b = 0.0 
+	# Initialize the starting smooth value
+	lerp_c = lerp_a 
 	
 	print("VENV Path constructed:", _get_venv_python_path())
+	
+	# Initialize blink array
+	group_blink_array.resize(MAX_BLINKING_GROUPS)
+	group_blink_array.fill(false)
 	####################################### 
+	
 	# 1. SETUP VISUALS
 	original_sprite.hide()
 	if backsquare:
@@ -166,31 +172,55 @@ func _process(delta: float) -> void:
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
+	# Update blink pulse timer
+	blink_pulse_time += delta * BLINK_PULSE_SPEED 
+	
 	queue_redraw() 
+	
 	########################################### Python and Qbits
-	###########################################
+	
+	# --- 0. PROCESS FINISHED THREAD DATA ---
+	thread_mutex.lock()
+	if thread_data_ready:
+		var json_result = thread_output[0]
+		var json_data = JSON.parse_string(json_result)
+		
+		if json_data != null and typeof(json_data) == TYPE_DICTIONARY:
+			_handle_new_quantum_data(json_data) 
+		else:
+			print("JSON Parse Error or Invalid Data from thread:", json_result)
+			
+		# Reset the flag and clear output after processing
+		thread_data_ready = false
+		thread_output.clear()
+		
+	thread_mutex.unlock()
+	
 	# --- 1. LERP SMOOTHING (Happens every frame) ---
 	if lerp_time < LERP_DURATION:
 		lerp_time += delta
-		var t = clamp(lerp_time / LERP_DURATION, 0.0, 1.0)
+		var t = clamp(lerp_time / LERP_DURATION, 0.0, 1.0) 
 		
 		# Update the smooth result (C)
 		lerp_c = lerp(lerp_a, lerp_b, t)
 		
-		# Debug: See the smooth value change
-		# print("C: ", lerp_c)
+	# --- 3. BLINKING CONTROL ---
+	update_blinking_groups(lerp_c)
 
-	# --- 2. QUANTUM CALL TIMER (Happens every 10 seconds) ---
+	# --- 2. QUANTUM CALL TIMER (Launch Thread) ---
 	quantum_call_timer += delta
 	
+	# Only launch if the timer is ready AND no thread is currently running
 	if quantum_call_timer >= QUANTUM_CALL_INTERVAL:
-		get_quantum_random()
-		quantum_call_timer = 0.0  # Reset timer
+		if quantum_thread == null or not quantum_thread.is_started():
+			get_quantum_random() # Launch thread (non-blocking)
+			quantum_call_timer = 0.0  # Reset timer
 	###########################################
-	###########################################
+	
 	# 2. Rebuild the Grid (Visual Loop)
 	clear_board()
 	draw_board()
+	# print("lerp_a: ", lerp_a, " | lerp_b: ", lerp_b, " | lerp_c: ", lerp_c) # Debug print moved to _handle_new_quantum_data
 
 
 func _input(event: InputEvent) -> void:
@@ -275,36 +305,41 @@ func draw_board():
 			var star_pos = screen_center + Vector2(x_pos, y_pos)
 			
 			# --- NEW: RANDOM ROTATION DIRECTION ---
-			# Use the same seeds to decide Left (-1) or Right (1)
-			# Modulo 2 gives us 0 or 1.
 			var dir_seed = (col * 7 + row * 3) % 2 
 			var rot_direction = 1.0
 			if dir_seed == 0:
 				rot_direction = -1.0
 			
-			# Draw the star stack passing the direction
-			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction)
+			# Draw the star stack passing the column ID for blinking
+			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, col)
 
 
-func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float):
+func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, column_id: int):
+	# ------------------ BLINKING LOGIC ------------------
+	var current_alpha: float = 1.0
+	
+	if column_id < MAX_BLINKING_GROUPS and group_blink_array[column_id]:
+		# If the group is active, pulse its alpha smoothly from 0.2 to 1.0
+		current_alpha = 0.2 + (0.8 * abs(sin(blink_pulse_time))) 
 	
 	# Helper to create sprite
-	# NOTE: We multiply group_rotation by 'rot_dir' (+1 or -1)
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
 		if sprite_scale <= 0.01: return
 		var s = original_sprite.duplicate()
 		add_child(s)
 		s.position = location
 		
-		# --- APPLY RANDOM GROUP ROTATION HERE ---
-		# rot_angle_rad is the internal spinning (duplication)
-		# group_rotation * rot_dir is the slow group spinning (left or right)
+		# Apply the rotation (unchanged)
 		s.rotation = rot_angle_rad + (group_rotation * rot_dir)
-		
 		s.scale = Vector2(sprite_scale, sprite_scale)
 		s.visible = true 
+		
+		# Apply the calculated alpha transparency
+		s.modulate.a = current_alpha 
+		
 		s.show()
 		duplicated_spriteslist.append(s)
+	# --------------------------------------------------------
 
 	# 1. Base Layers
 	create_sprite.call(0.0, scale_outer)
@@ -380,79 +415,108 @@ func _draw():
 	var bl = center + Vector2(-radius, radius).rotated(angle)
 	
 	draw_polygon(PackedVector2Array([tl, tr, br, bl]), PackedColorArray([color_a, color_b, color_b, color_a]))
+
 ################################################################
-##################################################################
-#Quantique FUNCTIONS
+# Quantique FUNCTIONS
 ################################################################
-##################################################################
-################################################################
-##################################################################
 
 func _get_venv_python_path() -> String:
 	var project_root_path = ProjectSettings.globalize_path("res://")
 	return project_root_path.path_join(VENV_PYTHON_RELATIVE_PATH)
 
-
+# --- THREAD FUNCTION ---
+# This runs in the background thread.
+func _run_quantum_in_thread(): # <-- NO ARGUMENT HERE
+	# This function runs in the background thread!
+	
+	# Calculate the script path INSIDE the thread (hardcoded approach)
+	var script_path = ProjectSettings.globalize_path(PYTHON_SCRIPT_RESOURCE_PATH)
+	var python_executable_path = _get_venv_python_path()
+	var output_buffer: Array = []
+	
+	# Execute the Python script, blocking ONLY the background thread
+	var exit_code = OS.execute(python_executable_path, [script_path], output_buffer, true)
+	
+	# LOCK the main thread variables to safely write the result
+	thread_mutex.lock()
+	
+	if exit_code == 0 and output_buffer.size() > 0:
+		# Save the output and signal that data is ready
+		thread_output = output_buffer
+		thread_data_ready = true
+	else:
+		# Handle errors if necessary
+		thread_output = ["ERROR: Python execution failed or returned no data. Exit Code: " + str(exit_code)]
+		thread_data_ready = true
+		
+	thread_mutex.unlock()
+# --- QUANTUM CALLER (Launches the thread) ---
+func get_quantum_random():
+	# If a quantum thread is already running, do nothing
+	if quantum_thread != null and quantum_thread.is_started():
+		return
+	
+	# 1. Ensure the Thread object is new
+	quantum_thread = Thread.new()
+	
+	# 2. Start the thread. We pass NO arguments to the thread function.
+	var error = quantum_thread.start(self._run_quantum_in_thread)
+	
+	if error != OK:
+		print("ERROR: Failed to start quantum thread:", error)
+		
+		
+# --- DATA CONVERSION ---
 func _convert_quantum_result_to_float(result_string: String) -> float:
-	# Convert the quantum result string (e.g., "00" or "11") into a float (0.0 or 1.0)
-	# Assuming a 2-qubit Bell state where only "00" or "11" are expected.
-	match result_string:
-		"00":
-			return 0.0
-		"11":
-			return 1.0
-		_: # Fallback for unexpected or single qubit results ("0" or "1")
-			if result_string.is_valid_float():
-				return result_string.to_float()
-			return 0.5 # Default to a midpoint if the string is invalid
+	# The JSON result is now a DECIMAL INTEGER from 0 to 15.
+	
+	# Attempt to convert the string output (e.g., "6") to an integer.
+	var integer_value = int(result_string)
+	
+	# The maximum value from 4 qubits is 15 ("1111").
+	const MAX_VALUE = 15.0
+	
+	# Normalize the integer (0 to 15) to a float (0.0 to 1.0)
+	return float(integer_value) / MAX_VALUE
 
-
+# --- DATA HANDLER (Updates LERP when data arrives from thread) ---
 func _handle_new_quantum_data(data: Dictionary):
 	# 1. Update debug variables
 	last_entangled_result = str(data.get("entangled_result", "Error"))
 	last_qubit_count = int(data.get("qubit_count", 0))
 	last_quantum_state = str(data.get("state", "Unknown"))
 	
-	# 2. Convert the quantum result to the target float value (0.0 or 1.0)
+	# 2. Convert the quantum result to the target float value (0.0 to 1.0)
 	var new_target_value = _convert_quantum_result_to_float(last_entangled_result)
 
-	# 3. --- LERP LOGIC STARTS HERE ---
-	# The previous target (lerp_b) becomes the new start (lerp_a)
-	lerp_a = lerp_b
+	# 3. LERP LOGIC FIX: The new start value (A) must be the CURRENT smooth value (C).
+	lerp_a = lerp_c 
 	
-	# The new quantum result becomes the new target (lerp_b)
+	# The new quantum result becomes the new target (B)
 	lerp_b = new_target_value
 	
 	# Reset the timer to start the 5-second interpolation
 	lerp_time = 0.0
-	# ----------------------------------
 
 	# Print final result
 	print("--- New Quantum Target Set ---")
 	print("New Target (B): ", lerp_b)
-	print("Old Start (A): ", lerp_a)
-	print("Qubit Result: ", last_entangled_result)
+	print("New Start (A) [Should be smooth]: ", lerp_a)
+	print("Qubit Result (Decimal): ", last_entangled_result)
 
-
-func get_quantum_random():
-	var python_executable_path = _get_venv_python_path()
-	var absolute_script_path = ProjectSettings.globalize_path(PYTHON_SCRIPT_RESOURCE_PATH)
+# --- BLINKING LOGIC (Using lerp_c) ---
+func update_blinking_groups(quantum_value_c: float):
+	# The target number of groups to activate (0 to 10)
+	# This smoothly scales the number of groups based on the quantum output (0.0 to 1.0)
+	var target_active_groups = round(quantum_value_c * MAX_BLINKING_GROUPS)
 	
-	output.clear()  
-	var exit_code = OS.execute(python_executable_path, [absolute_script_path], output, true)
-	
-	if exit_code == 0:
-		if output.size() > 0:
-			var json_result = output[0]
-			var json_data = JSON.parse_string(json_result)
-			
-			if json_data != null and typeof(json_data) == TYPE_DICTIONARY:
-				_handle_new_quantum_data(json_data) # Call handler function
-			else:
-				print("JSON Parse Error or Invalid Data (Check Python print): ", json_result)
+	# Loop through each of the 10 groups (columns)
+	for i in range(MAX_BLINKING_GROUPS):
+		# If the group index is below the guaranteed threshold 
+		if i < target_active_groups:
+			group_blink_array[i] = true
+		# Otherwise, randomly toggle it based on a small probability (flicker effect)
+		elif randf() < (quantum_value_c * 0.1): 
+			group_blink_array[i] = true
 		else:
-			print("Python script ran, but returned no output.")
-	else:
-		print("--- PYTHON EXECUTION ERROR (VENV FAILED) ---")
-		print("Exit Code: ", exit_code)
-		# Removed other print statements for cleaner console output
+			group_blink_array[i] = false

@@ -3,39 +3,38 @@ from qiskit_aer import AerSimulator
 import json
 
 # --- SET NUMBER OF QUBITS ---
-NUM_QUBITS = 2
+NUM_QUBITS = 4 
 
-# Create a quantum circuit with 2 qubits and 2 classical bits
+# Create a quantum circuit with 4 qubits and 4 classical bits
 qc = QuantumCircuit(NUM_QUBITS, NUM_QUBITS)
 
-# --- CREATE ENTANGLEMENT (BELL STATE) ---
-# 1. Apply Hadamard to qubit 0 (superposition)
-qc.h(0)
+# --- CREATE UNIFORM SUPERPOSITION ---
+# Apply a Hadamard (H) gate to EVERY qubit.
+for i in range(NUM_QUBITS):
+    qc.h(i)
 
-# 2. Apply CNOT with control 0 and target 1
-# This entangles qubit 0 and qubit 1. 
-# Resulting states are |00> and |11> (50% each).
-qc.cx(0, 1)
-
-# Measure all qubits into corresponding classical bits
-# The measurement results (counts) will only show '00' and '11'.
+# Measure all 4 qubits into corresponding classical bits
 for i in range(NUM_QUBITS):
     qc.measure(i, i)
 
-# Run on simulator (Use less shots since we only care about the result string)
+# Run on simulator 
 sim = AerSimulator()
-# Using 1 shot ensures we get a single, random, definite measurement result
+# Using 1 shot ensures we get a single, random result from the 16 possibilities.
 result = sim.run(qc, shots=1).result() 
 counts = result.get_counts()
 
-# The measurement key will be a string like '00' or '11'
-measurement = list(counts.keys())[0]
+# --- CONVERSION STEP ---
+# 1. Get the binary measurement key (e.g., '0110')
+binary_measurement = list(counts.keys())[0]
+
+# 2. Convert the binary string to a decimal integer (e.g., 6)
+decimal_measurement = int(binary_measurement, 2)
 
 output = {
-    # The entangled result of all qubits (e.g., "00" or "11")
-    "entangled_result": measurement,
+    # The result is now an integer from 0 to 15
+    "entangled_result": decimal_measurement,
     "qubit_count": NUM_QUBITS,
-    "state": "Bell State"
+    "state": "Decimal Output (0-15)"  # <-- Updated state name for clarity
 }
 
 # Print the JSON output for Godot
