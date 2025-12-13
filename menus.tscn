@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dci7pdd0rwk14"]
+[gd_scene load_steps=4 format=3 uid="uid://dci7pdd0rwk14"]
 
 [ext_resource type="Texture2D" uid="uid://dyf2tlsdgaykh" path="res://icon.svg" id="1_rk3gf"]
+[ext_resource type="Script" uid="uid://dnnb3dewc0sto" path="res://QuantiqueTest.gd" id="1_w73sm"]
 [ext_resource type="Texture2D" uid="uid://lf7a5thgmhd4" path="res://Inkscape_logo_2.svg" id="2_ksksx"]
 
 [node name="Control" type="Control"]
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_w73sm")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
