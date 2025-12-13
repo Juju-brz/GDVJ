@@ -13,7 +13,8 @@ var SPACING: float = 50.0
 var hide :bool = false
 @onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
 @onready var old_slder_value: float = slider.value  
-
+@onready var Btn_Change_Image = $Control/VBoxContainer/Btn_Change_Image
+@onready var Dlg_Change_Image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
 @onready var old_slider_spacing_value = slider_spacing.value
 
@@ -61,6 +62,7 @@ func decrement(): #delete Shape
 func _ready() -> void:
 	NB_DUPLICATES = clamp(NB_DUPLICATES, 0, 5)
 	control.hide()
+	Dlg_Change_Image.hide()
 	BG.hide()
 	hide = true
 

@@ -45,6 +45,19 @@ layout_mode = 2
 min_value = 50.0
 value = 50.0
 
+[node name="Btn_Change_Image" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Choose Pattern Motif"
+
+[node name="Dlg_Change_Image" type="FileDialog" parent="VBoxContainer"]
+oversampling_override = 1.0
+title = "Choose a pattern motif"
+initial_position = 1
+visible = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png", "*.svg")
+
 [node name="CodeEdit" type="CodeEdit" parent="."]
 layout_mode = 0
 offset_left = 38.0
