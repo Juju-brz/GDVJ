@@ -22,7 +22,7 @@ var array_points: Array[Vector2] = []
 @onready var slider = $Control/VBoxContainer/HSlider
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_image
+@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 
 # Trackers

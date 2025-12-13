@@ -36,7 +36,7 @@ var current_gradient_angle: float = 0.0
 @export var GRADIENT_SPEED: float = 0.1
 @export var GRADIENT_ANGLE_SPEED: float = 10.0
 
-# --- RANDOMNESS ---
+# --- RANDOMNESS (Not quantum related, existing logic) ---
 var cycle_timer: float = 0.0
 const CYCLE_INTERVAL: float = 10.0 
 var rand_val_a: float = 0.0
@@ -73,16 +73,16 @@ var lerp_time: float = 0.0
 const LERP_DURATION: float = 5.0      # Time taken for the smooth transition
 
 # --- LERP STATE VARIABLES ---
-var lerp_a: float = 0.0 # Start value of the current interpolation
-var lerp_b: float = 0.0 # Target value (derived from the latest quantum result)
-var lerp_c: float = 0.0 # Current smoothed result (the output of the lerp)
+var lerp_a: float = 0.0 
+var lerp_b: float = 0.0 
+var lerp_c: float = 0.0 
 
 # Global variables to store the last result (for debugging)
 var last_entangled_result: String = "N/A"
 var last_qubit_count: int = 0
 var last_quantum_state: String = "Idle"
 
-# --- THREAD VARIABLES (NEW) ---
+# --- THREAD VARIABLES (NON-BLOCKING EXECUTION) ---
 var quantum_thread: Thread = null
 var thread_mutex: Mutex = Mutex.new()
 var thread_data_ready: bool = false
@@ -94,11 +94,19 @@ var thread_output: Array = []
 const PYTHON_SCRIPT_RESOURCE_PATH = "res://QuantiqueTest.py"
 const VENV_PYTHON_RELATIVE_PATH = "ve/venv/Scripts/python.exe"
 
-# --- BLINKING VARIABLES ---
-const MAX_BLINKING_GROUPS = 10 
-var group_blink_array: Array[bool] = []
-var blink_pulse_time: float = 0.0 
-const BLINK_PULSE_SPEED = 5.0 
+# --- SCALING VARIABLES (Element-based) ---
+const TOTAL_CELLS = 90 # 10 columns * 9 rows
+# Max time to shrink (down to 0.1 scale)
+const SHRINK_DURATION: float = 0.4 
+# Max time to grow (back to 1.0 scale)
+const GROW_DURATION: float = 3.0
+
+# Tracks the current animation progress/state for all 90 cells.
+var cell_scale_timer: Array[float] = [] 
+# Tracks the final scale target for each cell (0.1 when shrinking, 1.0 when growing)
+var cell_scale_target: Array[float] = [] 
+# Tracks the current number of active cells to avoid repeated activation
+var target_active_count: int = 0
 #############################################################
 
 # ---------------------------------------------------------
@@ -108,14 +116,15 @@ const BLINK_PULSE_SPEED = 5.0
 func _ready() -> void:
 	
 	#################### Quantique and Python Setup
-	# Initialize the starting smooth value
 	lerp_c = lerp_a 
-	
 	print("VENV Path constructed:", _get_venv_python_path())
 	
-	# Initialize blink array
-	group_blink_array.resize(MAX_BLINKING_GROUPS)
-	group_blink_array.fill(false)
+	# Initialize element-based scaling arrays
+	cell_scale_timer.resize(TOTAL_CELLS)
+	cell_scale_timer.fill(0.0)
+
+	cell_scale_target.resize(TOTAL_CELLS)
+	cell_scale_target.fill(1.0) # Start fully scaled up
 	####################################### 
 	
 	# 1. SETUP VISUALS
@@ -162,22 +171,15 @@ func _process(delta: float) -> void:
 	
 	process_random_cycle(delta)
 	
-	# Rotate the "Duplicator"
+	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta 
-	
-	# Rotate the "Whole Group"
 	group_rotation += GROUP_ROTATION_SPEED * delta
-	
-	# Background
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
-	# Update blink pulse timer
-	blink_pulse_time += delta * BLINK_PULSE_SPEED 
-	
 	queue_redraw() 
 	
-	########################################### Python and Qbits
+	########################################### Quantum Logic Flow
 	
 	# --- 0. PROCESS FINISHED THREAD DATA ---
 	thread_mutex.lock()
@@ -203,10 +205,23 @@ func _process(delta: float) -> void:
 		
 		# Update the smooth result (C)
 		lerp_c = lerp(lerp_a, lerp_b, t)
-		
-	# --- 3. BLINKING CONTROL ---
-	update_blinking_groups(lerp_c)
 
+	# --- 3. ELEMENT ANIMATION PROCESSING (NEW) ---
+	for i in range(TOTAL_CELLS):
+		var target = cell_scale_target[i]
+		var current_time = cell_scale_timer[i]
+		
+		# If the cell is fully shrunk (target 0.1) and timer is done, set target to 1.0 (grow)
+		if target == 0.1 and current_time >= SHRINK_DURATION:
+			cell_scale_target[i] = 1.0 # Prepare to grow back
+			cell_scale_timer[i] = 0.0  # Reset timer for the long growth phase
+		
+		# Update the timer regardless
+		cell_scale_timer[i] += delta
+		
+	# --- 4. CONTINUOUS ACTIVATION TRIGGER ---
+	update_cell_scaling() 
+		
 	# --- 2. QUANTUM CALL TIMER (Launch Thread) ---
 	quantum_call_timer += delta
 	
@@ -220,7 +235,6 @@ func _process(delta: float) -> void:
 	# 2. Rebuild the Grid (Visual Loop)
 	clear_board()
 	draw_board()
-	# print("lerp_a: ", lerp_a, " | lerp_b: ", lerp_b, " | lerp_c: ", lerp_c) # Debug print moved to _handle_new_quantum_data
 
 
 func _input(event: InputEvent) -> void:
@@ -310,18 +324,34 @@ func draw_board():
 			if dir_seed == 0:
 				rot_direction = -1.0
 			
-			# Draw the star stack passing the column ID for blinking
-			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, col)
+			# --- CALCULATE UNIQUE CELL INDEX ---
+			var cell_index = (row * GRID_COLUMNS) + col
+			
+			# Draw the star stack passing the unique cell index
+			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
 
 
-func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, column_id: int):
-	# ------------------ BLINKING LOGIC ------------------
-	var current_alpha: float = 1.0
+func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	
-	if column_id < MAX_BLINKING_GROUPS and group_blink_array[column_id]:
-		# If the group is active, pulse its alpha smoothly from 0.2 to 1.0
-		current_alpha = 0.2 + (0.8 * abs(sin(blink_pulse_time))) 
+	# ------------------ ANIMATED SCALE LOOKUP ------------------
+	var current_scale = 1.0 # Default (no animation)
 	
+	if cell_index < TOTAL_CELLS:
+		var target = cell_scale_target[cell_index]
+		var current_time = cell_scale_timer[cell_index]
+		
+		if target == 0.1: # SHRINKING PHASE (0.0 to 0.4 seconds, Ease Out)
+			var t = clamp(current_time / SHRINK_DURATION, 0.0, 1.0)
+			var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
+			current_scale = lerp(1.0, target, ease_t)
+			
+		elif target == 1.0: # GROWING PHASE (0.0 to 3.0 seconds, Ease In)
+			var t = clamp(current_time / GROW_DURATION, 0.0, 1.0)
+			var ease_t = pow(t, 3) # Cubic Ease In
+			current_scale = lerp(0.1, target, ease_t)
+			
+	var final_multiplier = current_scale 
+
 	# Helper to create sprite
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
 		if sprite_scale <= 0.01: return
@@ -331,12 +361,13 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 		
 		# Apply the rotation (unchanged)
 		s.rotation = rot_angle_rad + (group_rotation * rot_dir)
-		s.scale = Vector2(sprite_scale, sprite_scale)
+		
+		# APPLY ELEMENT-SPECIFIC SCALE MULTIPLIER
+		var final_scale = sprite_scale * final_multiplier
+		
+		s.scale = Vector2(final_scale, final_scale)
 		s.visible = true 
-		
-		# Apply the calculated alpha transparency
-		s.modulate.a = current_alpha 
-		
+		s.modulate.a = 1.0
 		s.show()
 		duplicated_spriteslist.append(s)
 	# --------------------------------------------------------
@@ -424,61 +455,60 @@ func _get_venv_python_path() -> String:
 	var project_root_path = ProjectSettings.globalize_path("res://")
 	return project_root_path.path_join(VENV_PYTHON_RELATIVE_PATH)
 
-# --- THREAD FUNCTION ---
-# This runs in the background thread.
-func _run_quantum_in_thread(): # <-- NO ARGUMENT HERE
-	# This function runs in the background thread!
-	
-	# Calculate the script path INSIDE the thread (hardcoded approach)
+# --- THREAD FUNCTION (Runs in background) ---
+func _run_quantum_in_thread(): 
 	var script_path = ProjectSettings.globalize_path(PYTHON_SCRIPT_RESOURCE_PATH)
 	var python_executable_path = _get_venv_python_path()
 	var output_buffer: Array = []
 	
-	# Execute the Python script, blocking ONLY the background thread
+	# --- EXECUTION CHECK (CRITICAL FOR DEBUGGING) ---
+	if not FileAccess.file_exists(python_executable_path):
+		thread_mutex.lock()
+		thread_output = ["FATAL ERROR: Python executable not found at: " + python_executable_path]
+		thread_data_ready = true
+		thread_mutex.unlock()
+		return # Exit thread early
+	
 	var exit_code = OS.execute(python_executable_path, [script_path], output_buffer, true)
 	
-	# LOCK the main thread variables to safely write the result
 	thread_mutex.lock()
 	
 	if exit_code == 0 and output_buffer.size() > 0:
-		# Save the output and signal that data is ready
 		thread_output = output_buffer
 		thread_data_ready = true
 	else:
-		# Handle errors if necessary
-		thread_output = ["ERROR: Python execution failed or returned no data. Exit Code: " + str(exit_code)]
+		# Enhanced error reporting
+		var error_msg = "PYTHON EXECUTION FAILED.\n"
+		error_msg += "Exit Code: " + str(exit_code) + "\n"
+		error_msg += "Executable Path Used: " + python_executable_path + "\n"
+		if output_buffer.size() > 0:
+			error_msg += "Python Error Output (STDOUT):\n" + output_buffer[0]
+		
+		thread_output = [error_msg]
 		thread_data_ready = true
 		
 	thread_mutex.unlock()
 # --- QUANTUM CALLER (Launches the thread) ---
 func get_quantum_random():
-	# If a quantum thread is already running, do nothing
 	if quantum_thread != null and quantum_thread.is_started():
 		return
 	
-	# 1. Ensure the Thread object is new
 	quantum_thread = Thread.new()
-	
-	# 2. Start the thread. We pass NO arguments to the thread function.
 	var error = quantum_thread.start(self._run_quantum_in_thread)
 	
 	if error != OK:
 		print("ERROR: Failed to start quantum thread:", error)
 		
-		
 # --- DATA CONVERSION ---
 func _convert_quantum_result_to_float(result_string: String) -> float:
-	# The JSON result is now a DECIMAL INTEGER from 0 to 15.
+	# The JSON result is a DECIMAL INTEGER from 0 to 15.
 	
-	# Attempt to convert the string output (e.g., "6") to an integer.
 	var integer_value = int(result_string)
-	
-	# The maximum value from 4 qubits is 15 ("1111").
 	const MAX_VALUE = 15.0
 	
-	# Normalize the integer (0 to 15) to a float (0.0 to 1.0)
 	return float(integer_value) / MAX_VALUE
 
+# --- DATA HANDLER (Updates LERP when data arrives from thread) ---
 # --- DATA HANDLER (Updates LERP when data arrives from thread) ---
 func _handle_new_quantum_data(data: Dictionary):
 	# 1. Update debug variables
@@ -489,34 +519,54 @@ func _handle_new_quantum_data(data: Dictionary):
 	# 2. Convert the quantum result to the target float value (0.0 to 1.0)
 	var new_target_value = _convert_quantum_result_to_float(last_entangled_result)
 
-	# 3. LERP LOGIC FIX: The new start value (A) must be the CURRENT smooth value (C).
+	# 3. LERP LOGIC FIX
 	lerp_a = lerp_c 
-	
-	# The new quantum result becomes the new target (B)
 	lerp_b = new_target_value
 	
 	# Reset the timer to start the 5-second interpolation
 	lerp_time = 0.0
+
+	# 4. Set the new target count based on the normalized quantum value.
+	#    --- CRITICAL CHANGE: MULTIPLY COUNT BY 0.5 ---
+	
+	# Calculate the normalized quantum float (0.0 to 1.0)
+	var normalized_quantum_float = _convert_quantum_result_to_float(last_entangled_result)
+	
+	# Apply 0.5 multiplier before rounding and converting to the target cell count
+	var reduced_target_float = normalized_quantum_float * 0.5
+	
+	# The final target count (0 to 45 cells)
+	target_active_count = int(round(reduced_target_float * TOTAL_CELLS))
 
 	# Print final result
 	print("--- New Quantum Target Set ---")
 	print("New Target (B): ", lerp_b)
 	print("New Start (A) [Should be smooth]: ", lerp_a)
 	print("Qubit Result (Decimal): ", last_entangled_result)
+	print("Calculated Active Cells (0-45): ", target_active_count)
 
-# --- BLINKING LOGIC (Using lerp_c) ---
-func update_blinking_groups(quantum_value_c: float):
-	# The target number of groups to activate (0 to 10)
-	# This smoothly scales the number of groups based on the quantum output (0.0 to 1.0)
-	var target_active_groups = round(quantum_value_c * MAX_BLINKING_GROUPS)
-	
-	# Loop through each of the 10 groups (columns)
-	for i in range(MAX_BLINKING_GROUPS):
-		# If the group index is below the guaranteed threshold 
-		if i < target_active_groups:
-			group_blink_array[i] = true
-		# Otherwise, randomly toggle it based on a small probability (flicker effect)
-		elif randf() < (quantum_value_c * 0.1): 
-			group_blink_array[i] = true
-		else:
-			group_blink_array[i] = false
+# --- CONTINUOUS SCALING ACTIVATION (Called every frame via _process) ---
+func update_cell_scaling():
+	# 1. Count how many cells are currently animating (target 0.1 or 1.0)
+	var currently_animating = 0
+	for i in range(TOTAL_CELLS):
+		# A cell is animating if it's currently shrinking (target 0.1) 
+		# OR if it's growing back (target 1.0 but hasn't finished the GROW_DURATION time yet)
+		if cell_scale_target[i] == 0.1 or cell_scale_timer[i] < GROW_DURATION:
+			currently_animating += 1
+
+	# 2. If the current animation count is below the quantum-driven target count, 
+	#    find a random idle cell and start its shrink animation.
+	if currently_animating < target_active_count:
+		
+		# Find all cells that are currently idle (target 1.0 AND finished growing)
+		var idle_indices = []
+		for i in range(TOTAL_CELLS):
+			if cell_scale_target[i] == 1.0 and cell_scale_timer[i] >= GROW_DURATION:
+				idle_indices.append(i)
+		
+		# If there are idle cells, randomly select one to shrink
+		if idle_indices.size() > 0:
+			var cell_index = idle_indices.pick_random()
+			cell_scale_target[cell_index] = 0.1 # Shrink target
+			cell_scale_timer[cell_index] = 0.0 # Start timer for SHRINK_DURATION

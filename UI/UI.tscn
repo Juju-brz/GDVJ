@@ -58,6 +58,18 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.png", "*.svg")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_stretch_ratio = 0.35
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 15
+text = "Switch to Next Algorythme"
+icon_alignment = 1
+
 [node name="CodeEdit" type="CodeEdit" parent="."]
 layout_mode = 0
 offset_left = 38.0

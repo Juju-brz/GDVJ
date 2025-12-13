@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://qywxpr5vvcjj"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_qwknm"]
-[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://templates/01_Superpositions_Géometriques_MainScript.gd" id="1_um0o5"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="2_dlh1b"]
+[ext_resource type="Script" uid="uid://dni8j477fdhwu" path="res://scripts/01_Beautiful_Chaos_MainScript.gd" id="2_flubm"]
 [ext_resource type="Texture2D" uid="uid://ccad0eu6urbi4" path="res://Svg/Squarewhite2.svg" id="3_qwknm"]
 [ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_dlh1b"]
 
@@ -11,16 +11,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_dlh1b")
 
 [node name="Node2D" instance=ExtResource("1_qwknm")]
-script = ExtResource("1_um0o5")
-GRID_COLUMNS = 10
-GRID_ROWS = 9
-CELL_SIZE = 100.0
-JITTER_SPEED = 1.5
-JITTER_HEIGHT = 20.0
-ROTATION_SPEED = 0.17453292519943295
-GROUP_ROTATION_SPEED = 0.08726646259971647
-GRADIENT_SPEED = 0.1
-GRADIENT_ANGLE_SPEED = 10.0
+script = ExtResource("2_flubm")
 
 [node name="ColorRect" parent="." index="0"]
 material = null
