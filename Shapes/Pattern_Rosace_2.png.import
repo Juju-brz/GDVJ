@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccad0eu6urbi4"
-path="res://.godot/imported/Squarewhite2.svg-d7e59b18f0b21aa5ea9b73ba914abe9b.ctex"
+uid="uid://bdkde5a5vpivx"
+path="res://.godot/imported/Pattern_Rosace_2.png-f64a5fc38d4e73b848c3be0baac44ad8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/Squarewhite2.svg"
-dest_files=["res://.godot/imported/Squarewhite2.svg-d7e59b18f0b21aa5ea9b73ba914abe9b.ctex"]
+source_file="res://Shapes/Pattern_Rosace_2.png"
+dest_files=["res://.godot/imported/Pattern_Rosace_2.png-f64a5fc38d4e73b848c3be0baac44ad8.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

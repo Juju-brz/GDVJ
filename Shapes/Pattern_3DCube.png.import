@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cloevp7af8q6u"
-path="res://.godot/imported/Squarewhite.svg-a4276e88fa5c8dabaf0df90828b357a1.ctex"
+uid="uid://di7nbd6fdxyia"
+path="res://.godot/imported/Pattern_3DCube.png-4dd3337ffb18726c0a7807ad962cdb0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/Squarewhite.svg"
-dest_files=["res://.godot/imported/Squarewhite.svg-a4276e88fa5c8dabaf0df90828b357a1.ctex"]
+source_file="res://Shapes/Pattern_3DCube.png"
+dest_files=["res://.godot/imported/Pattern_3DCube.png-4dd3337ffb18726c0a7807ad962cdb0c.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

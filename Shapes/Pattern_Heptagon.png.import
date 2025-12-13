@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwrskkwbyakdl"
-path="res://.godot/imported/Squarewhite-01.svg-a4f9fd9f63425d0675922c926d7bf45d.ctex"
+uid="uid://b6dxrgrpwho2x"
+path="res://.godot/imported/Pattern_Heptagon.png-70f714060fe5582611b8a045627476fc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/Squarewhite-01.svg"
-dest_files=["res://.godot/imported/Squarewhite-01.svg-a4f9fd9f63425d0675922c926d7bf45d.ctex"]
+source_file="res://Shapes/Pattern_Heptagon.png"
+dest_files=["res://.godot/imported/Pattern_Heptagon.png-70f714060fe5582611b8a045627476fc.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

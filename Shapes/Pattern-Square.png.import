@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4hhm1finjbfu"
-path="res://.godot/imported/triangle.svg-3fa38160f149af2fe2a3f4ac5f78d65c.ctex"
+uid="uid://bbgu6clrixshr"
+path="res://.godot/imported/Pattern-Square.png-5c7137ff2c1d354ede0bb3aa99106bf7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/triangle.svg"
-dest_files=["res://.godot/imported/triangle.svg-3fa38160f149af2fe2a3f4ac5f78d65c.ctex"]
+source_file="res://Shapes/Pattern-Square.png"
+dest_files=["res://.godot/imported/Pattern-Square.png-5c7137ff2c1d354ede0bb3aa99106bf7.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

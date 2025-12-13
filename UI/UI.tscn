@@ -53,7 +53,6 @@ text = "Choose Pattern Motif"
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 1
-visible = true
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.png", "*.svg")

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_qwknm"]
 [ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://templates/01_Superpositions_Géometriques_MainScript.gd" id="1_um0o5"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="2_dlh1b"]
-[ext_resource type="Texture2D" uid="uid://ccad0eu6urbi4" path="res://Svg/Squarewhite2.svg" id="3_qwknm"]
+[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_dlh1b"]
 [ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_dlh1b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m48li"]
@@ -32,8 +32,8 @@ offset_bottom = 1183.0
 [node name="Square" parent="." index="1"]
 z_index = 2
 position = Vector2(1023, 499)
-scale = Vector2(1, 1)
-texture = ExtResource("3_qwknm")
+scale = Vector2(0.2955854, 0.2955852)
+texture = ExtResource("3_dlh1b")
 
 [node name="ColorRect2" type="ColorRect" parent="." index="2"]
 z_index = 1

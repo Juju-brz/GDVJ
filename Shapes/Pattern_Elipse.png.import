@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1i8ta5kk8nar"
-path="res://.godot/imported/Square.png-f0f17fdbdb24d5b1411dc4110d41bda5.ctex"
+uid="uid://cajeuy5m8y6we"
+path="res://.godot/imported/Pattern_Elipse.png-fbe220e77e9484c90f7c5a5e7854d5c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/Square.png"
-dest_files=["res://.godot/imported/Square.png-f0f17fdbdb24d5b1411dc4110d41bda5.ctex"]
+source_file="res://Shapes/Pattern_Elipse.png"
+dest_files=["res://.godot/imported/Pattern_Elipse.png-fbe220e77e9484c90f7c5a5e7854d5c5.ctex"]
 
 [params]
 

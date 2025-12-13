@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wbmbcwrbpj8n"
-path="res://.godot/imported/Circle.svg-dee985cde1e52da99af5fb38c1b7dc4c.ctex"
+uid="uid://cgnl036jr4jcq"
+path="res://.godot/imported/Pattern-Triangle.png-b44d3085508fcfa3d7fa198e5311eeb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Svg/Circle.svg"
-dest_files=["res://.godot/imported/Circle.svg-dee985cde1e52da99af5fb38c1b7dc4c.ctex"]
+source_file="res://Shapes/Pattern-Triangle.png"
+dest_files=["res://.godot/imported/Pattern-Triangle.png-b44d3085508fcfa3d7fa198e5311eeb6.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
