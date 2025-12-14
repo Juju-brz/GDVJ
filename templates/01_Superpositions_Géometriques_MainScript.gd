@@ -92,8 +92,11 @@ var thread_output: Array = []
 # ----------------------------------------------------------------------
 # 1. Configuration 
 # ----------------------------------------------------------------------
-const PYTHON_SCRIPT_RESOURCE_PATH = "res://QuantiqueTest.py"
-const VENV_PYTHON_RELATIVE_PATH = "ve/venv/Scripts/python.exe"
+var base_dir := OS.get_executable_path().get_base_dir()
+
+var python_exe := base_dir + "/python_env/Scripts/python.exe"
+var PYTHON_SCRIPT_RESOURCE_PATH = base_dir + "/QuantiqueTest.py"
+var VENV_PYTHON_RELATIVE_PATH = base_dir + "/ve/venv/Scripts/python.exe"
 
 # --- SCALING VARIABLES (Element-based) ---
 const TOTAL_CELLS = 90 # 10 columns * 9 rows
