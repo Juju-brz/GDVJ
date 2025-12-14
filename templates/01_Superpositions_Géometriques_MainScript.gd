@@ -56,7 +56,8 @@ var duplicated_spriteslist: Array = []
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
-const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" # <-- CHANGE THIS PATH!
+const NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+
 var hide_ui :bool = false
 
 #############################################################
@@ -67,7 +68,7 @@ var output: Array = []
 
 # Timer for calling the Python script
 var quantum_call_timer: float = 0.0
-const QUANTUM_CALL_INTERVAL: float = 5.5
+const QUANTUM_CALL_INTERVAL: float = 3.0 
 
 # Timer for the smooth interpolation (5 seconds)
 var lerp_time: float = 0.0
@@ -92,23 +93,31 @@ var thread_output: Array = []
 # ----------------------------------------------------------------------
 # 1. Configuration 
 # ----------------------------------------------------------------------
-var base_dir := OS.get_executable_path().get_base_dir()
+var base_dir: String = ""
 
-var python_exe := base_dir + "/python_env/Scripts/python.exe"
-var PYTHON_SCRIPT_RESOURCE_PATH = base_dir + "/QuantiqueTest.py"
-var VENV_PYTHON_RELATIVE_PATH = base_dir + "/ve/venv/Scripts/python.exe"
+func _init():
+	if OS.has_feature("editor"):
+		# We are in the Godot Editor: Use the project folder
+		base_dir = ProjectSettings.globalize_path("res://")
+	else:
+		# We are in the Exported Game: Use the executable's folder
+		base_dir = OS.get_executable_path().get_base_dir()
 
-# --- SCALING VARIABLES (Element-based) ---
+# Point to the frozen script executable (QuantiqueTest.exe)
+# IMPORTANT: Make sure QuantiqueTest.exe is in your project folder (next to project.godot)
+var QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
+
+# --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS = 90 # 10 columns * 9 rows
-# Max time to shrink (down to 0.1 scale)
-const SHRINK_DURATION: float = 0.4 
-# Max time to grow (back to 1.0 scale)
-const GROW_DURATION: float = 3.0
+# Max time to stop rotation (1.0 speed -> 0.0 speed, Ease Out)
+const STOP_DURATION: float = 0.4 
+# Max time to restart rotation (0.0 speed -> 1.0 speed, Ease In)
+const RESTART_DURATION: float = 3.0
 
 # Tracks the current animation progress/state for all 90 cells.
-var cell_scale_timer: Array[float] = [] 
-# Tracks the final scale target for each cell (0.1 when shrinking, 1.0 when growing)
-var cell_scale_target: Array[float] = [] 
+var cell_rotation_timer: Array[float] = [] 
+# Tracks the final rotation target (0.0=stop, 1.0=start)
+var cell_rotation_target: Array[float] = [] 
 # Tracks the current number of active cells to avoid repeated activation
 var target_active_count: int = 0
 #############################################################
@@ -121,14 +130,17 @@ func _ready() -> void:
 	
 	#################### Quantique and Python Setup
 	lerp_c = lerp_a 
-	print("VENV Path constructed:", _get_venv_python_path())
+	print("Quantique Executable Path configured as:", QUANTUM_EXE_PATH)
 	
-	# Initialize element-based scaling arrays
-	cell_scale_timer.resize(TOTAL_CELLS)
-	cell_scale_timer.fill(0.0)
-
-	cell_scale_target.resize(TOTAL_CELLS)
-	cell_scale_target.fill(1.0) # Start fully scaled up
+	# Trigger quantum call immediately
+	quantum_call_timer = QUANTUM_CALL_INTERVAL 
+	
+	# Initialize element-based rotation arrays
+	cell_rotation_timer.resize(TOTAL_CELLS)
+	cell_rotation_timer.fill(RESTART_DURATION) # Initialize as fully restarted
+	
+	cell_rotation_target.resize(TOTAL_CELLS)
+	cell_rotation_target.fill(1.0) # Target is 1.0 (full speed)
 	####################################### 
 	
 	# 1. SETUP VISUALS
@@ -170,9 +182,6 @@ func _ready() -> void:
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 		
 	print("!!! SCRIPT READY: Slower + Random Directions !!!")
-	# 3. CONNECT SIGNALS (Add this block)
-	# Ensure the button is connected to the function that will perform the switch
-
 
 
 func _process(delta: float) -> void:
@@ -182,12 +191,12 @@ func _process(delta: float) -> void:
 	process_random_cycle(delta)
 	
 	# Rotation and Background updates
-	overall_rotation += ROTATION_SPEED * delta 
+	overall_rotation += ROTATION_SPEED * delta
 	group_rotation += GROUP_ROTATION_SPEED * delta
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
-	queue_redraw() 
+	queue_redraw()
 	
 	########################################### Quantum Logic Flow
 	
@@ -216,21 +225,21 @@ func _process(delta: float) -> void:
 		# Update the smooth result (C)
 		lerp_c = lerp(lerp_a, lerp_b, t)
 
-	# --- 3. ELEMENT ANIMATION PROCESSING (NEW) ---
+	# --- 3. ELEMENT ANIMATION PROCESSING ---
 	for i in range(TOTAL_CELLS):
-		var target = cell_scale_target[i]
-		var current_time = cell_scale_timer[i]
+		var target = cell_rotation_target[i]
+		var current_time = cell_rotation_timer[i]
 		
-		# If the cell is fully shrunk (target 0.1) and timer is done, set target to 1.0 (grow)
-		if target == 0.1 and current_time >= SHRINK_DURATION:
-			cell_scale_target[i] = 1.0 # Prepare to grow back
-			cell_scale_timer[i] = 0.0  # Reset timer for the long growth phase
+		# If the cell is fully stopped (target 0.0) and timer is done, set target to 1.0 (restart)
+		if target == 0.0 and current_time >= STOP_DURATION:
+			cell_rotation_target[i] = 1.0 # Prepare to restart rotation
+			cell_rotation_timer[i] = 0.0  # Reset timer for the long restart phase
 		
 		# Update the timer regardless
-		cell_scale_timer[i] += delta
+		cell_rotation_timer[i] += delta
 		
 	# --- 4. CONTINUOUS ACTIVATION TRIGGER ---
-	update_cell_scaling() 
+	update_rotation_state() 
 		
 	# --- 2. QUANTUM CALL TIMER (Launch Thread) ---
 	quantum_call_timer += delta
@@ -343,24 +352,25 @@ func draw_board():
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	
-	# ------------------ ANIMATED SCALE LOOKUP ------------------
-	var current_scale = 1.0 # Default (no animation)
+	# ------------------ ANIMATED ROTATION LOOKUP ------------------
+	var current_rotation_speed = 1.0 # Default (full speed)
 	
 	if cell_index < TOTAL_CELLS:
-		var target = cell_scale_target[cell_index]
-		var current_time = cell_scale_timer[cell_index]
+		var target = cell_rotation_target[cell_index]
+		var current_time = cell_rotation_timer[cell_index]
 		
-		if target == 0.1: # SHRINKING PHASE (0.0 to 0.4 seconds, Ease Out)
-			var t = clamp(current_time / SHRINK_DURATION, 0.0, 1.0)
+		if target == 0.0: # STOPPING PHASE (1.0 speed -> 0.0 speed, Ease Out)
+			var t = clamp(current_time / STOP_DURATION, 0.0, 1.0)
 			var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
-			current_scale = lerp(1.0, target, ease_t)
+			current_rotation_speed = lerp(1.0, target, ease_t)
 			
-		elif target == 1.0: # GROWING PHASE (0.0 to 3.0 seconds, Ease In)
-			var t = clamp(current_time / GROW_DURATION, 0.0, 1.0)
+		elif target == 1.0: # RESTARTING PHASE (0.0 speed -> 1.0 speed, Ease In)
+			var t = clamp(current_time / RESTART_DURATION, 0.0, 1.0)
 			var ease_t = pow(t, 3) # Cubic Ease In
-			current_scale = lerp(0.1, target, ease_t)
+			current_rotation_speed = lerp(0.0, target, ease_t)
 			
-	var final_multiplier = current_scale 
+	# The final speed multiplier for this cell's rotation
+	var final_rotation_multiplier = current_rotation_speed 
 
 	# Helper to create sprite
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
@@ -369,13 +379,11 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 		add_child(s)
 		s.position = location
 		
-		# Apply the rotation (unchanged)
-		s.rotation = rot_angle_rad + (group_rotation * rot_dir)
+		# APPLY ROTATION SPEED MULTIPLIER HERE
+		# We multiply the group rotation by the cell's speed multiplier
+		s.rotation = rot_angle_rad + (group_rotation * rot_dir * final_rotation_multiplier)
 		
-		# APPLY ELEMENT-SPECIFIC SCALE MULTIPLIER
-		var final_scale = sprite_scale * final_multiplier
-		
-		s.scale = Vector2(final_scale, final_scale)
+		s.scale = Vector2(sprite_scale, sprite_scale)
 		s.visible = true 
 		s.modulate.a = 1.0
 		s.show()
@@ -461,25 +469,23 @@ func _draw():
 # Quantique FUNCTIONS
 ################################################################
 
-func _get_venv_python_path() -> String:
-	var project_root_path = ProjectSettings.globalize_path("res://")
-	return project_root_path.path_join(VENV_PYTHON_RELATIVE_PATH)
-
 # --- THREAD FUNCTION (Runs in background) ---
 func _run_quantum_in_thread(): 
-	var script_path = ProjectSettings.globalize_path(PYTHON_SCRIPT_RESOURCE_PATH)
-	var python_executable_path = _get_venv_python_path()
+	# Use the new variable defined above
+	var executable_path = QUANTUM_EXE_PATH
 	var output_buffer: Array = []
 	
-	# --- EXECUTION CHECK (CRITICAL FOR DEBUGGING) ---
-	if not FileAccess.file_exists(python_executable_path):
+	# 1. Check if file exists
+	if not FileAccess.file_exists(executable_path):
 		thread_mutex.lock()
-		thread_output = ["FATAL ERROR: Python executable not found at: " + python_executable_path]
+		thread_output = ["FATAL ERROR: Quantum Executable not found at: " + executable_path]
 		thread_data_ready = true
 		thread_mutex.unlock()
-		return # Exit thread early
+		return 
 	
-	var exit_code = OS.execute(python_executable_path, [script_path], output_buffer, true)
+	# 2. Execute directly (No arguments needed if the logic is self-contained)
+	# Note: We pass an empty array [] for arguments because the script is baked inside the exe
+	var exit_code = OS.execute(executable_path, [], output_buffer, true)
 	
 	thread_mutex.lock()
 	
@@ -487,17 +493,17 @@ func _run_quantum_in_thread():
 		thread_output = output_buffer
 		thread_data_ready = true
 	else:
-		# Enhanced error reporting
-		var error_msg = "PYTHON EXECUTION FAILED.\n"
+		var error_msg = "QUANTUM EXECUTION FAILED.\n"
 		error_msg += "Exit Code: " + str(exit_code) + "\n"
-		error_msg += "Executable Path Used: " + python_executable_path + "\n"
+		error_msg += "Path Used: " + executable_path + "\n"
 		if output_buffer.size() > 0:
-			error_msg += "Python Error Output (STDOUT):\n" + output_buffer[0]
+			error_msg += "Output: " + output_buffer[0]
 		
 		thread_output = [error_msg]
 		thread_data_ready = true
 		
 	thread_mutex.unlock()
+
 # --- QUANTUM CALLER (Launches the thread) ---
 func get_quantum_random():
 	if quantum_thread != null and quantum_thread.is_started():
@@ -519,8 +525,10 @@ func _convert_quantum_result_to_float(result_string: String) -> float:
 	return float(integer_value) / MAX_VALUE
 
 # --- DATA HANDLER (Updates LERP when data arrives from thread) ---
-# --- DATA HANDLER (Updates LERP when data arrives from thread) ---
 func _handle_new_quantum_data(data: Dictionary):
+	# --- ADD THIS DEBUG LINE ---
+	print("RAW PYTHON DATA:", data) 
+	# ---------------------------
 	# 1. Update debug variables
 	last_entangled_result = str(data.get("entangled_result", "Error"))
 	last_qubit_count = int(data.get("qubit_count", 0))
@@ -537,12 +545,9 @@ func _handle_new_quantum_data(data: Dictionary):
 	lerp_time = 0.0
 
 	# 4. Set the new target count based on the normalized quantum value.
-	#    --- CRITICAL CHANGE: MULTIPLY COUNT BY 0.5 ---
-	
-	# Calculate the normalized quantum float (0.0 to 1.0)
 	var normalized_quantum_float = _convert_quantum_result_to_float(last_entangled_result)
 	
-	# Apply 0.5 multiplier before rounding and converting to the target cell count
+	# Apply 0.5 multiplier (or other factor) before rounding to reduce active count
 	var reduced_target_float = normalized_quantum_float * 0.5
 	
 	# The final target count (0 to 45 cells)
@@ -555,39 +560,37 @@ func _handle_new_quantum_data(data: Dictionary):
 	print("Qubit Result (Decimal): ", last_entangled_result)
 	print("Calculated Active Cells (0-45): ", target_active_count)
 
-# --- CONTINUOUS SCALING ACTIVATION (Called every frame via _process) ---
-func update_cell_scaling():
+# --- CONTINUOUS ROTATION ACTIVATION (Called every frame via _process) ---
+func update_rotation_state():
 	
-	# 1. Count how many cells are currently animating (target 0.1 or 1.0)
+	# 1. Count how many cells are currently animating (stopping or restarting)
 	var currently_animating = 0
 	for i in range(TOTAL_CELLS):
-		# A cell is animating if it's currently shrinking (target 0.1) 
-		# OR if it's growing back (target 1.0 but hasn't finished the GROW_DURATION time yet)
-		if cell_scale_target[i] == 0.1 or cell_scale_timer[i] < GROW_DURATION:
+		# A cell is animating if it's currently stopping (target 0.0) 
+		# OR if it's restarting (target 1.0 but hasn't finished the RESTART_DURATION time yet)
+		if cell_rotation_target[i] == 0.0 or cell_rotation_timer[i] < RESTART_DURATION:
 			currently_animating += 1
 
 	# 2. If the current animation count is below the quantum-driven target count, 
-	#    find a random idle cell and start its shrink animation.
+	#    find a random idle cell and start its stop rotation animation.
 	if currently_animating < target_active_count:
 		
-		# Find all cells that are currently idle (target 1.0 AND finished growing)
+		# Find all cells that are currently idle (target 1.0 AND finished restarting)
 		var idle_indices = []
 		for i in range(TOTAL_CELLS):
-			if cell_scale_target[i] == 1.0 and cell_scale_timer[i] >= GROW_DURATION:
+			if cell_rotation_target[i] == 1.0 and cell_rotation_timer[i] >= RESTART_DURATION:
 				idle_indices.append(i)
 		
-		# If there are idle cells, randomly select one to shrink
+		# If there are idle cells, randomly select one to stop
 		if idle_indices.size() > 0:
 			var cell_index = idle_indices.pick_random()
-			cell_scale_target[cell_index] = 0.1 # Shrink target
-			cell_scale_timer[cell_index] = 0.0 # Start timer for SHRINK_DURATION
+			cell_rotation_target[cell_index] = 0.0 # Stop target
+			cell_rotation_timer[cell_index] = 0.0 # Start timer for STOP_DURATION
 
 
 func _on_next_tpt_pressed() -> void:
 	# 1. Close the external Python thread cleanly (important!)
-	# We don't want the thread trying to write back to the old, closing scene.
 	if quantum_thread != null and quantum_thread.is_started():
-		# Stop the thread if Qiskit is still running
 		quantum_thread.wait_to_finish() 
 		quantum_thread = null
 
@@ -595,6 +598,6 @@ func _on_next_tpt_pressed() -> void:
 	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
 
 	if error != OK:
-		# Handle the error if the scene file wasn.t found
+		# Handle the error if the scene file wasn't found
 		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
 	print("Error code: ", error)
