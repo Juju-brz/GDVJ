@@ -186,8 +186,7 @@ func toggle_ui():
 	else:
 		control.hide(); BG.hide(); hide_ui = true
 
-func _close_all_ui():
-	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
+
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("hide_all_ctrl"): toggle_ui()

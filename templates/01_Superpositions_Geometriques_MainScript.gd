@@ -93,7 +93,7 @@ func _init():
 var QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
-const TOTAL_CELLS = 90 # 10 columns * 9 rows
+const TOTAL_CELLS : int= 90 # 10 columns * 9 rows
 # Max time to stop rotation (1.0 speed -> 0.0 speed, Ease Out)
 const STOP_DURATION: float = 0.4 
 # Max time to restart rotation (0.0 speed -> 1.0 speed, Ease In)
@@ -127,8 +127,8 @@ func _ready() -> void:
 		backsquare.hide()
 	
 	# Generate Stamps
-	var current_angle = 45.0
-	var add_small_step = true 
+	var current_angle : float = 45.0
+	var add_small_step : bool = true 
 	while current_angle < 3600.0:
 		stamp_angles.append(deg_to_rad(current_angle))
 		if add_small_step:
@@ -331,24 +331,6 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 
 
 
-
-func _on_file_selected(path: String):
-	var image = Image.new()
-	if image.load(path) != OK: return
-	var new_tex = ImageTexture.create_from_image(image)
-	
-	if original_sprite:
-		original_sprite.texture = new_tex
-	
-	_close_all_ui()
-
-#func _close_all_ui():
-	#control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
-
-
-
-
-
 func update_rotation_state():
 	
 	# 1. Count how many cells are currently animating (stopping or restarting)
@@ -374,12 +356,3 @@ func update_rotation_state():
 			var cell_index = idle_indices.pick_random()
 			cell_rotation_target[cell_index] = 0.0 # Stop target
 			cell_rotation_timer[cell_index] = 0.0 # Start timer for STOP_DURATION
-
-
-#func _on_next_tpt_pressed() -> void:
-#
-	#var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-	#if error != OK:
-		## Handle the error if the scene file wasn't found
-		#print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
-	#print("Error code: ", error)
