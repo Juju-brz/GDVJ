@@ -1,4 +1,4 @@
-extends Node2D
+extends mainScript
 class_name StarGridRandomRotate
 
 # ---------------------------------------------------------
@@ -45,20 +45,11 @@ var duplicated_spriteslist: Array = []
 # VARIABLES: UI & CONTROLS
 # ---------------------------------------------------------
 
-@onready var control = $Control
-@onready var BG = $BG_For_Controls
-@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square  
-@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
 const NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
-var hide_ui :bool = false
+#var hide_ui :bool = false
 
-#############################################################
-# Quantique VARIABLES
-#############################################################
-# The array to hold the raw output from the external process
+
 var output: Array = []
 
 # Timer for calling the Python script
@@ -115,20 +106,12 @@ var cell_rotation_timer: Array[float] = []
 var cell_rotation_target: Array[float] = [] 
 # Tracks the current number of active cells to avoid repeated activation
 var target_active_count: int = 0
-#############################################################
 
 # ---------------------------------------------------------
 # LIFECYCLE FUNCTIONS
 # ---------------------------------------------------------
 
 func _ready() -> void:
-	
-	#################### Quantique and Python Setup
-	lerp_c = lerp_a 
-	print("Quantique Executable Path configured as:", QUANTUM_EXE_PATH)
-	
-	# Trigger quantum call immediately
-	quantum_call_timer = QUANTUM_CALL_INTERVAL 
 	
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
@@ -347,12 +330,7 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	create_sprite.call(overall_rotation, scale_ghost)
 
 
-# ---------------------------------------------------------
-# IMAGE CHANGING LOGIC
-# ---------------------------------------------------------
 
-func open_dialog():
-	dialogue_change_image.popup_centered()
 
 func _on_file_selected(path: String):
 	var image = Image.new()
@@ -364,8 +342,8 @@ func _on_file_selected(path: String):
 	
 	_close_all_ui()
 
-func _close_all_ui():
-	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
+#func _close_all_ui():
+	#control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
 
 
 
