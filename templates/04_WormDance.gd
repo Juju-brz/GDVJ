@@ -34,7 +34,7 @@ var trail_velocities: Array[Vector2] = []
 #@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 #@onready var original_sprite = $Square  
 #@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
-const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
+#const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 
 #var hide_ui :bool = false
 
@@ -85,7 +85,7 @@ func _ready() -> void:
 	lerp_c = lerp_a 
 	quantum_call_timer = QUANTUM_CALL_INTERVAL 
 	print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
-	
+	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
@@ -256,25 +256,3 @@ func _run_quantum_in_thread():
 		thread_output = [error_msg]
 		thread_data_ready = true
 	thread_mutex.unlock()
-
-
-
-#func _convert_quantum_result_to_float(result_string: String) -> float:
-	#return float(int(result_string))
-
-#func _handle_new_quantum_data(data: Dictionary):
-	#last_entangled_result = str(data.get("entangled_result", "0"))
-	#var new_target = _convert_quantum_result_to_float(last_entangled_result)
-#
-	#lerp_a = lerp_c 
-	#lerp_b = new_target
-	#lerp_time = 0.0
-
-
-
-func _on_next_tpt_pressed() -> void:
-	if quantum_thread != null and quantum_thread.is_started():
-		quantum_thread.wait_to_finish() 
-		quantum_thread = null
-	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-	if error != OK: print("SCENE ERROR: ", error)

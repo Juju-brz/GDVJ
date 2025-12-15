@@ -17,7 +17,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 var array_points: Array[Vector2] = []
 
 
-const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
+#const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
 # Trackers
 
 var duplicated_spriteslist = []
@@ -38,7 +38,7 @@ var GRADIENT_ANGLE_SPEED: float = 10.0
 
 func _ready() -> void:
 	print("--- SCRIPT STARTED ---")
-	
+	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
 	# 1. SAFETY: Create a placeholder texture if missing
 	# This ensures you see SOMETHING even if the sprite is empty
 	if original_sprite.texture == null:
@@ -213,14 +213,3 @@ func _on_file_selected(path: String):
 			
 	_close_all_ui()
 	
-func _on_next_tpt_pressed() -> void:
-	# 1. Close the external Python thread cleanly (important!)
-	# We don't want the thread trying to write back to the old, closing scene.
-
-	# 2. Get the SceneTree and change the scene
-	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-
-	if error != OK:
-		# Handle the error if the scene file wasn.t found
-		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
-	print("Error code: ", error)

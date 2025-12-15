@@ -45,7 +45,6 @@ var duplicated_spriteslist: Array = []
 # VARIABLES: UI & CONTROLS
 # ---------------------------------------------------------
 
-const NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
 #var hide_ui :bool = false
 
@@ -112,7 +111,8 @@ var target_active_count: int = 0
 # ---------------------------------------------------------
 
 func _ready() -> void:
-	
+	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
 	cell_rotation_timer.fill(RESTART_DURATION) # Initialize as fully restarted
@@ -198,9 +198,9 @@ func clear_board():
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-func getmouse():
-	var mouse_pos = get_viewport().get_mouse_position()
-	return mouse_pos
+#func getmouse():
+	#var mouse_pos = get_viewport().get_mouse_position()
+	#return mouse_pos
 
 func draw_board():
 	if not original_sprite: return
@@ -376,16 +376,10 @@ func update_rotation_state():
 			cell_rotation_timer[cell_index] = 0.0 # Start timer for STOP_DURATION
 
 
-func _on_next_tpt_pressed() -> void:
-	# 1. Close the external Python thread cleanly (important!)
-	if quantum_thread != null and quantum_thread.is_started():
-		quantum_thread.wait_to_finish() 
-		quantum_thread = null
-
-	# 2. Get the SceneTree and change the scene
-	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-
-	if error != OK:
-		# Handle the error if the scene file wasn't found
-		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
-	print("Error code: ", error)
+#func _on_next_tpt_pressed() -> void:
+#
+	#var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+	#if error != OK:
+		## Handle the error if the scene file wasn't found
+		#print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	#print("Error code: ", error)
