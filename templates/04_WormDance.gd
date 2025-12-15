@@ -73,7 +73,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	time_passed += delta
 	
-
 	update_trail_physics(delta)
 
 

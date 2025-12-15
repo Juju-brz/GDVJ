@@ -234,7 +234,6 @@ func draw_board(delta):
 
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
-	
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
 	var current_rotation_speed = 1.0 # Default (full speed)
 	
