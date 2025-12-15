@@ -21,6 +21,7 @@ ROTATION_SPEED = 0.17453292519943295
 GROUP_ROTATION_SPEED = 0.08726646259971647
 GRADIENT_SPEED = 0.1
 GRADIENT_ANGLE_SPEED = 10.0
+joy_speed = 1.2
 
 [node name="ColorRect" parent="." index="0"]
 material = null
