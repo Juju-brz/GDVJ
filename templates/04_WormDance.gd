@@ -28,15 +28,7 @@ var trail_velocities: Array[Vector2] = []
 # VARIABLES: UI & CONTROLS
 # ---------------------------------------------------------
 
-#@onready var control = $Control
-#@onready var BG = $BG_For_Controls
-#@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-#@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-#@onready var original_sprite = $Square  
-#@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
-#const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 
-#var hide_ui :bool = false
 
 #############################################################
 # Quantique VARIABLES
@@ -55,36 +47,11 @@ var lerp_c: float = 0.0 # Raw 0-16
 
 var last_entangled_result: String = "N/A"
 
-# --- THREAD VARIABLES ---
-var quantum_thread: Thread = null
-var thread_mutex: Mutex = Mutex.new()
-var thread_data_ready: bool = false
-var thread_output: Array = []
-
-# ----------------------------------------------------------------------
-# 1. Configuration 
-# ----------------------------------------------------------------------
-var base_dir: String = ""
-var QUANTUM_EXE_PATH: String = ""
-
-#func _init():
-	#if OS.has_feature("editor"):
-		#base_dir = ProjectSettings.globalize_path("res://")
-	#else:
-		#base_dir = OS.get_executable_path().get_base_dir()
-	#
-	#QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
-	#
-#############################################################
-
-# ---------------------------------------------------------
-# LIFECYCLE FUNCTIONS
-# ---------------------------------------------------------
 
 func _ready() -> void:
-	lerp_c = lerp_a 
-	quantum_call_timer = QUANTUM_CALL_INTERVAL 
-	print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
+	#lerp_c = lerp_a 
+	#quantum_call_timer = QUANTUM_CALL_INTERVAL 
+	##print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
@@ -126,7 +93,6 @@ func _process(delta: float) -> void:
 	time_passed += delta
 	
 	# --- THREAD DATA HANDLING ---
-	thread_mutex.lock()
 
 	
 	# --- LERP SMOOTHING ---
@@ -209,11 +175,6 @@ func update_trail_physics(delta: float):
 		else:
 			# Fade out tail normally
 			s.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
-		
-
-# ---------------------------------------------------------
-# IMAGE LOGIC
-# ---------------------------------------------------------
 
 
 func _on_file_selected(path: String):
@@ -224,35 +185,3 @@ func _on_file_selected(path: String):
 	for s in trail_sprites:
 		s.texture = new_tex
 	_close_all_ui()
-
-func _close_all_ui():
-	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
-
-
-# ---------------------------------------------------------
-# QUANTUM LOGIC
-# ---------------------------------------------------------
-
-func _run_quantum_in_thread(): 
-	var executable_path = QUANTUM_EXE_PATH
-	var output_buffer: Array = []
-	
-	if not FileAccess.file_exists(executable_path):
-		thread_mutex.lock()
-		thread_output = ["FATAL ERROR: Quantum Executable not found at: " + executable_path]
-		thread_data_ready = true
-		thread_mutex.unlock()
-		return 
-	
-	var exit_code = OS.execute(executable_path, [], output_buffer, true)
-	
-	thread_mutex.lock()
-	if exit_code == 0 and output_buffer.size() > 0:
-		thread_output = output_buffer
-		thread_data_ready = true
-	else:
-		var error_msg = "QUANTUM EXECUTION FAILED.\n"
-		if output_buffer.size() > 0: error_msg += "Output: " + output_buffer[0]
-		thread_output = [error_msg]
-		thread_data_ready = true
-	thread_mutex.unlock()
