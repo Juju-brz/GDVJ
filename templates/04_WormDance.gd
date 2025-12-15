@@ -29,10 +29,6 @@ var trail_velocities: Array[Vector2] = []
 # ---------------------------------------------------------
 
 
-
-
-
-
 func _ready() -> void:
 	#lerp_c = lerp_a 
 	#quantum_call_timer = QUANTUM_CALL_INTERVAL 
@@ -45,7 +41,7 @@ func _ready() -> void:
 	if backsquare: backsquare.show()
 	
 	# 2. SPAWN TRAIL AT CENTER OF SCREEN
-	var viewport_center = get_viewport_rect().size / 2.0
+	var viewport_center = get_viewport_rect().size * 0.5
 	
 	for i in range(TRAIL_LENGTH):
 		var s = original_sprite.duplicate()
@@ -81,14 +77,14 @@ func _process(delta: float) -> void:
 	update_trail_physics(delta)
 
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("hide_all_ctrl"):
-		if hide_ui: control.show(); BG.show(); hide_ui = false
-		else: control.hide(); BG.hide(); hide_ui = true
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		get_tree().quit()
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("hide_all_ctrl"):
+		#if hide_ui: control.show(); BG.show(); hide_ui = false
+		#else: control.hide(); BG.hide(); hide_ui = true
+	#if Input.is_action_just_pressed("reset"):
+		#get_tree().reload_current_scene()
+	#if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		#get_tree().quit()
 
 
 # ---------------------------------------------------------
@@ -96,7 +92,7 @@ func _input(event: InputEvent) -> void:
 # ---------------------------------------------------------
 
 func update_trail_physics(delta: float):
-	var viewport_center = get_viewport_rect().size / 2.0
+	var viewport_center = get_viewport_rect().size * 0.5  
 	var mouse_pos = get_global_mouse_position()
 	
 	# --- 1. CALCULATE OPPOSITE (MIRROR) POSITION ---

@@ -77,8 +77,6 @@ func mouse_control():
 	var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
 	var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
 	return Vector2(norm_x, norm_y)
-	
-
 
 
 func joystick_control(delta: float) -> Vector2:

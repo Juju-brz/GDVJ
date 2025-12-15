@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://dn5hnojjq0cu2"]
+
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_w8uyb"]
+[ext_resource type="Script" uid="uid://chvs7d1s1gvft" path="res://templates/04_WormDance.gd" id="2_8in7r"]
+[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_cphf2"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="4_5k6ko"]
+[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_tq8hu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m48li"]
+resource_local_to_scene = true
+shader = ExtResource("4_5k6ko")
+
+[node name="Node2D" instance=ExtResource("1_w8uyb")]
+script = ExtResource("2_8in7r")
+
+[node name="ColorRect" parent="." index="0"]
+material = null
+offset_left = -130.0
+offset_top = -112.0
+offset_right = 2067.0
+offset_bottom = 1183.0
+
+[node name="Square" parent="." index="1"]
+z_index = 2
+position = Vector2(1023, 499)
+scale = Vector2(0.2955854, 0.2955852)
+texture = ExtResource("3_cphf2")
+
+[node name="ColorRect2" type="ColorRect" parent="." index="2"]
+z_index = 1
+material = SubResource("ShaderMaterial_m48li")
+offset_left = -262.0
+offset_top = -167.0
+offset_right = 2193.1455
+offset_bottom = 1225.0
+color = Color(1, 1, 1, 0)
+
+[node name="Control" parent="." index="3" instance=ExtResource("5_tq8hu")]
+
+[node name="BG_For_Controls" type="ColorRect" parent="." index="4"]
+visible = false
+z_index = 4
+offset_left = 22.0
+offset_top = 37.0
+offset_right = 1897.0
+offset_bottom = 1060.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.5568628)
