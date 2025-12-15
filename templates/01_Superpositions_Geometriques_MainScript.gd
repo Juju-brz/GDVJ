@@ -160,7 +160,8 @@ func _process(delta: float) -> void:
 	
 	queue_redraw()
 	clear_board()
-	draw_board()
+	if mouse_activation == true:
+		draw_board()
 
 
 
@@ -170,6 +171,13 @@ func clear_board():
 	duplicated_spriteslist.clear()
 
 
+func mouse_control():
+	var viewport_rect = get_viewport_rect()
+	#var mouse_pos = get_viewport().get_mouse_position()
+	
+	var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
+	var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
+	return Vector2(norm_x, norm_y)
 
 func draw_board():
 	if not original_sprite: return
@@ -191,18 +199,18 @@ func draw_board():
 	# --------------------------------------------------
 
 	# 1. Interactive Scales (Mouse)
-	var viewport_rect = get_viewport_rect()
-	#var mouse_pos = get_viewport().get_mouse_position()
+	#var viewport_rect = get_viewport_rect()
+	##var mouse_pos = get_viewport().get_mouse_position()
+	var mouse_norm = mouse_control() # .x & .y
+	#var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
+	#var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
 	
-	var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
-	var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
-	
-	var current_scale_outer = lerp(0.2, 0.8, norm_x) 
-	var current_scale_inner = lerp(0.1, 0.4, norm_y)
-	var current_scale_ghost = lerp(0.0, 0.15, norm_y)
+	var current_scale_outer = lerp(0.2, 0.8, mouse_norm.x) 
+	var current_scale_inner = lerp(0.1, 0.4, mouse_norm.y)
+	var current_scale_ghost = lerp(0.0, 0.15, mouse_norm.y)
 
 	# 2. Grid Calculations
-	var screen_center = viewport_rect.size * 0.5
+	var screen_center = get_viewport_rect().size * 0.5
 	var step = CELL_SIZE * 2.0
 	var total_width = GRID_COLUMNS * step
 	var total_height = GRID_ROWS * step

@@ -14,7 +14,7 @@ class_name  mainScript
 
 var hide_ui :bool = false
 var NEXT_SCENE_PATH = ""
-
+var mouse_activation = false
 
 #### FUNCTIONS ####
 func open_dialog():
@@ -61,3 +61,6 @@ func _input(event: InputEvent) -> void:
 		get_tree().reload_current_scene()
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		get_tree().quit()
+
+	if Input.is_action_just_pressed("mouse"):
+		mouse_activation = true
