@@ -1,4 +1,4 @@
-extends Node2D
+extends mainScript
 class_name BeautifulChaos
 
 #### VARIABLES ####
@@ -17,14 +17,14 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 var array_points: Array[Vector2] = []
 
 ### CONTROLS ###
-@onready var control = $Control
-@onready var BG = $BG_For_Controls
-@onready var slider = $Control/VBoxContainer/HSlider
-@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
-@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square
-@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+#@onready var control = $Control
+#@onready var BG = $BG_For_Controls
+#@onready var slider = $Control/VBoxContainer/HSlider
+#@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
+#@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
+#@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
+#@onready var original_sprite = $Square
+#@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
 const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
 # Trackers
 var hide_ui :bool = false

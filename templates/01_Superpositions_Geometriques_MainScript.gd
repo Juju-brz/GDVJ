@@ -1,4 +1,4 @@
-extends Node2D
+extends mainScript
 class_name StarGridRandomRotate
 
 # ---------------------------------------------------------
@@ -45,12 +45,12 @@ var duplicated_spriteslist: Array = []
 # VARIABLES: UI & CONTROLS
 # ---------------------------------------------------------
 
-@onready var control = $Control
-@onready var BG = $BG_For_Controls
-@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square  
-@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+#@onready var control = $Control
+#@onready var BG = $BG_For_Controls
+#@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
+#@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
+#@onready var original_sprite = $Square  
+#@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
 const NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
 var hide_ui :bool = false

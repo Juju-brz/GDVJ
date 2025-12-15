@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://g456p5ok7jm1"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_uylkl"]
-[ext_resource type="Script" uid="uid://bcwyiixxykkv8" path="res://scripts/01_Spiral_MainScript.gd" id="2_uylkl"]
+[ext_resource type="Script" uid="uid://bcwyiixxykkv8" path="res://templates/03_Spiral_MainScript.gd" id="2_uylkl"]
 [ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_uylkl"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="4_srw7j"]
 [ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_t3wfr"]
