@@ -70,10 +70,10 @@ var last_qubit_count: int = 0
 var last_quantum_state: String = "Idle"
 
 # --- THREAD VARIABLES (NON-BLOCKING EXECUTION) ---
-var quantum_thread: Thread = null
-var thread_mutex: Mutex = Mutex.new()
-var thread_data_ready: bool = false
-var thread_output: Array = []
+#var quantum_thread: Thread = null
+#var thread_mutex: Mutex = Mutex.new()
+#var thread_data_ready: bool = false
+#var thread_output: Array = []
 
 # ----------------------------------------------------------------------
 # 1. Configuration 

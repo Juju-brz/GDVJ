@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://b36s10wft8s3r"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_77fe4"]
-[ext_resource type="Texture2D" uid="uid://cxk1yqvdskdin" path="res://Svg/Square.svg" id="2_87oag"]
+[ext_resource type="Texture2D" path="res://Svg/Square.svg" id="2_87oag"]
 [ext_resource type="Script" uid="uid://db8kufyo2ktxk" path="res://templates/persian_pattern.gd" id="2_rak5h"]
-[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="3_jlpmm"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="3_jlpmm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wovf"]
 shader = ExtResource("3_jlpmm")

@@ -5,7 +5,7 @@
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_dhe1o"]
 number_color = Color(0.30875906, 0.5115807, 0.9547095, 1)
-symbol_color = Color(0.47058824, 0.5058824, 0.7882353, 1)
+symbol_color = Color(0.20757037, 0.6253251, 0.35961342, 1)
 function_color = Color(0.99215686, 0.79607844, 0, 1)
 member_variable_color = Color(0.9589761, 0.6601775, 0.754872, 1)
 
@@ -82,10 +82,17 @@ offset_bottom = 1040.0
 text = "shader_type canvas_item;
 
 void fragment() {
+
+
+	vec3 color1 = vec3(1.0, 0.5, 0.0); //orange
+	vec3 color2 = vec3(0.3, 0.4, 0.7); //blue
+	vec3 color3 = vec3(0.3, 1.0, 0.0); // green
 	vec2 uv = UV;
-	vec3 color = vec3(1.0, 1.0, 1.0);
-	COLOR = vec4(color, 1.0);
-}"
+
+	vec3 color = mix(color3, color2, uv.x + sin(TIME *0.5));
+	COLOR = vec4(color, 0.5);
+}
+"
 syntax_highlighter = SubResource("CodeHighlighter_dhe1o")
 highlight_all_occurrences = true
 highlight_current_line = true

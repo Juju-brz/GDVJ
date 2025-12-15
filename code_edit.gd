@@ -2,7 +2,8 @@ extends CodeEdit
 
 var hide = false
 @onready var code = $CodeEdit
-var shader_path = "res://shaders/shaderEmpty.gdshader"
+#var shader_path = "res://shaders/shaderEmpty.gdshader"
+var shader_path = "res://shaders/mainShader.gdshader"
 @onready var colorRect = get_node("../../ColorRect2")  # Remonte de deux niveaux
 
 func _ready():
