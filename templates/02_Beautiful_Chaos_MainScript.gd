@@ -96,20 +96,25 @@ func _process(delta: float) -> void:
 	handle_slider_logic()
 	
 	# 4. MOVE & SCALE SPRITES
-	update_sprites_transform()
+	update_sprites_transform(delta)
 
 
 
 
-func update_sprites_transform():
+func update_sprites_transform(delta):
 	# --- A. MOUSE INFLUENCE ---
 	var viewport_rect = get_viewport_rect()
-	var mouse_pos = get_viewport().get_mouse_position()
-	
-	var norm_x = clamp(mouse_pos.x / viewport_rect.size.x, 0.0, 1.0)
-	var norm_y = clamp(mouse_pos.y / viewport_rect.size.y, 0.0, 1.0)
-	
-	var target_scale = lerp(0.2, 1.5, norm_x) 
+	#var mouse_pos = get_viewport().get_mouse_position()
+	#
+	#var norm_x = clamp(mouse_pos.x / viewport_rect.size.x, 0.0, 1.0)
+	#var norm_y = clamp(mouse_pos.y / viewport_rect.size.y, 0.0, 1.0)
+	var mouse_norm
+	if mouse_activation == true:
+		mouse_norm = mouse_control() # .x & .y
+	if mouse_activation == false:
+		mouse_norm = joystick_control(delta)
+		
+	var target_scale = lerp(0.2, 1.5, mouse_norm.x) 
 	
 	# --- B. CENTER GRID ON SCREEN ---
 	# Instead of using original_sprite.position, we calculate the screen center
@@ -148,7 +153,7 @@ func update_sprites_transform():
 			
 			# 3. SCALE & ROTATION
 			sprite.scale = Vector2(target_scale, target_scale)
-			var rotation_influence = lerp(1.0, 5.0, norm_y) 
+			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y) 
 			sprite.rotation = overall_rotation + (col * 0.1) * rotation_influence
 
 
@@ -188,11 +193,11 @@ func toggle_ui():
 
 
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("hide_all_ctrl"): toggle_ui()
-	if Input.is_action_just_pressed("reset"): get_tree().reload_current_scene()
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		get_tree().quit()
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("hide_all_ctrl"): toggle_ui()
+	#if Input.is_action_just_pressed("reset"): get_tree().reload_current_scene()
+	#if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		#get_tree().quit()
 
 func _on_file_selected(path: String):
 	var image = Image.new()
