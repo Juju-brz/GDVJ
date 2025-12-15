@@ -13,15 +13,11 @@ var chaos_level: float = 0.0
 
 # --- ROTATION & TIME ---
 var time_passed: float = 0.0
-@export var SPIRAL_SPEED: float = 2.0
+var SPIRAL_SPEED: float = 2.0
 
 # --- BACKGROUND COLORS ---
 @onready var backsquare = $ColorRect 
-const COLOR_PALETTE: Array[Color] = [
-	Color("050505"), # Nearly Black
-	Color("1a000d"), # Deep Dark Red
-	Color("001a1a")  # Deep Dark Teal
-]
+
 
 # --- SPRITE MANAGEMENT ---
 var trail_sprites: Array[Sprite2D] = []
@@ -40,7 +36,7 @@ var trail_velocities: Array[Vector2] = []
 #@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
 const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 
-var hide_ui :bool = false
+#var hide_ui :bool = false
 
 #############################################################
 # Quantique VARIABLES
@@ -71,14 +67,14 @@ var thread_output: Array = []
 var base_dir: String = ""
 var QUANTUM_EXE_PATH: String = ""
 
-func _init():
-	if OS.has_feature("editor"):
-		base_dir = ProjectSettings.globalize_path("res://")
-	else:
-		base_dir = OS.get_executable_path().get_base_dir()
-	
-	QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
-	
+#func _init():
+	#if OS.has_feature("editor"):
+		#base_dir = ProjectSettings.globalize_path("res://")
+	#else:
+		#base_dir = OS.get_executable_path().get_base_dir()
+	#
+	#QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
+	#
 #############################################################
 
 # ---------------------------------------------------------
@@ -128,20 +124,10 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time_passed += delta
-	update_background(delta)
 	
 	# --- THREAD DATA HANDLING ---
 	thread_mutex.lock()
-	if thread_data_ready:
-		var json_result = thread_output[0]
-		var json_data = JSON.parse_string(json_result)
-		if json_data != null and typeof(json_data) == TYPE_DICTIONARY:
-			_handle_new_quantum_data(json_data) 
-		else:
-			print("JSON Error:", json_result)
-		thread_data_ready = false
-		thread_output.clear()
-	thread_mutex.unlock()
+
 	
 	# --- LERP SMOOTHING ---
 	if lerp_time < LERP_DURATION:
@@ -150,14 +136,7 @@ func _process(delta: float) -> void:
 		lerp_c = lerp(lerp_a, lerp_b, t)
 		chaos_level = clamp(lerp_c / 16.0, 0.0, 1.0)
 
-	# --- CALL TIMER ---
-	quantum_call_timer += delta
-	if quantum_call_timer >= QUANTUM_CALL_INTERVAL:
-		if quantum_thread == null or not quantum_thread.is_started():
-			get_quantum_random()
-			quantum_call_timer = 0.0 
-	
-	# UPDATE VISUALS
+
 	update_trail_physics(delta)
 
 
@@ -231,27 +210,11 @@ func update_trail_physics(delta: float):
 			# Fade out tail normally
 			s.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
 		
-		# Glitch Color Overrides
-		if chaos_level > 0.8 and randf() < 0.05 and i > 0:
-			s.modulate = Color(1, 0, 0, 0.8)
-		elif i > 0:
-			# Reset color but keep alpha calculated above
-			s.modulate = Color(1, 1, 1, s.modulate.a)
-
-
-func update_background(delta: float):
-	if !backsquare: return
-	var target_col = COLOR_PALETTE[0]
-	if chaos_level > 0.6:
-		target_col = COLOR_PALETTE[1] 
-	backsquare.color = backsquare.color.lerp(target_col, delta * 2.0)
-
 
 # ---------------------------------------------------------
 # IMAGE LOGIC
 # ---------------------------------------------------------
 
-func open_dialog(): dialogue_change_image.popup_centered()
 
 func _on_file_selected(path: String):
 	var image = Image.new()
@@ -294,24 +257,20 @@ func _run_quantum_in_thread():
 		thread_data_ready = true
 	thread_mutex.unlock()
 
-func get_quantum_random():
-	if quantum_thread != null and quantum_thread.is_started(): return
-	quantum_thread = Thread.new()
-	quantum_thread.start(self._run_quantum_in_thread)
 
-func _convert_quantum_result_to_float(result_string: String) -> float:
-	return float(int(result_string))
 
-func _handle_new_quantum_data(data: Dictionary):
-	last_entangled_result = str(data.get("entangled_result", "0"))
-	var new_target = _convert_quantum_result_to_float(last_entangled_result)
+#func _convert_quantum_result_to_float(result_string: String) -> float:
+	#return float(int(result_string))
 
-	lerp_a = lerp_c 
-	lerp_b = new_target
-	lerp_time = 0.0
+#func _handle_new_quantum_data(data: Dictionary):
+	#last_entangled_result = str(data.get("entangled_result", "0"))
+	#var new_target = _convert_quantum_result_to_float(last_entangled_result)
+#
+	#lerp_a = lerp_c 
+	#lerp_b = new_target
+	#lerp_time = 0.0
 
-	print("--- Bio-Spiral Update ---")
-	print("Raw Lerp Target: ", lerp_b)
+
 
 func _on_next_tpt_pressed() -> void:
 	if quantum_thread != null and quantum_thread.is_started():

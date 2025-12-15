@@ -29,7 +29,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 #@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
 const NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 # Trackers
-var hide_ui :bool = false
+#var hide_ui :bool = false
 var duplicated_spriteslist = []
 @onready var old_slider_val_int: int = int(slider.value)
 
@@ -37,7 +37,6 @@ var duplicated_spriteslist = []
 #### LIFECYCLE ####
 
 func _ready() -> void:
-	print("--- SCRIPT STARTED (SPIRAL MODE) ---")
 	
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
@@ -73,8 +72,7 @@ func _ready() -> void:
 	for i in range(start_count):
 		increment()
 
-func open_dialog():
-	dialogue_change_image.popup_centered()
+
 
 func _process(delta: float) -> void:
 	# 1. UPDATE TIMERS

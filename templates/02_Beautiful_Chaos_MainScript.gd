@@ -16,30 +16,18 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 # --- DATA ARRAYS ---
 var array_points: Array[Vector2] = []
 
-### CONTROLS ###
-#@onready var control = $Control
-#@onready var BG = $BG_For_Controls
-#@onready var slider = $Control/VBoxContainer/HSlider
-#@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
-#@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-#@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-#@onready var original_sprite = $Square
-#@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
+
 const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
 # Trackers
-var hide_ui :bool = false
+
 var duplicated_spriteslist = []
 @onready var old_slider_val_int: int = int(slider.value)
 @onready var old_slider_spacing_val: float = slider_spacing.value
 
 # --- BACKGROUND GRADIENT VARIABLES ---
 @onready var backsquare = $ColorRect 
-const COLOR_PALETTE: Array[Color] = [
-	Color("000033"), # Dark Blue
-	Color("330033"), # Dark Magenta
-	Color("003333"), # Dark Cyan
-	Color("000000")  # Black
-]
+
+
 var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
 var GRADIENT_SPEED: float = 0.1
@@ -111,37 +99,7 @@ func _process(delta: float) -> void:
 	update_sprites_transform()
 
 
-# --- BACKGROUND DRAWING ---
-func _draw():
-	var viewport_size = get_viewport_rect().size
-	var center = viewport_size / 2.0
-	
-	var color_a = get_gradient_color(current_color_time)
-	var color_b = get_gradient_color(current_color_time + 1.0)
-	
-	# Draw background BEHIND everything (default behavior)
-	var radius = viewport_size.length() 
-	var angle = deg_to_rad(current_gradient_angle)
-	
-	var tl = center + Vector2(-radius, -radius).rotated(angle)
-	var tr = center + Vector2(radius, -radius).rotated(angle)
-	var br = center + Vector2(radius, radius).rotated(angle)
-	var bl = center + Vector2(-radius, radius).rotated(angle)
-	
-	var points = PackedVector2Array([tl, tr, br, bl])
-	var colors = PackedColorArray([color_a, color_b, color_b, color_a])
-	
-	draw_polygon(points, colors)
 
-func get_gradient_color(time_val: float) -> Color:
-	var size = COLOR_PALETTE.size()
-	var idx = int(time_val) % size
-	var next_idx = (idx + 1) % size
-	var t = time_val - float(int(time_val))
-	return COLOR_PALETTE[idx].lerp(COLOR_PALETTE[next_idx], t)
-
-
-#### THE UNIFIED LOGIC ####
 
 func update_sprites_transform():
 	# --- A. MOUSE INFLUENCE ---
