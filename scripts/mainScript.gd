@@ -48,3 +48,16 @@ func _on_next_tpt_pressed() -> void:
 func getmouse() -> Vector2:
 	var mouse_pos = get_viewport().get_mouse_position()
 	return mouse_pos
+
+func _input(event: InputEvent) -> void:
+	# Toggle UI
+	if Input.is_action_just_pressed("hide_all_ctrl"):
+		if hide_ui:
+			control.show(); BG.show(); hide_ui = false
+		else:
+			control.hide(); BG.hide(); hide_ui = true
+			
+	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		get_tree().quit()

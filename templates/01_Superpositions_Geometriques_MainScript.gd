@@ -46,9 +46,6 @@ var duplicated_spriteslist: Array = []
 # ---------------------------------------------------------
 
 
-#var hide_ui :bool = false
-
-
 var output: Array = []
 
 # Timer for calling the Python script
@@ -60,9 +57,9 @@ var lerp_time: float = 0.0
 const LERP_DURATION: float = 5.0      # Time taken for the smooth transition
 
 # --- LERP STATE VARIABLES ---
-var lerp_a: float = 0.0 
-var lerp_b: float = 0.0 
-var lerp_c: float = 0.0 
+#var lerp_a: float = 0.0 
+#var lerp_b: float = 0.0 
+#var lerp_c: float = 0.0 
 
 # Global variables to store the last result (for debugging)
 var last_entangled_result: String = "N/A"
@@ -80,17 +77,7 @@ var thread_output: Array = []
 # ----------------------------------------------------------------------
 var base_dir: String = ""
 
-func _init():
-	if OS.has_feature("editor"):
-		# We are in the Godot Editor: Use the project folder
-		base_dir = ProjectSettings.globalize_path("res://")
-	else:
-		# We are in the Exported Game: Use the executable's folder
-		base_dir = OS.get_executable_path().get_base_dir()
 
-# Point to the frozen script executable (QuantiqueTest.exe)
-# IMPORTANT: Make sure QuantiqueTest.exe is in your project folder (next to project.godot)
-#var QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int= 90 # 10 columns * 9 rows
@@ -119,7 +106,6 @@ func _ready() -> void:
 	
 	cell_rotation_target.resize(TOTAL_CELLS)
 	cell_rotation_target.fill(1.0) # Target is 1.0 (full speed)
-	####################################### 
 	
 	# 1. SETUP VISUALS
 	original_sprite.hide()
@@ -159,7 +145,6 @@ func _ready() -> void:
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 		
-	print("!!! SCRIPT READY: Slower + Random Directions !!!")
 
 
 func _process(delta: float) -> void:
@@ -178,29 +163,13 @@ func _process(delta: float) -> void:
 	draw_board()
 
 
-func _input(event: InputEvent) -> void:
-	# Toggle UI
-	if Input.is_action_just_pressed("hide_all_ctrl"):
-		if hide_ui:
-			control.show(); BG.show(); hide_ui = false
-		else:
-			control.hide(); BG.hide(); hide_ui = true
-			
-	if Input.is_action_just_pressed("reset"):
-		get_tree().reload_current_scene()
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		get_tree().quit()
-
-
 
 func clear_board():
 	for sprite in duplicated_spriteslist:
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-#func getmouse():
-	#var mouse_pos = get_viewport().get_mouse_position()
-	#return mouse_pos
+
 
 func draw_board():
 	if not original_sprite: return

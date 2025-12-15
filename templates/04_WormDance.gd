@@ -30,22 +30,7 @@ var trail_velocities: Array[Vector2] = []
 
 
 
-#############################################################
-# Quantique VARIABLES
-#############################################################
-var output: Array = []
-var quantum_call_timer: float = 0.0
 
-# --- FAST INTERVALS ---
-const QUANTUM_CALL_INTERVAL: float = 0.5 
-var lerp_time: float = 0.0
-const LERP_DURATION: float = 0.5      
-
-var lerp_a: float = 0.0 
-var lerp_b: float = 0.0 
-var lerp_c: float = 0.0 # Raw 0-16
-
-var last_entangled_result: String = "N/A"
 
 
 func _ready() -> void:
@@ -92,16 +77,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	time_passed += delta
 	
-	# --- THREAD DATA HANDLING ---
-
-	
-	# --- LERP SMOOTHING ---
-	if lerp_time < LERP_DURATION:
-		lerp_time += delta
-		var t = clamp(lerp_time / LERP_DURATION, 0.0, 1.0) 
-		lerp_c = lerp(lerp_a, lerp_b, t)
-		chaos_level = clamp(lerp_c / 16.0, 0.0, 1.0)
-
 
 	update_trail_physics(delta)
 
