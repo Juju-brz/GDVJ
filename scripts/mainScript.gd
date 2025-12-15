@@ -92,3 +92,12 @@ func joystick_control(delta: float) -> Vector2:
 		joy_pos = joy_pos.clamp(Vector2.ZERO, Vector2.ONE)
 
 	return joy_pos
+
+
+func control_norm(delta):
+	var control_norm
+	if mouse_activation == true:
+		control_norm = mouse_control() # .x & .y
+	if mouse_activation == false:
+		control_norm = joystick_control(delta)
+	return control_norm

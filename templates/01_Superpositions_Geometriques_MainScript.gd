@@ -170,32 +170,6 @@ func clear_board():
 	duplicated_spriteslist.clear()
 
 
-#func mouse_control():
-	#var viewport_rect = get_viewport_rect()
-	##var mouse_pos = get_viewport().get_mouse_position()
-	#
-	#var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
-	#var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
-	#return Vector2(norm_x, norm_y)
-	#
-#
-#var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
-#@export var joy_speed := 1.2
-#
-#func joystick_control(delta: float) -> Vector2:
-	#var x = Input.get_action_strength("joy_right") - Input.get_action_strength("joy_left")
-	#var y = Input.get_action_strength("joy_down") - Input.get_action_strength("joy_up")
-#
-	#var dir = Vector2(x, y)
-#
-	#if dir.length() > 0.1:
-		#joy_pos += dir * joy_speed * delta
-		#joy_pos = joy_pos.clamp(Vector2.ZERO, Vector2.ONE)
-#
-	#return joy_pos
-
-
-
 func draw_board(delta):
 	if not original_sprite: return
 
@@ -213,20 +187,10 @@ func draw_board(delta):
 	for i in range(start_index, passed_count):
 		active_stamps.append(stamp_angles[i])
 	
-	# --------------------------------------------------
 	
-	var mouse_norm
-	if mouse_activation == true:
-		mouse_norm = mouse_control() # .x & .y
-	if mouse_activation == false:
-		pass
-		mouse_norm = joystick_control(delta)
-	#var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
-	#var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
-	
-	var current_scale_outer = lerp(0.2, 0.8, mouse_norm.x) 
-	var current_scale_inner = lerp(0.1, 0.4, mouse_norm.y)
-	var current_scale_ghost = lerp(0.0, 0.15, mouse_norm.y)
+	var current_scale_outer = lerp(0.2, 0.8, control_norm(delta).x) 
+	var current_scale_inner = lerp(0.1, 0.4, control_norm(delta).y)
+	var current_scale_ghost = lerp(0.0, 0.15, control_norm(delta).y)
 
 	# 2. Grid Calculations
 	var screen_center = get_viewport_rect().size * 0.5

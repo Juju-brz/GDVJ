@@ -118,7 +118,7 @@ func update_sprites_transform(delta):
 	
 	# --- B. CENTER GRID ON SCREEN ---
 	# Instead of using original_sprite.position, we calculate the screen center
-	var screen_center = viewport_rect.size / 2.0
+	var screen_center = viewport_rect.size * 0.5
 	
 	# Calculate total grid size to center it perfectly
 	var total_sprites = duplicated_spriteslist.size()
@@ -129,8 +129,8 @@ func update_sprites_transform(delta):
 	var grid_height = rows * SPACING
 	
 	# Determine top-left start point based on center
-	var start_x = screen_center.x - (grid_width / 2.0)
-	var start_y = screen_center.y - (grid_height / 2.0)
+	var start_x = screen_center.x - (grid_width * 0.5)
+	var start_y = screen_center.y - (grid_height * 0.5)
 	
 	# --- C. UPDATE LOOP ---
 	for i in range(duplicated_spriteslist.size()):

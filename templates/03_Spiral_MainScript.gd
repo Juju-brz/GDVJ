@@ -84,7 +84,7 @@ func _process(delta: float) -> void:
 func update_sprites_transform():
 	var viewport_rect = get_viewport_rect()
 	var screen_center = viewport_rect.size / 2.0
-	
+
 	# --- MOUSE SCALE (Optional - Keeps it feeling "Beautiful") ---
 	var mouse_pos = get_viewport().get_mouse_position()
 	var norm_x = clamp(mouse_pos.x / viewport_rect.size.x, 0.0, 1.0)
@@ -147,15 +147,15 @@ func decrement():
 func _close_all_ui():
 	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("hide_all_ctrl"):
-		hide_ui = !hide_ui
-		control.visible = !hide_ui
-		BG.visible = !hide_ui
-	
-	if Input.is_action_just_pressed("reset"): get_tree().reload_current_scene()
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		get_tree().quit()
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("hide_all_ctrl"):
+		#hide_ui = !hide_ui
+		#control.visible = !hide_ui
+		#BG.visible = !hide_ui
+	#
+	#if Input.is_action_just_pressed("reset"): get_tree().reload_current_scene()
+	#if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		#get_tree().quit()
 
 func _on_file_selected(path: String):
 	var image = Image.new()
