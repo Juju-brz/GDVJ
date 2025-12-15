@@ -1,4 +1,4 @@
-# Interactive_Pattern_Generator
+# Godot Video Jockey
  a real time generator of Pattern based on Godot 4.5
 
 made by juju & Ali
