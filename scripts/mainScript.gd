@@ -44,3 +44,7 @@ func _on_next_tpt_pressed() -> void:
 		# Handle the error if the scene file wasn.t found
 		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
 	print("Error code: ", error)
+
+func getmouse() -> Vector2:
+	var mouse_pos = get_viewport().get_mouse_position()
+	return mouse_pos

@@ -198,9 +198,9 @@ func clear_board():
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-func getmouse():
-	var mouse_pos = get_viewport().get_mouse_position()
-	return mouse_pos
+#func getmouse():
+	#var mouse_pos = get_viewport().get_mouse_position()
+	#return mouse_pos
 
 func draw_board():
 	if not original_sprite: return
@@ -376,10 +376,10 @@ func update_rotation_state():
 			cell_rotation_timer[cell_index] = 0.0 # Start timer for STOP_DURATION
 
 
-func _on_next_tpt_pressed() -> void:
-
-	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-	if error != OK:
-		# Handle the error if the scene file wasn't found
-		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
-	print("Error code: ", error)
+#func _on_next_tpt_pressed() -> void:
+#
+	#var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+	#if error != OK:
+		## Handle the error if the scene file wasn't found
+		#print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	#print("Error code: ", error)

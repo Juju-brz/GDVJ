@@ -256,25 +256,3 @@ func _run_quantum_in_thread():
 		thread_output = [error_msg]
 		thread_data_ready = true
 	thread_mutex.unlock()
-
-
-
-#func _convert_quantum_result_to_float(result_string: String) -> float:
-	#return float(int(result_string))
-
-#func _handle_new_quantum_data(data: Dictionary):
-	#last_entangled_result = str(data.get("entangled_result", "0"))
-	#var new_target = _convert_quantum_result_to_float(last_entangled_result)
-#
-	#lerp_a = lerp_c 
-	#lerp_b = new_target
-	#lerp_time = 0.0
-
-
-
-#func _on_next_tpt_pressed() -> void:
-	#if quantum_thread != null and quantum_thread.is_started():
-		#quantum_thread.wait_to_finish() 
-		#quantum_thread = null
-	#var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-	#if error != OK: print("SCENE ERROR: ", error)
