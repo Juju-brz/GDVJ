@@ -191,61 +191,6 @@ func _process(delta: float) -> void:
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
 	queue_redraw()
-	
-	############################################ Quantum Logic Flow
-	#
-	## --- 0. PROCESS FINISHED THREAD DATA ---
-	#thread_mutex.lock()
-	#if thread_data_ready:
-		#var json_result = thread_output[0]
-		#var json_data = JSON.parse_string(json_result)
-		#
-		#if json_data != null and typeof(json_data) == TYPE_DICTIONARY:
-			#_handle_new_quantum_data(json_data) 
-		#else:
-			#print("JSON Parse Error or Invalid Data from thread:", json_result)
-			#
-		## Reset the flag and clear output after processing
-		#thread_data_ready = false
-		#thread_output.clear()
-		##
-	##thread_mutex.unlock()
-	##
-	## --- 1. LERP SMOOTHING (Happens every frame) ---
-	#if lerp_time < LERP_DURATION:
-		#lerp_time += delta
-		#var t = clamp(lerp_time / LERP_DURATION, 0.0, 1.0) 
-		#
-		## Update the smooth result (C)
-		#lerp_c = lerp(lerp_a, lerp_b, t)
-#
-	## --- 3. ELEMENT ANIMATION PROCESSING ---
-	#for i in range(TOTAL_CELLS):
-		#var target = cell_rotation_target[i]
-		#var current_time = cell_rotation_timer[i]
-		#
-		## If the cell is fully stopped (target 0.0) and timer is done, set target to 1.0 (restart)
-		#if target == 0.0 and current_time >= STOP_DURATION:
-			#cell_rotation_target[i] = 1.0 # Prepare to restart rotation
-			#cell_rotation_timer[i] = 0.0  # Reset timer for the long restart phase
-		#
-		## Update the timer regardless
-		#cell_rotation_timer[i] += delta
-		#
-	## --- 4. CONTINUOUS ACTIVATION TRIGGER ---
-	#update_rotation_state() 
-		#
-	## --- 2. QUANTUM CALL TIMER (Launch Thread) ---
-	#quantum_call_timer += delta
-	#
-	## Only launch if the timer is ready AND no thread is currently running
-	#if quantum_call_timer >= QUANTUM_CALL_INTERVAL:
-		#if quantum_thread == null or not quantum_thread.is_started():
-			#get_quantum_random() # Launch thread (non-blocking)
-			#quantum_call_timer = 0.0  # Reset timer
-	############################################
-	
-	# 2. Rebuild the Grid (Visual Loop)
 	clear_board()
 	draw_board()
 
@@ -264,9 +209,6 @@ func _input(event: InputEvent) -> void:
 		get_tree().quit()
 
 
-# ---------------------------------------------------------
-# VISUAL LOGIC
-# ---------------------------------------------------------
 
 func clear_board():
 	for sprite in duplicated_spriteslist:
@@ -428,98 +370,7 @@ func _close_all_ui():
 
 
 
-# --- THREAD FUNCTION (Runs in background) ---
-#func _run_quantum_in_thread(): 
-	## Use the new variable defined above
-	#var executable_path = QUANTUM_EXE_PATH
-	#var output_buffer: Array = []
-	#
-	## 1. Check if file exists
-	#if not FileAccess.file_exists(executable_path):
-		#thread_mutex.lock()
-		#thread_output = ["FATAL ERROR: Quantum Executable not found at: " + executable_path]
-		#thread_data_ready = true
-		#thread_mutex.unlock()
-		#return 
-	#
-	## 2. Execute directly (No arguments needed if the logic is self-contained)
-	## Note: We pass an empty array [] for arguments because the script is baked inside the exe
-	#var exit_code = OS.execute(executable_path, [], output_buffer, true)
-	#
-	#thread_mutex.lock()
-	#
-	#if exit_code == 0 and output_buffer.size() > 0:
-		#thread_output = output_buffer
-		#thread_data_ready = true
-	#else:
-		#var error_msg = "QUANTUM EXECUTION FAILED.\n"
-		#error_msg += "Exit Code: " + str(exit_code) + "\n"
-		#error_msg += "Path Used: " + executable_path + "\n"
-		#if output_buffer.size() > 0:
-			#error_msg += "Output: " + output_buffer[0]
-		#
-		#thread_output = [error_msg]
-		#thread_data_ready = true
-		#
-	#thread_mutex.unlock()
 
-# --- QUANTUM CALLER (Launches the thread) ---
-#func get_quantum_random():
-	#if quantum_thread != null and quantum_thread.is_started():
-		#return
-	#
-	#quantum_thread = Thread.new()
-	#var error = quantum_thread.start(self._run_quantum_in_thread)
-	#
-	#if error != OK:
-		#print("ERROR: Failed to start quantum thread:", error)
-		#
-# --- DATA CONVERSION ---
-#func _convert_quantum_result_to_float(result_string: String) -> float:
-	## The JSON result is a DECIMAL INTEGER from 0 to 15.
-	#
-	#var integer_value = int(result_string)
-	#const MAX_VALUE = 15.0
-	#
-	#return float(integer_value) / MAX_VALUE
-#
-## --- DATA HANDLER (Updates LERP when data arrives from thread) ---
-#func _handle_new_quantum_data(data: Dictionary):
-	## --- ADD THIS DEBUG LINE ---
-	#print("RAW PYTHON DATA:", data) 
-	## ---------------------------
-	## 1. Update debug variables
-	#last_entangled_result = str(data.get("entangled_result", "Error"))
-	#last_qubit_count = int(data.get("qubit_count", 0))
-	#last_quantum_state = str(data.get("state", "Unknown"))
-	#
-	## 2. Convert the quantum result to the target float value (0.0 to 1.0)
-	##var new_target_value = _convert_quantum_result_to_float(last_entangled_result)
-#
-	## 3. LERP LOGIC FIX
-	#lerp_a = lerp_c 
-	#lerp_b = new_target_value
-	#
-	## Reset the timer to start the 5-second interpolation
-	#lerp_time = 0.0
-#
-	## 4. Set the new target count based on the normalized quantum value.
-	##var normalized_quantum_float = _convert_quantum_result_to_float(last_entangled_result)
-	#
-	## Apply 0.5 multiplier (or other factor) before rounding to reduce active count
-	#var reduced_target_float = normalized_quantum_float * 0.5
-	#
-	## The final target count (0 to 45 cells)
-	#target_active_count = int(round(reduced_target_float * TOTAL_CELLS))
-#
-	## Print final result
-	#print("--- New Quantum Target Set ---")
-	#print("New Target (B): ", lerp_b)
-	#print("New Start (A) [Should be smooth]: ", lerp_a)
-	#print("Qubit Result (Decimal): ", last_entangled_result)
-	#print("Calculated Active Cells (0-45): ", target_active_count)
-
-# --- CONTINUOUS ROTATION ACTIVATION (Called every frame via _process) ---
 func update_rotation_state():
 	
 	# 1. Count how many cells are currently animating (stopping or restarting)

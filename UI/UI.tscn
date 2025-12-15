@@ -66,7 +66,7 @@ alignment = 1
 [node name="Btn_Switch_algorythme" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 15
-text = "Switch to Next Algorythme"
+text = "Switch to Next Algorithm"
 icon_alignment = 1
 
 [node name="CodeEdit" type="CodeEdit" parent="."]
@@ -78,8 +78,9 @@ offset_bottom = 1040.0
 text = "shader_type canvas_item;
 
 void fragment() {
+	vec2 uv = UV;
     vec3 color = vec3(1.0, 1.0, 1.0);
-    COLOR = vec4(color, 0.3);
+    COLOR = vec4(color, 1.0);
 }"
 syntax_highlighter = SubResource("SyntaxHighlighter_e707p")
 highlight_all_occurrences = true
