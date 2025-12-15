@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_w8uyb"]
 [ext_resource type="Script" uid="uid://chvs7d1s1gvft" path="res://templates/04_WormDance.gd" id="2_8in7r"]
 [ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_cphf2"]
-[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="4_5k6ko"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="4_5k6ko"]
 [ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_tq8hu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m48li"]
