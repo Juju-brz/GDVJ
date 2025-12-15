@@ -90,7 +90,7 @@ func _init():
 
 # Point to the frozen script executable (QuantiqueTest.exe)
 # IMPORTANT: Make sure QuantiqueTest.exe is in your project folder (next to project.godot)
-var QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
+#var QUANTUM_EXE_PATH = base_dir.path_join("QuantiqueTest.exe")
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int= 90 # 10 columns * 9 rows

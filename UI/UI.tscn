@@ -3,7 +3,11 @@
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="1_dhe1o"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="2_q0uhn"]
 
-[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_e707p"]
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_dhe1o"]
+number_color = Color(0.30875906, 0.5115807, 0.9547095, 1)
+symbol_color = Color(0.47058824, 0.5058824, 0.7882353, 1)
+function_color = Color(0.99215686, 0.79607844, 0, 1)
+member_variable_color = Color(0.9589761, 0.6601775, 0.754872, 1)
 
 [node name="Control" type="Control"]
 z_index = 5
@@ -79,12 +83,14 @@ text = "shader_type canvas_item;
 
 void fragment() {
 	vec2 uv = UV;
-    vec3 color = vec3(1.0, 1.0, 1.0);
-    COLOR = vec4(color, 1.0);
+	vec3 color = vec3(1.0, 1.0, 1.0);
+	COLOR = vec4(color, 1.0);
 }"
-syntax_highlighter = SubResource("SyntaxHighlighter_e707p")
+syntax_highlighter = SubResource("CodeHighlighter_dhe1o")
 highlight_all_occurrences = true
 highlight_current_line = true
+draw_tabs = true
+draw_spaces = true
 script = ExtResource("1_dhe1o")
 
 [node name="Button" type="Button" parent="CodeEdit"]
