@@ -3,7 +3,7 @@
 
 made by juju & Ali
 
-This program use GDShaders for more information read the docs https://godotshaders.com/
+This program use GDShaders for more information read the docs [https://godotshaders.com/](https://docs.godotengine.org/en/stable/tutorials/shaders/shader_reference/shading_language.html)
 
 F1 -> Reset
 F2 -> show menu
