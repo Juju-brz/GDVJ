@@ -1,5 +1,5 @@
 extends Node2D
-#class_name  mainScript
+class_name  mainScript
 
 #### VARIABLES ####
 var SPACING: float = 50.0
@@ -8,11 +8,13 @@ var SPACING: float = 50.0
 @export var angle = 0.0
 
 ### CONTROLES ###
+var hide :bool = false
+@onready var old_slder_value: float = slider.value  
+
+#### GET NODES
 @onready var control = $Control
 @onready var BG = $BG_For_Controls
-var hide :bool = false
 @onready var slider = $Control/VBoxContainer/HSlider #Import Slider Input
-@onready var old_slder_value: float = slider.value  
 @onready var Btn_Change_Image = $Control/VBoxContainer/Btn_Change_Image
 @onready var Dlg_Change_Image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing

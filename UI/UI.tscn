@@ -73,7 +73,7 @@ icon_alignment = 1
 layout_mode = 0
 offset_left = 38.0
 offset_top = 86.0
-offset_right = 521.0
+offset_right = 690.0
 offset_bottom = 1040.0
 text = "shader_type canvas_item;
 

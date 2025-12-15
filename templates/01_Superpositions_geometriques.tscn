@@ -1,17 +1,17 @@
 [gd_scene load_steps=7 format=3 uid="uid://qywxpr5vvcjj"]
 
-[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_qwknm"]
-[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://templates/01_Superpositions_Géometriques_MainScript.gd" id="1_um0o5"]
-[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="2_dlh1b"]
-[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_dlh1b"]
-[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_dlh1b"]
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_gh05c"]
+[ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://templates/01_Superpositions_Geometriques_MainScript.gd" id="2_mgxbi"]
+[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_wmo22"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://templates/persianPattern.gdshader" id="4_slan0"]
+[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_rs545"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m48li"]
 resource_local_to_scene = true
-shader = ExtResource("2_dlh1b")
+shader = ExtResource("4_slan0")
 
-[node name="Node2D" instance=ExtResource("1_qwknm")]
-script = ExtResource("1_um0o5")
+[node name="Node2D" instance=ExtResource("1_gh05c")]
+script = ExtResource("2_mgxbi")
 GRID_COLUMNS = 10
 GRID_ROWS = 9
 CELL_SIZE = 100.0
@@ -33,7 +33,7 @@ offset_bottom = 1183.0
 z_index = 2
 position = Vector2(1023, 499)
 scale = Vector2(0.2955854, 0.2955852)
-texture = ExtResource("3_dlh1b")
+texture = ExtResource("3_wmo22")
 
 [node name="ColorRect2" type="ColorRect" parent="." index="2"]
 z_index = 1
@@ -44,7 +44,7 @@ offset_right = 2193.1455
 offset_bottom = 1225.0
 color = Color(1, 1, 1, 0)
 
-[node name="Control" parent="." index="3" instance=ExtResource("5_dlh1b")]
+[node name="Control" parent="." index="3" instance=ExtResource("5_rs545")]
 
 [node name="BG_For_Controls" type="ColorRect" parent="." index="4"]
 visible = false
