@@ -1,5 +1,6 @@
 extends Node2D
 class_name  mainScript
+#### VARIABLES ####
 
 ### CONTROLS ###
 @onready var control = $Control
@@ -12,8 +13,10 @@ class_name  mainScript
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
 
 var hide_ui :bool = false
+var NEXT_SCENE_PATH = ""
 
 
+#### FUNCTIONS ####
 func open_dialog():
 	dialogue_change_image.popup_centered()
 
@@ -29,3 +32,15 @@ func _on_file_selected(path: String):
 
 func _close_all_ui():
 	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
+
+func _on_next_tpt_pressed() -> void:
+	# 1. Close the external Python thread cleanly (important!)
+	# We don't want the thread trying to write back to the old, closing scene.
+
+	# 2. Get the SceneTree and change the scene
+	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+
+	if error != OK:
+		# Handle the error if the scene file wasn.t found
+		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	print("Error code: ", error)

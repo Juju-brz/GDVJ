@@ -34,7 +34,7 @@ var trail_velocities: Array[Vector2] = []
 #@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 #@onready var original_sprite = $Square  
 #@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
-const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
+#const NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 
 #var hide_ui :bool = false
 
@@ -85,7 +85,7 @@ func _ready() -> void:
 	lerp_c = lerp_a 
 	quantum_call_timer = QUANTUM_CALL_INTERVAL 
 	print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
-	
+	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
@@ -272,9 +272,9 @@ func _run_quantum_in_thread():
 
 
 
-func _on_next_tpt_pressed() -> void:
-	if quantum_thread != null and quantum_thread.is_started():
-		quantum_thread.wait_to_finish() 
-		quantum_thread = null
-	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-	if error != OK: print("SCENE ERROR: ", error)
+#func _on_next_tpt_pressed() -> void:
+	#if quantum_thread != null and quantum_thread.is_started():
+		#quantum_thread.wait_to_finish() 
+		#quantum_thread = null
+	#var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
+	#if error != OK: print("SCENE ERROR: ", error)
