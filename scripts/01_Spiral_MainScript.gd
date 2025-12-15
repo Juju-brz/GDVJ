@@ -27,7 +27,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorythme
-const NEXT_SCENE_PATH = "res://templates/01_Superpositions_géométriques.tscn"
+const NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 # Trackers
 var hide_ui :bool = false
 var duplicated_spriteslist = []
