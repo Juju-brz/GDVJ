@@ -1,5 +1,5 @@
 # Godot Video Jockey
- a real time generator of Pattern based on Godot 4.5
+ a real time generator of Pattern  and Shaders based on Godot 4.5
 
 made by juju & Ali
 
@@ -7,5 +7,6 @@ This program use GDShaders for more information read the docs https://docs.godot
 
 F1 -> Reset
 F2 -> show menu
-F3 -> hide shadercode
+F3 -> change mouse control for joyestick
+F4 -> Change Scene
 Alt + Enter -> Execute Shader Code

@@ -21,6 +21,9 @@ var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
 @export var joy_speed := 1.2
 
 
+var duplicated_spriteslist = []
+
+
 #### FUNCTIONS ####
 func open_dialog():
 	dialogue_change_image.popup_centered()
@@ -69,6 +72,8 @@ func _input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("mouse"):
 		mouse_activation = !mouse_activation
+	if Input.is_action_just_pressed("change_scene"):
+		_on_next_tpt_pressed()
 
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
@@ -98,3 +103,16 @@ func control_norm(delta):
 	if mouse_activation == false:
 		control_norm = joystick_control(delta)
 	return control_norm
+
+func increment(): 
+	if not original_sprite: return
+	var new_sprite = original_sprite.duplicate()
+	new_sprite.visible = true 
+	add_child(new_sprite)
+	duplicated_spriteslist.append(new_sprite)
+
+func decrement(): 
+	if duplicated_spriteslist.size() > 0:
+		var last_sprite = duplicated_spriteslist.pop_back()
+		if is_instance_valid(last_sprite):
+			last_sprite.queue_free()

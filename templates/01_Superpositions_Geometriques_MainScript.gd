@@ -39,12 +39,11 @@ var rand_val_b: float = 0.0
 var smooth_random_value: float = 0.0 
 
 # --- SPRITE MANAGEMENT ---
-var duplicated_spriteslist: Array = []
+#var duplicated_spriteslist: Array = []
 
 # ---------------------------------------------------------
 # VARIABLES: UI & CONTROLS
 # ---------------------------------------------------------
-
 
 var output: Array = []
 
@@ -85,9 +84,8 @@ var cell_rotation_target: Array[float] = []
 # Tracks the current number of active cells to avoid repeated activation
 var target_active_count: int = 0
 
-# ---------------------------------------------------------
-# LIFECYCLE FUNCTIONS
-# ---------------------------------------------------------
+
+#### FUNCTIONS ####
 
 func _ready() -> void:
 	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 

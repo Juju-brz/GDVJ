@@ -30,8 +30,6 @@ var trail_velocities: Array[Vector2] = []
 
 
 func _ready() -> void:
-	#lerp_c = lerp_a 
-	#quantum_call_timer = QUANTUM_CALL_INTERVAL 
 	##print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
@@ -74,21 +72,6 @@ func _process(delta: float) -> void:
 	time_passed += delta
 	
 	update_trail_physics(delta)
-
-
-#func _input(event: InputEvent) -> void:
-	#if Input.is_action_just_pressed("hide_all_ctrl"):
-		#if hide_ui: control.show(); BG.show(); hide_ui = false
-		#else: control.hide(); BG.hide(); hide_ui = true
-	#if Input.is_action_just_pressed("reset"):
-		#get_tree().reload_current_scene()
-	#if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		#get_tree().quit()
-
-
-# ---------------------------------------------------------
-# VISUAL LOGIC: CENTERED MIRROR MOVEMENT
-# ---------------------------------------------------------
 
 
 func update_trail_physics(delta: float):

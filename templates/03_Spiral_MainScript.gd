@@ -19,11 +19,11 @@ var overall_rotation: float = 0.0
 var ROTATION_SPEED: float = deg_to_rad(10.0)
 
 
-var duplicated_spriteslist = []
+#var duplicated_spriteslist = []
 @onready var old_slider_val_int: int = int(slider.value)
 
 
-#### LIFECYCLE ####
+#### FUNCTIONS ####
 
 func _ready() -> void:
 	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
@@ -135,21 +135,6 @@ func handle_slider_logic():
 			decrement()
 		old_slider_val_int = current_slider_int
 
-func increment(): 
-	if not original_sprite: return
-	var new_sprite = original_sprite.duplicate()
-	new_sprite.visible = true 
-	add_child(new_sprite)
-	duplicated_spriteslist.append(new_sprite)
-
-func decrement(): 
-	if duplicated_spriteslist.size() > 0:
-		var last_sprite = duplicated_spriteslist.pop_back()
-		if is_instance_valid(last_sprite):
-			last_sprite.queue_free()
-
-func _close_all_ui():
-	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
 
 
 

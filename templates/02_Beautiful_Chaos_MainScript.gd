@@ -20,7 +20,7 @@ var array_points: Array[Vector2] = []
 #const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
 # Trackers
 
-var duplicated_spriteslist = []
+#var duplicated_spriteslist = []
 @onready var old_slider_val_int: int = int(slider.value)
 @onready var old_slider_spacing_val: float = slider_spacing.value
 
@@ -34,7 +34,7 @@ var GRADIENT_SPEED: float = 0.1
 var GRADIENT_ANGLE_SPEED: float = 10.0
 
 
-#### LIFECYCLE ####
+#### FUNCTIONS ####
 
 func _ready() -> void:
 	print("--- SCRIPT STARTED ---")
@@ -104,10 +104,7 @@ func _process(delta: float) -> void:
 func update_sprites_transform(delta):
 	# --- A. MOUSE INFLUENCE ---
 	var viewport_rect = get_viewport_rect()
-	#var mouse_pos = get_viewport().get_mouse_position()
-	#
-	#var norm_x = clamp(mouse_pos.x / viewport_rect.size.x, 0.0, 1.0)
-	#var norm_y = clamp(mouse_pos.y / viewport_rect.size.y, 0.0, 1.0)
+	
 	var mouse_norm
 	if mouse_activation == true:
 		mouse_norm = mouse_control() # .x & .y
@@ -170,20 +167,6 @@ func handle_slider_logic():
 			decrement()
 		old_slider_val_int = current_slider_int
 
-func increment(): 
-	if not original_sprite: return
-	
-	var new_sprite = original_sprite.duplicate()
-	new_sprite.visible = true # Explicitly Show!
-	
-	add_child(new_sprite)
-	duplicated_spriteslist.append(new_sprite)
-
-func decrement(): 
-	if duplicated_spriteslist.size() > 0:
-		var last_sprite = duplicated_spriteslist.pop_back()
-		if is_instance_valid(last_sprite):
-			last_sprite.queue_free()
 
 func toggle_ui():
 	if hide_ui:
@@ -193,11 +176,6 @@ func toggle_ui():
 
 
 
-#func _input(event: InputEvent) -> void:
-	#if Input.is_action_just_pressed("hide_all_ctrl"): toggle_ui()
-	#if Input.is_action_just_pressed("reset"): get_tree().reload_current_scene()
-	#if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		#get_tree().quit()
 
 func _on_file_selected(path: String):
 	var image = Image.new()
