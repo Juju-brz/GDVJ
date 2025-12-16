@@ -116,3 +116,11 @@ func decrement():
 		var last_sprite = duplicated_spriteslist.pop_back()
 		if is_instance_valid(last_sprite):
 			last_sprite.queue_free()
+
+
+func _ready() -> void:
+	
+	control.hide()
+	BG.hide()
+	dialogue_change_image.hide()
+	hide_ui = true

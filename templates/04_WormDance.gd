@@ -30,7 +30,7 @@ var trail_velocities: Array[Vector2] = []
 
 
 func _ready() -> void:
-	##print("Quantum Executable Path configured as:", QUANTUM_EXE_PATH)
+	super._ready()
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
@@ -49,12 +49,7 @@ func _ready() -> void:
 		trail_sprites.append(s)
 		trail_positions.append(viewport_center)
 		trail_velocities.append(Vector2.ZERO)
-	
-	# UI Setup
-	control.hide()
-	BG.hide()
-	hide_ui = true
-	
+
 	# Signals
 	if not btn_change_image.pressed.is_connected(open_dialog):
 		btn_change_image.pressed.connect(open_dialog)

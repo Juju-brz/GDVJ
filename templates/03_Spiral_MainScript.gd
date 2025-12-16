@@ -26,6 +26,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 #### FUNCTIONS ####
 
 func _ready() -> void:
+	super._ready()
 	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
@@ -35,12 +36,7 @@ func _ready() -> void:
 	
 	# 2. Hide setup elements
 	original_sprite.hide()
-	
-	# 3. Setup UI
-	control.hide()
-	BG.hide()
-	dialogue_change_image.hide()
-	hide_ui = true
+
 	
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)

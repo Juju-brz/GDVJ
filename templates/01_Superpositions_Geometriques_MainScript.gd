@@ -38,8 +38,6 @@ var rand_val_a: float = 0.0
 var rand_val_b: float = 0.0
 var smooth_random_value: float = 0.0 
 
-# --- SPRITE MANAGEMENT ---
-#var duplicated_spriteslist: Array = []
 
 # ---------------------------------------------------------
 # VARIABLES: UI & CONTROLS
@@ -52,7 +50,7 @@ var output: Array = []
 # ----------------------------------------------------------------------
 # 1. Configuration 
 # ----------------------------------------------------------------------
-var base_dir: String = ""
+#var base_dir: String = ""
 
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
@@ -73,6 +71,7 @@ var target_active_count: int = 0
 #### FUNCTIONS ####
 
 func _ready() -> void:
+	super._ready()
 	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
 	# Initialize element-based rotation arrays
@@ -101,11 +100,6 @@ func _ready() -> void:
 	rand_val_a = randf()
 	rand_val_b = randf()
 
-	# 2. SETUP UI
-	control.hide()
-	BG.hide()
-	dialogue_change_image.hide()
-	hide_ui = true
 	
 	# 3. CONNECT SIGNALS
 	if not btn_change_image.pressed.is_connected(open_dialog):

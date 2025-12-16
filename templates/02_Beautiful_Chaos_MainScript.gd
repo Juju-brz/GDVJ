@@ -37,16 +37,17 @@ var GRADIENT_ANGLE_SPEED: float = 10.0
 #### FUNCTIONS ####
 
 func _ready() -> void:
-	print("--- SCRIPT STARTED ---")
+	super._ready()
+	#print("--- SCRIPT STARTED ---")
 	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
 	# 1. SAFETY: Create a placeholder texture if missing
 	# This ensures you see SOMETHING even if the sprite is empty
-	if original_sprite.texture == null:
-		print("No texture found! Creating placeholder.")
-		var placeholder = PlaceholderTexture2D.new()
-		placeholder.size = Vector2(64, 64)
-		original_sprite.texture = placeholder
-		original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
+	#if original_sprite.texture == null:
+		#print("No texture found! Creating placeholder.")
+		#var placeholder = PlaceholderTexture2D.new()
+		#placeholder.size = Vector2(64, 64)
+		#original_sprite.texture = placeholder
+		#original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
@@ -55,11 +56,6 @@ func _ready() -> void:
 	original_sprite.hide()
 	if backsquare: backsquare.hide()
 	
-	# 3. Setup UI
-	control.hide()
-	BG.hide()
-	dialogue_change_image.hide()
-	hide_ui = true
 	
 	# 4. Connect Signals
 	if not btn_change_image.pressed.is_connected(func(): dialogue_change_image.popup_centered()):
@@ -168,11 +164,11 @@ func handle_slider_logic():
 		old_slider_val_int = current_slider_int
 
 
-func toggle_ui():
-	if hide_ui:
-		control.show(); BG.show(); hide_ui = false
-	else:
-		control.hide(); BG.hide(); hide_ui = true
+#func toggle_ui():
+	#if hide_ui:
+		#control.show(); BG.show(); hide_ui = false
+	#else:
+		#control.hide(); BG.hide(); hide_ui = true
 
 
 
