@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy283yydm3eyd"]
+[gd_scene load_steps=6 format=3 uid="uid://cy283yydm3eyd"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_hrqrm"]
 [ext_resource type="Script" uid="uid://dni8j477fdhwu" path="res://templates/02_Beautiful_Chaos_MainScript.gd" id="2_w5kta"]
 [ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_hrqrm"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="4_ogbv1"]
-[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="5_w76pt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m48li"]
 resource_local_to_scene = true
@@ -35,9 +34,7 @@ offset_right = 2193.1455
 offset_bottom = 1225.0
 color = Color(1, 1, 1, 0)
 
-[node name="Control" parent="." index="3" instance=ExtResource("5_w76pt")]
-
-[node name="BG_For_Controls" type="ColorRect" parent="." index="4"]
+[node name="BG_For_Controls" type="ColorRect" parent="." index="3"]
 visible = false
 z_index = 4
 offset_left = 22.0
