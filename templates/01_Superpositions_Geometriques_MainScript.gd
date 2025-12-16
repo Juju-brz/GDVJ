@@ -56,21 +56,13 @@ const QUANTUM_CALL_INTERVAL: float = 3.0
 var lerp_time: float = 0.0
 const LERP_DURATION: float = 5.0      # Time taken for the smooth transition
 
-# --- LERP STATE VARIABLES ---
-#var lerp_a: float = 0.0 
-#var lerp_b: float = 0.0 
-#var lerp_c: float = 0.0 
 
 # Global variables to store the last result (for debugging)
 var last_entangled_result: String = "N/A"
 var last_qubit_count: int = 0
 var last_quantum_state: String = "Idle"
 
-# --- THREAD VARIABLES (NON-BLOCKING EXECUTION) ---
-#var quantum_thread: Thread = null
-#var thread_mutex: Mutex = Mutex.new()
-#var thread_data_ready: bool = false
-#var thread_output: Array = []
+
 
 # ----------------------------------------------------------------------
 # 1. Configuration 
@@ -80,7 +72,7 @@ var base_dir: String = ""
 
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
-const TOTAL_CELLS : int= 90 # 10 columns * 9 rows
+const TOTAL_CELLS : int = 90 # 10 columns * 9 rows
 # Max time to stop rotation (1.0 speed -> 0.0 speed, Ease Out)
 const STOP_DURATION: float = 0.4 
 # Max time to restart rotation (0.0 speed -> 1.0 speed, Ease In)
@@ -144,7 +136,6 @@ func _ready() -> void:
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
-		
 
 
 func _process(delta: float) -> void:
@@ -172,7 +163,6 @@ func clear_board():
 
 func draw_board(delta):
 	if not original_sprite: return
-
 	# --- OPTIMIZATION: CALCULATE ACTIVE STAMPS ONCE ---
 	var active_stamps: Array[float] = []
 	var passed_count = 0
@@ -270,7 +260,6 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 		s.modulate.a = 1.0
 		s.show()
 		duplicated_spriteslist.append(s)
-	# --------------------------------------------------------
 
 	# 1. Base Layers
 	create_sprite.call(0.0, scale_outer)
@@ -287,7 +276,6 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	create_sprite.call(overall_rotation, scale_outer)
 	create_sprite.call(overall_rotation, scale_inner)
 	create_sprite.call(overall_rotation, scale_ghost)
-
 
 
 func update_rotation_state():
