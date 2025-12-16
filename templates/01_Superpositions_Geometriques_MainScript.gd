@@ -188,14 +188,23 @@ func draw_board(delta):
 	
 	var start_x = -(total_width * 0.5) + (step * 0.5)
 	var start_y = -(total_height * 0.5) + (step * 0.5)
-
-	# 3. Loop with 30% CHANCE LOGIC
+	var  max_loop = 100
+	if max_loop == 101:
+		#clear_board()
+		pass
+	else: 
+		loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,max_loop)
+	
+func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, max_loop=null):
+	var loop_count = 0
 	for col in range(GRID_COLUMNS):
 		for row in range(GRID_ROWS):
-			
+			if max_loop != null and loop_count >= max_loop:
+				return
+				
 			var x_pos = start_x + (col * step)
 			var base_y = start_y + (row * step)
-			
+			#print(loop_count)
 			# Deterministic Random Jitter
 			var random_seed = (col * 11 + row * 17) % 100
 			var y_offset = 0.0
@@ -219,7 +228,7 @@ func draw_board(delta):
 			
 			# Draw the star stack passing the unique cell index
 			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
-
+			loop_count += 1
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
