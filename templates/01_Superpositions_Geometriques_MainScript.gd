@@ -6,20 +6,20 @@ class_name StarGridRandomRotate
 # ---------------------------------------------------------
 
 # --- GRID SETTINGS ---
-@export var GRID_COLUMNS: int = 10 
-@export var GRID_ROWS: int = 9 
-@export var CELL_SIZE: float = 100.0 
+var GRID_COLUMNS: int = 10 
+var GRID_ROWS: int = 9 
+var CELL_SIZE: float = 100.0 
 
 # --- RANDOM MOVEMENT SETTINGS ---
 var time_passed: float = 0.0
-@export var JITTER_SPEED: float = 1.5      
-@export var JITTER_HEIGHT: float = 20.0    
+var JITTER_SPEED: float = 1.5      
+var JITTER_HEIGHT: float = 20.0    
 
 # --- ROTATION SETTINGS ---
 var overall_rotation: float = 0.0      # Rotates the "Active" sprite
 var group_rotation: float = 0.0        # Rotates the WHOLE GROUP
-@export var ROTATION_SPEED: float = deg_to_rad(10.0)
-@export var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0) 
+var ROTATION_SPEED: float = deg_to_rad(10.0)
+var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0) 
 
 var stamp_angles: Array[float] = []
 
@@ -28,8 +28,8 @@ var stamp_angles: Array[float] = []
 
 var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
-@export var GRADIENT_SPEED: float = 0.1
-@export var GRADIENT_ANGLE_SPEED: float = 10.0
+var GRADIENT_SPEED: float = 0.1
+var GRADIENT_ANGLE_SPEED: float = 10.0
 
 # --- RANDOMNESS (Not quantum related, existing logic) ---
 var cycle_timer: float = 0.0
@@ -49,9 +49,7 @@ var output: Array = []
 
 # ----------------------------------------------------------------------
 # 1. Configuration 
-# ----------------------------------------------------------------------
-#var base_dir: String = ""
-
+# ----------------------------------------------------------------------			
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int = 90 # 10 columns * 9 rows
@@ -137,7 +135,6 @@ func clear_board():
 		sprite.queue_free()
 	duplicated_spriteslist.clear()
 
-
 func draw_board(delta):
 	if not original_sprite: return
 	# --- OPTIMIZATION: CALCULATE ACTIVE STAMPS ONCE ---
@@ -173,7 +170,7 @@ func draw_board(delta):
 		pass
 	else: 
 		loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,max_loop)
-	
+
 func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, max_loop=null):
 	var loop_count = 0
 	for col in range(GRID_COLUMNS):
@@ -209,9 +206,6 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
 			loop_count += 1
 			print(loop_count)
-
-
-
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------

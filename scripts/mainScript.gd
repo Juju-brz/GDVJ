@@ -18,7 +18,7 @@ var mouse_activation = true
 
 #joy
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
-@export var joy_speed := 1.2
+var joy_speed := 1.2
 
 
 var duplicated_spriteslist :Array= []

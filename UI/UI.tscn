@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cgw5hdy3h13ff"]
 
-[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://code_edit.gd" id="1_dhe1o"]
+[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/code_edit.gd" id="1_dhe1o"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="2_q0uhn"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_dhe1o"]
