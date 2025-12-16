@@ -89,12 +89,22 @@ func _process(delta: float) -> void:
 # ---------------------------------------------------------
 # VISUAL LOGIC: CENTERED MIRROR MOVEMENT
 # ---------------------------------------------------------
+func getmouse() -> Vector2:
+	var mouse_pos = get_viewport().get_mouse_position()
+	return mouse_pos
 
 func update_trail_physics(delta: float):
 	var viewport_center = get_viewport_rect().size * 0.5  
 	var mouse_pos = get_global_mouse_position()
 	
-	# --- 1. CALCULATE OPPOSITE (MIRROR) POSITION ---
+	#Of or On
+	
+	#var mouse_pos
+	#if mouse_activation == true:
+		#mouse_pos = getmouse() # .x & .y
+	#if mouse_activation == false:
+		#mouse_pos = joystick_control(delta)
+	
 	var offset_from_center = mouse_pos - viewport_center
 	var mirror_target = viewport_center - offset_from_center
 	

@@ -50,7 +50,7 @@ func _on_next_tpt_pressed() -> void:
 		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
 	print("Error code: ", error)
 
-func getmouse() -> Vector2:
+func get_mouse() -> Vector2:
 	var mouse_pos = get_viewport().get_mouse_position()
 	return mouse_pos
 
@@ -74,8 +74,8 @@ func mouse_control():
 	var viewport_rect = get_viewport_rect()
 	#var mouse_pos = get_viewport().get_mouse_position()
 	
-	var norm_x = clamp(getmouse().x / viewport_rect.size.x, 0.0, 1.0)
-	var norm_y = clamp(getmouse().y / viewport_rect.size.y, 0.0, 1.0)
+	var norm_x = clamp(get_mouse().x / viewport_rect.size.x, 0.0, 1.0)
+	var norm_y = clamp(get_mouse().y / viewport_rect.size.y, 0.0, 1.0)
 	return Vector2(norm_x, norm_y)
 
 
@@ -90,7 +90,6 @@ func joystick_control(delta: float) -> Vector2:
 		joy_pos = joy_pos.clamp(Vector2.ZERO, Vector2.ONE)
 
 	return joy_pos
-
 
 func control_norm(delta):
 	var control_norm
