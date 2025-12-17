@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp8w6tlng3j86"]
+[gd_scene load_steps=5 format=3 uid="uid://bp8w6tlng3j86"]
 
 [ext_resource type="Shader" uid="uid://dey07dsilauuk" path="res://shaders/shaderEmpty.gdshader" id="3_gb5ns"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="3_u2bk3"]
-[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="3_wonj3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2bk3"]
 shader = ExtResource("3_gb5ns")
@@ -11,7 +10,7 @@ shader = ExtResource("3_gb5ns")
 resource_local_to_scene = true
 shader = ExtResource("3_u2bk3")
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -29,5 +28,3 @@ material = SubResource("ShaderMaterial_gb5ns")
 offset_right = 2000.0
 offset_bottom = 1100.0
 color = Color(1, 1, 1, 0)
-
-[node name="Control" parent="." instance=ExtResource("3_wonj3")]

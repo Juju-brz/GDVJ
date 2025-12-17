@@ -70,7 +70,7 @@ var target_active_count: int = 0
 
 func _ready() -> void:
 	super._ready()
-	Global.NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+	Ui.NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
@@ -80,7 +80,7 @@ func _ready() -> void:
 	cell_rotation_target.fill(1.0) # Target is 1.0 (full speed)
 	
 	# 1. SETUP VISUALS
-	original_sprite.hide()
+	Ui.original_sprite.hide()
 	if backsquare:
 		backsquare.hide()
 	
@@ -136,7 +136,7 @@ func clear_board():
 	duplicated_spriteslist.clear()
 
 func draw_board(delta):
-	if not original_sprite: return
+	if not Ui.original_sprite: return
 	# --- OPTIMIZATION: CALCULATE ACTIVE STAMPS ONCE ---
 	var active_stamps: Array[float] = []
 	var passed_count = 0
@@ -231,7 +231,7 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	# Helper to create sprite
 	var create_sprite = func(rot_angle_rad: float, sprite_scale: float):
 		if sprite_scale <= 0.01: return
-		var s = original_sprite.duplicate()
+		var s = Ui.original_sprite.duplicate()
 		add_child(s)
 		s.position = location
 		

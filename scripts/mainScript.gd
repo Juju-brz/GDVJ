@@ -3,14 +3,14 @@ class_name  mainScript
 #### VARIABLES ####
 
 ### CONTROLS ###
-@onready var control = $Control
-@onready var BG = $BG_For_Controls
-@onready var slider = $Control/VBoxContainer/HSlider
-@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
-@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square  
-@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
+#@onready var control = $Control
+#@onready var BG = $BG_For_Controls
+#@onready var slider = $Control/VBoxContainer/HSlider
+#@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
+#@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
+#Global.dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
+  
+#@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
 
 var hide_ui :bool = false
 var mouse_activation = true
@@ -106,8 +106,8 @@ func control_norm(delta):
 	return control_norm
 
 func increment(): 
-	if not original_sprite: return
-	var new_sprite = original_sprite.duplicate()
+	if not Ui.original_sprite: return
+	var new_sprite =  Ui.original_sprite.duplicate()
 	new_sprite.visible = true 
 	add_child(new_sprite)
 	duplicated_spriteslist.append(new_sprite)
@@ -120,8 +120,11 @@ func decrement():
 
 
 func _ready() -> void:
-	pass
-	control.hide()
-	BG.hide()
-	dialogue_change_image.hide()
-	hide_ui = true
+	Ui.original_sprite = $Square
+	Ui.control = $Control
+	Ui.BG = $BG_For_Controls
+	Ui.next_tpt = $VBoxContainer/HBoxContainer/Btn_Switch_algorithm
+	#Ui.control.hide()
+	#Ui.BG.hide()
+	#Ui.dialogue_change_image.hide()
+	#hide_ui = true
