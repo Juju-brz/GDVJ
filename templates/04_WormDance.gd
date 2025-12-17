@@ -31,7 +31,7 @@ var trail_velocities: Array[Vector2] = []
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
+	Global.NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
@@ -51,14 +51,14 @@ func _ready() -> void:
 		trail_velocities.append(Vector2.ZERO)
 
 	# Signals
-	if not btn_change_image.pressed.is_connected(open_dialog):
-		btn_change_image.pressed.connect(open_dialog)
-	if not dialogue_change_image.file_selected.is_connected(_on_file_selected):
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-	if not dialogue_change_image.canceled.is_connected(_close_all_ui):
-		dialogue_change_image.canceled.connect(_close_all_ui)
-	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
-		next_tpt.pressed.connect(_on_next_tpt_pressed)
+	#if not btn_change_image.pressed.is_connected(open_dialog):
+		#btn_change_image.pressed.connect(open_dialog)
+	#if not dialogue_change_image.file_selected.is_connected(_on_file_selected):
+		#dialogue_change_image.file_selected.connect(_on_file_selected)
+	#if not dialogue_change_image.canceled.is_connected(_close_all_ui):
+		#dialogue_change_image.canceled.connect(_close_all_ui)
+	#if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		#next_tpt.pressed.connect(_on_next_tpt_pressed)
 		
 	print("!!! SCRIPT READY: Center Spawn + Mirror Movement + Invisible Head !!!")
 
@@ -133,11 +133,11 @@ func update_trail_physics(delta: float):
 			s.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
 
 
-func _on_file_selected(path: String):
-	var image = Image.new()
-	if image.load(path) != OK: return
-	var new_tex = ImageTexture.create_from_image(image)
-	if original_sprite: original_sprite.texture = new_tex
-	for s in trail_sprites:
-		s.texture = new_tex
-	_close_all_ui()
+#func _on_file_selected(path: String):
+	#var image = Image.new()
+	#if image.load(path) != OK: return
+	#var new_tex = ImageTexture.create_from_image(image)
+	#if original_sprite: original_sprite.texture = new_tex
+	#for s in trail_sprites:
+		#s.texture = new_tex
+	#_close_all_ui()

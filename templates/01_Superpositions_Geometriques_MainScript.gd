@@ -25,7 +25,7 @@ var stamp_angles: Array[float] = []
 
 # --- BACKGROUND GRADIENT ---
 @onready var backsquare = $ColorRect 
-
+#@onready var NEXT_SCENE_PATH
 var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
 var GRADIENT_SPEED: float = 0.1
@@ -70,7 +70,7 @@ var target_active_count: int = 0
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+	Global.NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
 
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
@@ -100,17 +100,17 @@ func _ready() -> void:
 
 	
 	# 3. CONNECT SIGNALS
-	if not btn_change_image.pressed.is_connected(open_dialog):
-		btn_change_image.pressed.connect(open_dialog)
-	
-	if not dialogue_change_image.file_selected.is_connected(_on_file_selected):
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-	
-	if not dialogue_change_image.canceled.is_connected(_close_all_ui):
-		dialogue_change_image.canceled.connect(_close_all_ui)
-		
-	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
-		next_tpt.pressed.connect(_on_next_tpt_pressed)
+	#if not btn_change_image.pressed.is_connected(open_dialog):
+		#btn_change_image.pressed.connect(open_dialog)
+	#
+	#if not dialogue_change_image.file_selected.is_connected(_on_file_selected):
+		#dialogue_change_image.file_selected.connect(_on_file_selected)
+	#
+	#if not dialogue_change_image.canceled.is_connected(_close_all_ui):
+		#dialogue_change_image.canceled.connect(_close_all_ui)
+		#
+	#if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		#next_tpt.pressed.connect(_on_next_tpt_pressed)
 
 
 func _process(delta: float) -> void:
@@ -205,7 +205,7 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 			# Draw the star stack passing the unique cell index
 			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
 			loop_count += 1
-			print(loop_count)
+			#print(loop_count)
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------

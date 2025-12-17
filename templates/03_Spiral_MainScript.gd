@@ -27,7 +27,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
+	Global.NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
 		var placeholder = PlaceholderTexture2D.new()
@@ -38,14 +38,14 @@ func _ready() -> void:
 	original_sprite.hide()
 
 	
-	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
-		next_tpt.pressed.connect(_on_next_tpt_pressed)
-		
-	# 4. Connect Signals
-	if not btn_change_image.pressed.is_connected(open_dialog):
-		btn_change_image.pressed.connect(open_dialog)
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-		dialogue_change_image.canceled.connect(_close_all_ui)
+	#if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		#next_tpt.pressed.connect(_on_next_tpt_pressed)
+		#
+	## 4. Connect Signals
+	#if not btn_change_image.pressed.is_connected(open_dialog):
+		#btn_change_image.pressed.connect(open_dialog)
+		#dialogue_change_image.file_selected.connect(_on_file_selected)
+		#dialogue_change_image.canceled.connect(_close_all_ui)
 	
 	# 5. INITIALIZE SLIDERS
 	slider.max_value = 200 
@@ -134,17 +134,17 @@ func handle_slider_logic():
 
 
 
-func _on_file_selected(path: String):
-	var image = Image.new()
-	if image.load(path) != OK: return
-	var new_tex = ImageTexture.create_from_image(image)
-	
-	if original_sprite: 
-		original_sprite.texture = new_tex
-		
-	for sp in duplicated_spriteslist: 
-		if is_instance_valid(sp): 
-			sp.texture = new_tex
-			
-	_close_all_ui()
+#func _on_file_selected(path: String):
+	#var image = Image.new()
+	#if image.load(path) != OK: return
+	#var new_tex = ImageTexture.create_from_image(image)
+	#
+	#if original_sprite: 
+		#original_sprite.texture = new_tex
+		#
+	#for sp in duplicated_spriteslist: 
+		#if is_instance_valid(sp): 
+			#sp.texture = new_tex
+			#
+	#_close_all_ui()
 	

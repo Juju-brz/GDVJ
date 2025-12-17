@@ -39,7 +39,7 @@ var GRADIENT_ANGLE_SPEED: float = 10.0
 func _ready() -> void:
 	super._ready()
 	#print("--- SCRIPT STARTED ---")
-	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
+	Global.NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
 	# 1. SAFETY: Create a placeholder texture if missing
 	# This ensures you see SOMETHING even if the sprite is empty
 	#if original_sprite.texture == null:
@@ -49,8 +49,8 @@ func _ready() -> void:
 		#original_sprite.texture = placeholder
 		#original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
 		
-	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
-		next_tpt.pressed.connect(_on_next_tpt_pressed)
+	#if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		#next_tpt.pressed.connect(_on_next_tpt_pressed)
 		
 	# 2. Hide original setup elements
 	original_sprite.hide()
@@ -58,10 +58,10 @@ func _ready() -> void:
 	
 	
 	# 4. Connect Signals
-	if not btn_change_image.pressed.is_connected(func(): dialogue_change_image.popup_centered()):
-		btn_change_image.pressed.connect(func(): dialogue_change_image.popup_centered())
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-		dialogue_change_image.canceled.connect(_close_all_ui)
+	#if not btn_change_image.pressed.is_connected(func(): dialogue_change_image.popup_centered()):
+		#btn_change_image.pressed.connect(func(): dialogue_change_image.popup_centered())
+		#dialogue_change_image.file_selected.connect(_on_file_selected)
+		#dialogue_change_image.canceled.connect(_close_all_ui)
 	
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
@@ -173,21 +173,21 @@ func handle_slider_logic():
 
 
 
-func _on_file_selected(path: String):
-	var image = Image.new()
-	if image.load(path) != OK: return
-	var new_tex = ImageTexture.create_from_image(image)
-	
-	# Apply to Original
-	if original_sprite: 
-		original_sprite.texture = new_tex
-		original_sprite.modulate = Color(1,1,1) # Reset color from pink
-		
-	# Apply to Duplicates
-	for sp in duplicated_spriteslist: 
-		if is_instance_valid(sp): 
-			sp.texture = new_tex
-			sp.modulate = Color(1,1,1)
-			
-	_close_all_ui()
+#func _on_file_selected(path: String):
+	#var image = Image.new()
+	#if image.load(path) != OK: return
+	#var new_tex = ImageTexture.create_from_image(image)
+	#
+	## Apply to Original
+	#if original_sprite: 
+		#original_sprite.texture = new_tex
+		#original_sprite.modulate = Color(1,1,1) # Reset color from pink
+		#
+	## Apply to Duplicates
+	#for sp in duplicated_spriteslist: 
+		#if is_instance_valid(sp): 
+			#sp.texture = new_tex
+			#sp.modulate = Color(1,1,1)
+			#
+	#_close_all_ui()
 	
