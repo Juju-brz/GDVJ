@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgw5hdy3h13ff"]
+[gd_scene load_steps=5 format=3 uid="uid://cgw5hdy3h13ff"]
 
-[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/code_edit.gd" id="1_dhe1o"]
+[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/shaderFrag.gd" id="1_dhe1o"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="2_q0uhn"]
+[ext_resource type="Script" uid="uid://dfek5ideno8o" path="res://UI/shaderVer.gd" id="3_q0uhn"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_dhe1o"]
 number_color = Color(0.30875906, 0.5115807, 0.9547095, 1)
@@ -73,12 +74,25 @@ size_flags_horizontal = 15
 text = "Switch to Next Algorithm"
 icon_alignment = 1
 
-[node name="CodeEdit" type="CodeEdit" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.023
+anchor_top = 0.5
+anchor_right = 0.035
+anchor_bottom = 0.5
+offset_top = -476.5
+offset_right = 658.0
+offset_bottom = 476.5
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="Control"]
 layout_mode = 0
-offset_left = 38.0
-offset_top = 86.0
-offset_right = 690.0
-offset_bottom = 1040.0
+offset_right = 653.0
+offset_bottom = 939.0
+current_tab = 0
+
+[node name="Fragment" type="CodeEdit" parent="Control/TabContainer"]
+layout_mode = 2
 text = "shader_type canvas_item;
 
 void fragment() {
@@ -99,8 +113,9 @@ highlight_current_line = true
 draw_tabs = true
 draw_spaces = true
 script = ExtResource("1_dhe1o")
+metadata/_tab_index = 0
 
-[node name="Execute" type="Button" parent="CodeEdit"]
+[node name="Execute" type="Button" parent="Control/TabContainer/Fragment"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -112,10 +127,44 @@ offset_top = -42.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Play" type="Sprite2D" parent="CodeEdit/Execute"]
+[node name="Play" type="Sprite2D" parent="Control/TabContainer/Fragment/Execute"]
 position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_q0uhn")
 
-[connection signal="pressed" from="CodeEdit/Execute" to="CodeEdit" method="_on_button_pressed"]
-[connection signal="pressed" from="CodeEdit/Execute" to="CodeEdit" method="_on_execute_pressed"]
+[node name="Vertex" type="CodeEdit" parent="Control/TabContainer"]
+visible = false
+layout_mode = 2
+text = "shader_type canvas_item; // Type de shader pour les objets 2D
+
+// Couleur uniforme que tu peux modifier depuis GDScript
+uniform vec4 nouvelle_couleur : source_color = vec4(1.0, 0.0, 0.0, 1.0); // Rouge
+
+void vertex() {
+    // Applique la couleur aux sommets
+    COLOR = nouvelle_couleur;
+}
+"
+script = ExtResource("3_q0uhn")
+metadata/_tab_index = 1
+
+[node name="Execute" type="Button" parent="Control/TabContainer/Vertex"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_top = -42.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Play" type="Sprite2D" parent="Control/TabContainer/Vertex/Execute"]
+position = Vector2(21.5, 22.135)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_q0uhn")
+
+[connection signal="pressed" from="Control/TabContainer/Fragment/Execute" to="Control/TabContainer/Fragment" method="_on_button_pressed"]
+[connection signal="pressed" from="Control/TabContainer/Fragment/Execute" to="Control/TabContainer/Fragment" method="_on_execute_pressed"]
+[connection signal="pressed" from="Control/TabContainer/Vertex/Execute" to="Control/TabContainer/Vertex" method="_on_execute_pressed"]

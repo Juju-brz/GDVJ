@@ -1,11 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp8w6tlng3j86"]
+[gd_scene load_steps=8 format=3 uid="uid://bp8w6tlng3j86"]
 
+[ext_resource type="Shader" uid="uid://0ijwqlpu5omr" path="res://shaders/geoShader.gdshader" id="2_u2bk3"]
 [ext_resource type="Shader" uid="uid://dey07dsilauuk" path="res://shaders/shaderEmpty.gdshader" id="3_gb5ns"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="3_u2bk3"]
 [ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="3_wonj3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2bk3"]
 shader = ExtResource("3_gb5ns")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6jx8c"]
+shader = ExtResource("2_u2bk3")
+shader_parameter/wind_start_threshold = 0.1
+shader_parameter/wind_end_threshold = 2.0
+shader_parameter/wind_end_threshold_2 = 0.1
+shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 1.0
+shader_parameter/scale = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gb5ns"]
 resource_local_to_scene = true
@@ -21,6 +31,7 @@ offset_bottom = 1073.0
 color = Color(1, 1, 1, 0.3529412)
 
 [node name="Square" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6jx8c")
 position = Vector2(576, 420)
 scale = Vector2(0.63, 0.63)
 

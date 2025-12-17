@@ -4,7 +4,7 @@ var hide = false
 @onready var code = $CodeEdit
 #var shader_path = "res://shaders/shaderEmpty.gdshader"
 var shader_path = "res://shaders/mainShader.gdshader"
-@onready var colorRect = get_node("../../ColorRect2")  # Remonte de deux niveaux
+@onready var colorRect = get_node("../../../../ColorRect2")
 
 func _ready():
 	var execute = $Execute
@@ -22,12 +22,6 @@ func _input(event: InputEvent) -> void:
 		_on_execute_pressed()
 
 
-#func Fontlarge():
-	#var font = code
-	#if font:
-		#font.font_size = 32  # Modifie la taille du Font
-		#$CodeEdit.add_font_override("font", font)  # Applique le changement
-
 
 func _on_execute_pressed() -> void:
 	var user_code = self.text
@@ -37,5 +31,5 @@ func _on_execute_pressed() -> void:
 	if mat is ShaderMaterial:
 		var shader = mat.shader
 		if shader:
-			shader.code = user_code   # ✔️ Modifie directement le shader
+			shader.code = user_code 
 			

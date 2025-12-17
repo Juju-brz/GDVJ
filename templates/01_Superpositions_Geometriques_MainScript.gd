@@ -205,7 +205,7 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 			# Draw the star stack passing the unique cell index
 			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
 			loop_count += 1
-			print(loop_count)
+			#print(loop_count)
 
 func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
