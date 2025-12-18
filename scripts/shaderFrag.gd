@@ -1,5 +1,5 @@
 extends CodeEdit
-
+class_name  ShaderCode
 var hide = false
 @onready var code = $CodeEdit
 #var shader_path = "res://shaders/shaderEmpty.gdshader"

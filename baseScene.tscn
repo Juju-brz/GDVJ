@@ -8,18 +8,12 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2bk3"]
 shader = ExtResource("3_gb5ns")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6jx8c"]
-shader = ExtResource("2_u2bk3")
-shader_parameter/wind_start_threshold = 0.1
-shader_parameter/wind_end_threshold = 2.0
-shader_parameter/wind_end_threshold_2 = 0.1
-shader_parameter/wind_strength = 0.2
-shader_parameter/wind_speed = 1.0
-shader_parameter/scale = 2.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gb5ns"]
 resource_local_to_scene = true
 shader = ExtResource("3_u2bk3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6jx8c"]
+shader = ExtResource("2_u2bk3")
 
 [node name="Node2D" type="Node2D"]
 
@@ -30,15 +24,15 @@ offset_right = 1931.0
 offset_bottom = 1073.0
 color = Color(1, 1, 1, 0.3529412)
 
-[node name="Square" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_6jx8c")
-position = Vector2(576, 420)
-scale = Vector2(0.63, 0.63)
-
 [node name="ColorRect2" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_gb5ns")
 offset_right = 2000.0
 offset_bottom = 1100.0
 color = Color(1, 1, 1, 0)
+
+[node name="Square" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6jx8c")
+position = Vector2(576, 420)
+scale = Vector2(0.63, 0.63)
 
 [node name="Control" parent="." instance=ExtResource("3_wonj3")]
