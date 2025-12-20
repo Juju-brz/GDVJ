@@ -74,6 +74,13 @@ func _input(event: InputEvent) -> void:
 		mouse_activation = !mouse_activation
 	if Input.is_action_just_pressed("change_scene"):
 		_on_next_tpt_pressed()
+	
+	#if Input.is_action_pressed("joy_increment"):
+		#increment()
+	##if Input.act("joy_increment"):
+		##increment()
+	#if Input.is_action_pressed("joy_decrement"):
+		#decrement()
 
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
@@ -124,3 +131,12 @@ func _ready() -> void:
 	BG.hide()
 	dialogue_change_image.hide()
 	hide_ui = true
+	
+
+func _process(delta: float) -> void:
+	if Input.is_action_pressed("joy_increment"):
+		increment()
+	#if Input.act("joy_increment"):
+		#increment()
+	if Input.is_action_pressed("joy_decrement"):
+		decrement()
