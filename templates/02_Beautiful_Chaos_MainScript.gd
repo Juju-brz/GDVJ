@@ -78,6 +78,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	super._process(delta)
 	# 1. UPDATE TIMERS
 	time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta 
