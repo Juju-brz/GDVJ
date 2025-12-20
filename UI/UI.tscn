@@ -95,10 +95,9 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 653.0
 offset_bottom = 939.0
-current_tab = 1
+current_tab = 0
 
 [node name="Fragment" type="CodeEdit" parent="Control/TabContainer"]
-visible = false
 layout_mode = 2
 text = "shader_type canvas_item;
 
@@ -107,13 +106,12 @@ void fragment() {
 
 	vec3 color1 = vec3(1.0, 0.5, 0.0); //orange
 	vec3 color2 = vec3(0.3, 0.4, 0.7); //blue
-	vec3 color3 = vec3(0.3, 1.0, 0.0); // green
+	vec3 color3 = vec3(0.3, 1.0, 0.3); // green
 	vec2 uv = UV;
 
 	vec3 color = mix(color3, color2, uv.x + sin(TIME *0.5));
-	COLOR = vec4(color, 1.0);
-}
-"
+	COLOR = vec4(color, 0.5);
+}"
 syntax_highlighter = SubResource("CodeHighlighter_dhe1o")
 highlight_all_occurrences = true
 highlight_current_line = true
@@ -140,6 +138,7 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_q0uhn")
 
 [node name="Vertex" type="CodeEdit" parent="Control/TabContainer"]
+visible = false
 layout_mode = 2
 text = "shader_type canvas_item; 
 
