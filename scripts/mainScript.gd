@@ -11,16 +11,16 @@ class_name  mainScript
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
-@onready var ButtonTest = $Control/VBoxContainer/Btn_import_image
-
-
+@onready var Btn_import_image = $Control/VBoxContainer/Btn_import_image
+@onready var Dig_import_image = $Control/VBoxContainer/Dig_import_image
+@onready var texture_rect: TextureRect = $Control/TextureRect
 
 var hide_ui :bool = false
 var NEXT_SCENE_PATH = ""
 var mouse_activation = true
 
 #joy
-var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
+var joy_pos := Vector2(0.5, 0.5)
 var joy_speed := 1.2
 
 
@@ -28,6 +28,7 @@ var duplicated_spriteslist :Array= []
 
 
 #### FUNCTIONS ####
+
 func open_dialog():
 	dialogue_change_image.popup_centered()
 
@@ -78,12 +79,7 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_scene"):
 		_on_next_tpt_pressed()
 	
-	#if Input.is_action_pressed("joy_increment"):
-		#increment()
-	##if Input.act("joy_increment"):
-		##increment()
-	#if Input.is_action_pressed("joy_decrement"):
-		#decrement()
+
 
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
@@ -149,17 +145,34 @@ func _ready() -> void:
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 	
-	if not ButtonTest.pressed.is_connected(_on_btn_import_image_pressed):
-		ButtonTest.pressed.connect(_on_btn_import_image_pressed)
-
+	if not Btn_import_image.pressed.is_connected(_on_btn_import_image_pressed):
+		Btn_import_image.pressed.connect(_on_btn_import_image_pressed)
+		
+	if not Dig_import_image.file_selected.is_connected(_on_image_selected):
+		Dig_import_image.file_selected.connect(_on_image_selected)
+		
 func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("joy_increment"):
 		increment()
 	if Input.is_action_pressed("joy_decrement"):
 		decrement()
-	
+
 
 
 func _on_btn_import_image_pressed():
+	open_image()
 	print("ZUN I LOVE YOU")
+
+
+func open_image():
+	Dig_import_image.popup_centered()
+
+func _on_image_selected(path: String) -> void:
+	var image := Image.new()
+	if image.load(path) != OK:
+		push_error("Erreur chargement image")
+		return
+
+	var texture := ImageTexture.create_from_image(image)
+	texture_rect.texture = texture
