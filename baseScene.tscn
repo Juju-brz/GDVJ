@@ -32,7 +32,7 @@ color = Color(1, 1, 1, 0)
 
 [node name="Square" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_6jx8c")
-position = Vector2(576, 420)
+position = Vector2(1000, 600)
 scale = Vector2(0.63, 0.63)
 
 [node name="Control" parent="." instance=ExtResource("3_wonj3")]

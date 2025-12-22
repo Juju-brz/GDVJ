@@ -8,7 +8,7 @@ extends mainScript
 const TRAIL_LENGTH: int = 60 
 var target_segment_dist: float = 15.0 
 
-# --- QUANTUM INFLUENCE VARIABLES ---
+
 var chaos_level: float = 0.0 
 
 # --- ROTATION & TIME ---
@@ -62,7 +62,7 @@ func update_trail_physics(delta: float):
 	var viewport_center = get_viewport_rect().size * 0.5  
 	#var mouse_pos = get_global_mouse_position()
 	
-	##Off or On##
+	##OFF OR ON##
 	var mouse_pos
 	if mouse_activation == true:
 		mouse_pos = get_mouse() # .x & .y

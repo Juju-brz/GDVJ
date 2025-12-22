@@ -32,4 +32,4 @@ func _on_execute_pressed() -> void:
 		var shader = mat.shader
 		if shader:
 			shader.code = user_code 
-			print(" execution")
+			#print(" execution")

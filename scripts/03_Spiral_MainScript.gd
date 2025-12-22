@@ -1,5 +1,5 @@
 extends mainScript
-class_name Spiral
+#class_name Spiral
 
 #### VARIABLES ####
 
@@ -75,7 +75,7 @@ func update_sprites_transform(delta):
 	var viewport_rect = get_viewport_rect()
 	var screen_center = viewport_rect.size * 0.5
 	
-	
+	## OFF or ON## 
 	var mouse_norm
 	if mouse_activation == true:
 		mouse_norm = mouse_control() # .x & .y
@@ -85,6 +85,8 @@ func update_sprites_transform(delta):
 	var target_scale = lerp(0.5, 1.2, mouse_norm.x) # Mouse X controls size
 	
 	# --- LOOP THROUGH SPRITES ---
+	
+	### TRANSFROM TO MODIFY VARIABLE ###
 	for i in range(duplicated_spriteslist.size()):
 		var sprite = duplicated_spriteslist[i]
 		

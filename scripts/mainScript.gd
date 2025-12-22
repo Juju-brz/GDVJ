@@ -4,7 +4,7 @@ class_name  mainScript
 
 ### CONTROLS ###
 @onready var control = $Control
-@onready var BG = $BG_For_Controls
+#@onready var BG = $BG_For_Controls
 @onready var slider = $Control/VBoxContainer/HSlider
 @onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
@@ -43,7 +43,7 @@ func _on_file_selected(path: String):
 	_close_all_ui()
 
 func _close_all_ui():
-	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
+	control.hide(); dialogue_change_image.hide(); hide_ui = true
 
 func _on_next_tpt_pressed() -> void:
 	# 1. Close the external Python thread cleanly (important!)
@@ -65,9 +65,9 @@ func _input(event: InputEvent) -> void:
 	# Toggle UI
 	if Input.is_action_just_pressed("hide_all_ctrl"):
 		if hide_ui:
-			control.show(); BG.show(); hide_ui = false
+			control.show(); hide_ui = false
 		else:
-			control.hide(); BG.hide(); hide_ui = true
+			control.hide(); hide_ui = true
 			
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
@@ -128,7 +128,7 @@ func _ready() -> void:
 	
 	# HIDE  UI
 	control.hide()
-	BG.hide()
+	#BG.hide()
 	dialogue_change_image.hide()
 	hide_ui = true
 	
@@ -152,11 +152,11 @@ func _ready() -> void:
 		Dig_import_image.file_selected.connect(_on_image_selected)
 		
 func _process(delta: float) -> void:
-	
-	if Input.is_action_pressed("joy_increment"):
-		increment()
-	if Input.is_action_pressed("joy_decrement"):
-		decrement()
+	if mouse_activation == false:
+		if Input.is_action_pressed("joy_increment"):
+			increment()
+		if Input.is_action_pressed("joy_decrement"):
+			decrement()
 
 
 
