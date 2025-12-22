@@ -11,6 +11,9 @@ class_name  mainScript
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
+@onready var ButtonTest = $Control/VBoxContainer/Btn_import_image
+
+
 
 var hide_ui :bool = false
 var NEXT_SCENE_PATH = ""
@@ -127,16 +130,36 @@ func decrement():
 
 func _ready() -> void:
 	
+	# HIDE  UI
 	control.hide()
 	BG.hide()
 	dialogue_change_image.hide()
 	hide_ui = true
 	
+	# CONNECT SIGNALS
+	if not btn_change_image.pressed.is_connected(open_dialog):
+		btn_change_image.pressed.connect(open_dialog)
+	
+	if not dialogue_change_image.file_selected.is_connected(_on_file_selected):
+		dialogue_change_image.file_selected.connect(_on_file_selected)
+	
+	if not dialogue_change_image.canceled.is_connected(_close_all_ui):
+		dialogue_change_image.canceled.connect(_close_all_ui)
+		
+	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
+		next_tpt.pressed.connect(_on_next_tpt_pressed)
+	
+	if not ButtonTest.pressed.is_connected(_on_btn_import_image_pressed):
+		ButtonTest.pressed.connect(_on_btn_import_image_pressed)
 
 func _process(delta: float) -> void:
+	
 	if Input.is_action_pressed("joy_increment"):
 		increment()
-	#if Input.act("joy_increment"):
-		#increment()
 	if Input.is_action_pressed("joy_decrement"):
 		decrement()
+	
+
+
+func _on_btn_import_image_pressed():
+	print("ZUN I LOVE YOU")

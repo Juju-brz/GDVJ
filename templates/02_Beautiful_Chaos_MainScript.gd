@@ -58,10 +58,10 @@ func _ready() -> void:
 	
 	
 	# 4. Connect Signals
-	if not btn_change_image.pressed.is_connected(func(): dialogue_change_image.popup_centered()):
-		btn_change_image.pressed.connect(func(): dialogue_change_image.popup_centered())
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-		dialogue_change_image.canceled.connect(_close_all_ui)
+	#if not btn_change_image.pressed.is_connected(func(): dialogue_change_image.popup_centered()):
+		#btn_change_image.pressed.connect(func(): dialogue_change_image.popup_centered())
+		#dialogue_change_image.file_selected.connect(_on_file_selected)
+		#dialogue_change_image.canceled.connect(_close_all_ui)
 	
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
