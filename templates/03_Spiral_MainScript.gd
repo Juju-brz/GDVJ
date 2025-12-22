@@ -38,14 +38,7 @@ func _ready() -> void:
 	original_sprite.hide()
 
 	
-	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
-		next_tpt.pressed.connect(_on_next_tpt_pressed)
-		
-	# 4. Connect Signals
-	if not btn_change_image.pressed.is_connected(open_dialog):
-		btn_change_image.pressed.connect(open_dialog)
-		dialogue_change_image.file_selected.connect(_on_file_selected)
-		dialogue_change_image.canceled.connect(_close_all_ui)
+
 	
 	# 5. INITIALIZE SLIDERS
 	slider.max_value = 200 
