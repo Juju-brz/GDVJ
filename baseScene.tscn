@@ -26,9 +26,19 @@ color = Color(1, 1, 1, 0.3529412)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_gb5ns")
-offset_right = 2000.0
+offset_right = 1926.0
 offset_bottom = 1100.0
 color = Color(1, 1, 1, 0)
+
+[node name="BG_For_Controls" type="ColorRect" parent="."]
+visible = false
+z_index = 4
+offset_left = 22.0
+offset_top = 37.0
+offset_right = 1897.0
+offset_bottom = 1060.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.5568628)
 
 [node name="Square" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_6jx8c")
