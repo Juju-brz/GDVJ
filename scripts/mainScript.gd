@@ -147,8 +147,8 @@ func _ready() -> void:
 	
 	
 	###### TEST AUTOLOAD DELETE WHEN FINISH #####
-	GLOBAL.add_score(10)
-	print(GLOBAL.score)
+	#GLOBAL.add_score(10)
+	print(GLOBAL.scriptFragShader)
 
 
 func _process(delta: float) -> void:

@@ -6,19 +6,24 @@ var hide = false
 var shader_path = "res://shaders/mainShader.gdshader"
 @onready var colorRect = get_node("../../../../ColorRect2")
 
+
+
+
 func _ready():
 	var execute = $Execute
 	execute.pressed.connect(_on_execute_pressed)
 	if colorRect == null:
 		print("Error: colorRect is null.")
-		
-	apply_global_shader()
+	# Création du shader
+	var shader_code = GLOBAL.scriptFragShader
 
-func apply_global_shader():
-	if GLOBAL.scriptFragShader:
-		var mat := ShaderMaterial.new()
-		mat.shader = GLOBAL.scriptFragShader
-		material = mat
+	var shader := Shader.new()
+	#shader.code = shader_code
+
+	# Création du ShaderMaterial et application
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	self.material = material
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("hide_Code"):
