@@ -11,7 +11,14 @@ func _ready():
 	execute.pressed.connect(_on_execute_pressed)
 	if colorRect == null:
 		print("Error: colorRect is null.")
+		
+	apply_global_shader()
 
+func apply_global_shader():
+	if GLOBAL.scriptFragShader:
+		var mat := ShaderMaterial.new()
+		mat.shader = GLOBAL.scriptFragShader
+		material = mat
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("hide_Code"):
@@ -33,3 +40,7 @@ func _on_execute_pressed() -> void:
 		if shader:
 			shader.code = user_code 
 			
+	
+			GLOBAL.update_script(shader)
+			#print(GLOBAL.shader)
+	

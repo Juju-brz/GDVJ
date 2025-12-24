@@ -16,9 +16,10 @@ run/main_scene="uid://dn5hnojjq0cu2"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
-[debug]
+[autoload]
 
-settings/stdout/print_fps=true
+GLOBAL="*res://scripts/Autoload/GLOBAL.gd"
+EVENTS="*res://scripts/Autoload/EVENTS.gd"
 
 [display]
 

@@ -144,6 +144,12 @@ func _ready() -> void:
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
+	
+	
+	###### TEST AUTOLOAD DELETE WHEN FINISH #####
+	GLOBAL.add_score(10)
+	print(GLOBAL.score)
+
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("joy_increment"):
