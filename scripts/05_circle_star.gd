@@ -1,5 +1,4 @@
 extends mainScript
-class_name Spiral
 
 #### VARIABLES ####
 
@@ -9,14 +8,14 @@ class_name Spiral
 var ANGLE_STEP: float = 0.5 
 
 # We use the slider to control the Radius (Distance from center)
-var RADIUS: float = 100.0 
+var RADIUS: float = 0.0 
 
 var time_passed: float = 0.0 
 #var speed: float = 2.0 
 
 # --- MOUSE INTERACTION ---
 var overall_rotation: float = 0.0
-var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
+var ROTATION_SPEED: float = deg_to_rad(10.0)
 
 
 #var duplicated_spriteslist = []
@@ -27,8 +26,6 @@ var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
 
 func _ready() -> void:
 	super._ready()
-	
-	speed = 1.0
 	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
@@ -44,7 +41,7 @@ func _ready() -> void:
 	
 	# 5. INITIALIZE SLIDERS
 	slider.max_value = 200 
-	slider.value = 50   # Start with 50 items
+	slider.value = 2
 	old_slider_val_int = 0 
 	
 	# 6. Spawn Initial Sprites
@@ -56,10 +53,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	super._process(delta)
-	print(speed)
 	# 1. UPDATE TIMERS
 	time_passed += delta * speed
-	overall_rotation += ROTATION_SPEED * delta * speed
+	overall_rotation += ROTATION_SPEED * delta 
 	
 	# 2. UPDATE RADIUS FROM SLIDER
 	# In original script, slider_spacing controlled Radius
@@ -90,14 +86,14 @@ func update_sprites_transform(delta):
 	# --- LOOP THROUGH SPRITES ---
 	for i in range(duplicated_spriteslist.size()):
 		var sprite = duplicated_spriteslist[i]
-		
+		#overall_rotation += 0.2 #* delta
 		if is_instance_valid(sprite):
 			sprite.visible = true
 			
 			# --- SPIRAL MATH (Like Original Script) ---
 			# Angle increases with index 'i'
 			var angle = i * ANGLE_STEP
-			
+			#overall_rotation += 1.0 * delta
 			# --- WAVE FUNCTION (COMMENTED OUT AS REQUESTED) ---
 			# var wave_offset = sin(time_passed + (i * 0.2)) * 20.0
 			# var current_radius = RADIUS + wave_offset
@@ -111,9 +107,9 @@ func update_sprites_transform(delta):
 			
 			# --- ROTATION & SCALE ---
 			# Restore the rotation logic: rotation = angle
-			sprite.rotation = angle + overall_rotation
+			sprite.rotation = angle + overall_rotation * speed
 			sprite.scale = Vector2(target_scale, target_scale)
-
+			
 
 #### HELPER FUNCTIONS ####
 

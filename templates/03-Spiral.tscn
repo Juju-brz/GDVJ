@@ -22,8 +22,8 @@ offset_bottom = 1183.0
 [node name="ColorRect2" parent="." index="1"]
 material = SubResource("ShaderMaterial_p8kfp")
 
-[node name="Square" parent="." index="2"]
+[node name="Square" parent="." index="3"]
 z_index = 2
-position = Vector2(1023, 499)
-scale = Vector2(1, 1)
+position = Vector2(1023, 554)
+scale = Vector2(1, 1.0518235)
 texture = ExtResource("3_uylkl")

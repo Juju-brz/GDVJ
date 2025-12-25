@@ -20,9 +20,11 @@ var mouse_activation = true
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
 var joy_speed := 1.2
 
-
 var duplicated_spriteslist :Array= []
 
+### TO DO
+# add control speed
+var speed : float = 2.0
 
 #### FUNCTIONS ####
 func open_dialog():
@@ -81,6 +83,12 @@ func _input(event: InputEvent) -> void:
 		##increment()
 	#if Input.is_action_pressed("joy_decrement"):
 		#decrement()
+	if Input.is_action_pressed("joy_speed_down"):
+		speed += 1.0
+		#print("speed up")
+	if Input.is_action_pressed("joy_speed_up"):
+		speed -= 1.0
+
 
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
@@ -124,6 +132,8 @@ func decrement():
 		if is_instance_valid(last_sprite):
 			last_sprite.queue_free()
 
+#func speed_up():
+	#speed +=1
 
 func _ready() -> void:
 	

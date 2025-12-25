@@ -7,7 +7,7 @@ class_name BeautifulChaos
 var SPACING: float = 60.0 
 var GRID_COLUMNS: int = 15 
 var time_passed: float = 0.0 
-var speed: float = 5.0 
+#var speed: float = 5.0 
 
 # --- MOUSE INTERACTION SETTINGS ---
 var overall_rotation: float = 0.0
@@ -38,7 +38,8 @@ var GRADIENT_ANGLE_SPEED: float = 10.0
 
 func _ready() -> void:
 	super._ready()
-	#print("--- SCRIPT STARTED ---")
+	
+	speed = 5.0 
 	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
 	# 1. SAFETY: Create a placeholder texture if missing
 	# This ensures you see SOMETHING even if the sprite is empty

@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqbodqmy7kr1x"]
+
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_3e42k"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="2_8mno4"]
+[ext_resource type="Script" uid="uid://bdtpf15behnfb" path="res://scripts/05_circle_star.gd" id="2_r1p4q"]
+[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_8mno4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1p4q"]
+resource_local_to_scene = true
+shader = ExtResource("2_8mno4")
+
+[node name="Node2D" instance=ExtResource("1_3e42k")]
+script = ExtResource("2_r1p4q")
+
+[node name="ColorRect2" parent="." index="1"]
+material = SubResource("ShaderMaterial_r1p4q")
+
+[node name="Square" parent="." index="3"]
+texture = ExtResource("3_8mno4")
