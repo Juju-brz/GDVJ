@@ -83,12 +83,6 @@ func _input(event: InputEvent) -> void:
 		##increment()
 	#if Input.is_action_pressed("joy_decrement"):
 		#decrement()
-	if Input.is_action_pressed("joy_speed_down"):
-		speed += 1.0
-		#print("speed up")
-	if Input.is_action_pressed("joy_speed_up"):
-		speed -= 1.0
-
 
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
@@ -162,3 +156,15 @@ func _process(delta: float) -> void:
 		#increment()
 	if Input.is_action_pressed("joy_decrement"):
 		decrement()
+	if Input.is_action_pressed("joy_speed_down"):
+		if speed <= 1:
+			pass
+		else:
+			speed -= 1.0
+			print(speed)
+	if Input.is_action_pressed("joy_speed_up"):
+		if speed >= 50.0:
+			pass
+		else:
+			speed += 1.0
+			print(speed)
