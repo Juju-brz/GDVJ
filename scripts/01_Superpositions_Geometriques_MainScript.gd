@@ -103,13 +103,14 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	super._process(delta)
 	# 1. Update Timers
 	time_passed += delta * JITTER_SPEED  
 	
 	
 	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta
-	group_rotation += GROUP_ROTATION_SPEED * delta
+	group_rotation += GROUP_ROTATION_SPEED * delta * speed
 	current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	
@@ -154,7 +155,7 @@ func draw_board(delta):
 	var start_x = -(total_width * 0.5) + (step * 0.5)
 	var start_y = -(total_height * 0.5) + (step * 0.5)
 	var  max_loop = 100
-	if max_loop == 101:
+	if max_loop >= 101:
 		#clear_board()
 		pass
 	else: 
