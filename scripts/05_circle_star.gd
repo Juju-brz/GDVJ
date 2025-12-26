@@ -41,7 +41,7 @@ func _ready() -> void:
 	
 	# 5. INITIALIZE SLIDERS
 	slider.max_value = 200 
-	slider.value = 2
+	slider.value = 100
 	old_slider_val_int = 0 
 	
 	# 6. Spawn Initial Sprites
@@ -93,15 +93,12 @@ func update_sprites_transform(delta):
 			# --- SPIRAL MATH (Like Original Script) ---
 			# Angle increases with index 'i'
 			var angle = i * ANGLE_STEP
-			#overall_rotation += 1.0 * delta
-			# --- WAVE FUNCTION (COMMENTED OUT AS REQUESTED) ---
-			# var wave_offset = sin(time_passed + (i * 0.2)) * 20.0
-			# var current_radius = RADIUS + wave_offset
+
 			var current_radius = RADIUS # Use static radius
 			
 			# Calculate Position based on Angle and Radius
-			var x_pos = screen_center.x + cos(angle) * current_radius
-			var y_pos = screen_center.y + sin(angle) * current_radius
+			var x_pos = screen_center.x + cos(angle) * current_radius *10.2
+			var y_pos = screen_center.y + cos(angle) * current_radius 
 			
 			sprite.position = Vector2(x_pos, y_pos)
 			

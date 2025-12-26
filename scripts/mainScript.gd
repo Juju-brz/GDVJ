@@ -163,7 +163,7 @@ func _process(delta: float) -> void:
 			speed -= 1.0
 			print(speed)
 	if Input.is_action_pressed("joy_speed_up"):
-		if speed >= 50.0:
+		if speed >= 20.0:
 			pass
 		else:
 			speed += 1.0
