@@ -29,7 +29,7 @@ func _ready() -> void:
 	super._ready()
 	
 	speed = 1.0
-	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
+	NEXT_SCENE_PATH = "res://templates/05_CircleStar.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
 		var placeholder = PlaceholderTexture2D.new()
