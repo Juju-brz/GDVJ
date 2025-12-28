@@ -39,7 +39,7 @@ func _ready() -> void:
 	super._ready()
 	
 	speed = 5.0 
-	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
+	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
 
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. UPDATE TIMERS
 	#time_passed += delta * speed
-	overall_rotation += ROTATION_SPEED * delta 
+	overall_rotation += ROTATION_SPEED * delta * speed
 	SPACING = slider_spacing.value 
 	
 	# 2. UPDATE BACKGROUND
@@ -132,8 +132,8 @@ func update_sprites_transform(delta):
 			
 			# 3. SCALE & ROTATION
 			sprite.scale = Vector2(target_scale, target_scale)
-			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y) 
-			sprite.rotation = overall_rotation + (col * 0.3) * rotation_influence
+			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y * 0.5) 
+			sprite.rotation = overall_rotation + (col * 0.52) * rotation_influence
 
 
 #### HELPER FUNCTIONS ####
