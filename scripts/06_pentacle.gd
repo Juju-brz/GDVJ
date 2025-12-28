@@ -40,14 +40,7 @@ func _ready() -> void:
 	
 	speed = 5.0 
 	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
-	# 1. SAFETY: Create a placeholder texture if missing
-	# This ensures you see SOMETHING even if the sprite is empty
-	#if original_sprite.texture == null:
-		#print("No texture found! Creating placeholder.")
-		#var placeholder = PlaceholderTexture2D.new()
-		#placeholder.size = Vector2(64, 64)
-		#original_sprite.texture = placeholder
-		#original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
+
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
@@ -75,7 +68,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. UPDATE TIMERS
-	time_passed += delta * speed
+	#time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta 
 	SPACING = slider_spacing.value 
 	

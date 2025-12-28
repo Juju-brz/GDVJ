@@ -121,10 +121,13 @@ func increment():
 	duplicated_spriteslist.append(new_sprite)
 
 func decrement(): 
-	if duplicated_spriteslist.size() > 0:
-		var last_sprite = duplicated_spriteslist.pop_back()
-		if is_instance_valid(last_sprite):
-			last_sprite.queue_free()
+	if duplicated_spriteslist.size() <= 0:
+		pass
+	else:
+		if duplicated_spriteslist.size() > 0:
+			var last_sprite = duplicated_spriteslist.pop_back()
+			if is_instance_valid(last_sprite):
+				last_sprite.queue_free()
 
 #func speed_up():
 	#speed +=1
