@@ -32,7 +32,7 @@ var trail_velocities: Array[Vector2] = []
 func _ready() -> void:
 	super._ready()
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
-	speed = 4.0
+	speed = 8.0
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
@@ -52,11 +52,15 @@ func _ready() -> void:
 		trail_velocities.append(Vector2.ZERO)
 
 		
-	print("!!! SCRIPT READY: Center Spawn + Mirror Movement + Invisible Head !!!")
+	#print("!!! SCRIPT READY: Center Spawn + Mirror Movement + Invisible Head !!!")
 
+func increment():
+	pass
 
 func _process(delta: float) -> void:
 	super._process(delta)
+	
+	
 	time_passed += delta
 	
 	update_trail_physics(delta)

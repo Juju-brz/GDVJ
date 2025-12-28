@@ -152,10 +152,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("joy_increment"):
 		increment()
-	#if Input.act("joy_increment"):
-		#increment()
+
 	if Input.is_action_pressed("joy_decrement"):
 		decrement()
+
 	if Input.is_action_pressed("joy_speed_down"):
 		if speed <= 1:
 			pass
