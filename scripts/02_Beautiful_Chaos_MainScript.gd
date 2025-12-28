@@ -99,9 +99,9 @@ func update_sprites_transform(delta):
 	var viewport_rect = get_viewport_rect()
 	
 	var mouse_norm
-	if mouse_activation == true:
+	if GLOBAL.mouse_activation == true:
 		mouse_norm = mouse_control() # .x & .y
-	if mouse_activation == false:
+	if GLOBAL.mouse_activation == false:
 		mouse_norm = joystick_control(delta)
 		
 	var target_scale = lerp(0.2, 1.5, mouse_norm.x) 

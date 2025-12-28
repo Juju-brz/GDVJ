@@ -80,9 +80,9 @@ func update_sprites_transform(delta):
 	
 	
 	var mouse_norm
-	if mouse_activation == true:
+	if GLOBAL.mouse_activation == true:
 		mouse_norm = mouse_control() # .x & .y
-	if mouse_activation == false:
+	if GLOBAL.mouse_activation == false:
 		mouse_norm = joystick_control(delta)
 
 	var target_scale = lerp(0.5, 1.2, mouse_norm.x) # Mouse X controls size

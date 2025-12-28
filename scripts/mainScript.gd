@@ -14,7 +14,7 @@ class_name  mainScript
 
 var hide_ui :bool = false
 var NEXT_SCENE_PATH = ""
-var mouse_activation = true
+#var mouse_activation = true
 
 #joy
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
@@ -73,7 +73,7 @@ func _input(event: InputEvent) -> void:
 		get_tree().quit()
 
 	if Input.is_action_just_pressed("mouse"):
-		mouse_activation = !mouse_activation
+		GLOBAL.mouse_activation = !GLOBAL.mouse_activation
 	if Input.is_action_just_pressed("change_scene"):
 		_on_next_tpt_pressed()
 	
@@ -107,9 +107,9 @@ func joystick_control(delta: float) -> Vector2:
 
 func control_norm(delta):
 	var control_norm
-	if mouse_activation == true:
+	if GLOBAL.mouse_activation == true:
 		control_norm = mouse_control() # .x & .y
-	if mouse_activation == false:
+	if GLOBAL.mouse_activation == false:
 		control_norm = joystick_control(delta)
 	return control_norm
 

@@ -68,9 +68,9 @@ func update_trail_physics(delta: float):
 	
 	##Off or On##
 	var mouse_pos
-	if mouse_activation == true:
+	if GLOBAL.mouse_activation == true:
 		mouse_pos = get_mouse() # .x & .y
-	if mouse_activation == false:
+	if GLOBAL.mouse_activation == false:
 		mouse_pos = joystick_control(delta) * viewport_center * 2.0
 	
 	

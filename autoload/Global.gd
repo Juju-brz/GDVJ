@@ -32,6 +32,7 @@ void vertex() {
 	VERTEX;
 }"
 
+var mouse_activation = false
 #var ShaderVer = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
