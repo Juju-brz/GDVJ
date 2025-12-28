@@ -1,5 +1,5 @@
 extends mainScript
-class_name Spiral
+#class_name Spiral
 
 #### VARIABLES ####
 

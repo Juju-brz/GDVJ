@@ -26,7 +26,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
+	NEXT_SCENE_PATH = "res://templates/06_Pentacle.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
 		var placeholder = PlaceholderTexture2D.new()
