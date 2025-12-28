@@ -1,7 +1,7 @@
 extends CodeEdit
 class_name  ShaderCode
 var hide = false
-@onready var code = $CodeEdit
+@onready var code = self
 #var shader_path = "res://shaders/shaderEmpty.gdshader"
 var shader_path = "res://shaders/mainShader.gdshader"
 @onready var colorRect = get_node("../../../../ColorRect2")
@@ -11,6 +11,9 @@ func _ready():
 	execute.pressed.connect(_on_execute_pressed)
 	if colorRect == null:
 		print("Error: colorRect is null.")
+	
+	print(code)
+	code.text = GLOBAL.ShaderFrag
 
 
 func _input(event: InputEvent) -> void:
@@ -32,4 +35,4 @@ func _on_execute_pressed() -> void:
 		var shader = mat.shader
 		if shader:
 			shader.code = user_code 
-			
+			GLOBAL.ShaderFrag = user_code

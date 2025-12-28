@@ -32,7 +32,7 @@ var trail_velocities: Array[Vector2] = []
 func _ready() -> void:
 	super._ready()
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
-	speed = 1.0
+	speed = 4.0
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
