@@ -39,7 +39,7 @@ func _ready() -> void:
 	super._ready()
 	
 	speed = 5.0 
-	NEXT_SCENE_PATH = "res://templates/01_Superpositions_geometriques.tscn"
+	NEXT_SCENE_PATH = "res://templates/01_Geometric_Superpositions.tscn"
 
 		
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
