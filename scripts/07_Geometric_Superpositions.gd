@@ -67,7 +67,7 @@ var target_active_count: int = 0
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+	NEXT_SCENE_PATH = "res://templates/01_Geometric_Superpositions.tscn"
 
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
