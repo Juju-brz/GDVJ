@@ -24,19 +24,19 @@ var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0)
 var stamp_angles: Array[float] = []
 
 # --- BACKGROUND GRADIENT ---
-@onready var backsquare = $ColorRect 
+#@onready var backsquare = $ColorRect 
 
-var current_color_time: float = 0.0
+#var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
 var GRADIENT_SPEED: float = 0.1
 var GRADIENT_ANGLE_SPEED: float = 10.0
 
 # --- RANDOMNESS (Not quantum related, existing logic) ---
-var cycle_timer: float = 0.0
-const CYCLE_INTERVAL: float = 10.0 
-var rand_val_a: float = 0.0
-var rand_val_b: float = 0.0
-var smooth_random_value: float = 0.0 
+#var cycle_timer: float = 0.0
+#const CYCLE_INTERVAL: float = 10.0 
+#var rand_val_a: float = 0.0
+#var rand_val_b: float = 0.0
+#var smooth_random_value: float = 0.0 
 
 
 # ---------------------------------------------------------
@@ -44,8 +44,6 @@ var smooth_random_value: float = 0.0
 # ---------------------------------------------------------
 
 var output: Array = []
-
-
 
 # ----------------------------------------------------------------------
 # 1. Configuration 
@@ -81,9 +79,7 @@ func _ready() -> void:
 	
 	# 1. SETUP VISUALS
 	original_sprite.hide()
-	if backsquare:
-		backsquare.hide()
-	
+
 	# Generate Stamps
 	var current_angle : float = 45.0
 	var add_small_step : bool = true 
@@ -95,10 +91,7 @@ func _ready() -> void:
 			current_angle += 45.0
 		add_small_step = not add_small_step
 
-	rand_val_a = randf()
-	rand_val_b = randf()
 
-	
 
 
 
@@ -111,9 +104,12 @@ func _process(delta: float) -> void:
 	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta
 	group_rotation += GROUP_ROTATION_SPEED * delta * speed
-	current_color_time += GRADIENT_SPEED * delta
+	#current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
-	
+	#print(time_passed)
+	#if  time_passed > 6.0:
+		#pass
+	#else:
 	queue_redraw()
 	clear_board()
 	draw_board(delta)
@@ -155,11 +151,12 @@ func draw_board(delta):
 	var start_x = -(total_width * 0.5) + (step * 0.5)
 	var start_y = -(total_height * 0.5) + (step * 0.5)
 	var  max_loop = 100
-	if max_loop >= 101:
+	#if time_passed >= 3.0:
 		#clear_board()
-		pass
-	else: 
-		loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,max_loop)
+		#time_passed = 0.0
+		#pass
+	#else: 
+	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,max_loop)
 
 func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, max_loop=null):
 	var loop_count = 0
@@ -201,19 +198,19 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
 	var current_rotation_speed = 1.0 # Default (full speed)
 	
-	if cell_index < TOTAL_CELLS:
-		var target = cell_rotation_target[cell_index]
-		var current_time = cell_rotation_timer[cell_index]
+	#if cell_index < TOTAL_CELLS:
+		#var target = cell_rotation_target[cell_index]
+		#var current_time = cell_rotation_timer[cell_index]
 		
-		if target == 0.0: # STOPPING PHASE (1.0 speed -> 0.0 speed, Ease Out)
-			var t = clamp(current_time / STOP_DURATION, 0.0, 1.0)
-			var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
-			current_rotation_speed = lerp(1.0, target, ease_t)
-			
-		elif target == 1.0: # RESTARTING PHASE (0.0 speed -> 1.0 speed, Ease In)
-			var t = clamp(current_time / RESTART_DURATION, 0.0, 1.0)
-			var ease_t = pow(t, 3) # Cubic Ease In
-			current_rotation_speed = lerp(0.0, target, ease_t)
+		#if target == 0.0: # STOPPING PHASE (1.0 speed -> 0.0 speed, Ease Out)
+			#var t = clamp(current_time / STOP_DURATION, 0.0, 1.0)
+			#var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
+			#current_rotation_speed = lerp(1.0, target, ease_t)
+			#
+		#elif target == 1.0: # RESTARTING PHASE (0.0 speed -> 1.0 speed, Ease In)
+			#var t = clamp(current_time / RESTART_DURATION, 0.0, 1.0)
+			#var ease_t = pow(t, 3) # Cubic Ease In
+			#current_rotation_speed = lerp(0.0, target, ease_t)
 			
 	# The final speed multiplier for this cell's rotation
 	var final_rotation_multiplier = current_rotation_speed 
@@ -240,40 +237,3 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	create_sprite.call(0.0, scale_inner)
 	create_sprite.call(0.0, scale_ghost) 
 	
-	# 2. Stamps (Trails relative to group)
-	for target_angle in active_stamps_list:
-		create_sprite.call(target_angle, scale_outer)
-		create_sprite.call(target_angle, scale_inner)
-		create_sprite.call(target_angle, scale_ghost) 
-	
-	# 3. Active Rotator (Moving relative to group)
-	create_sprite.call(overall_rotation, scale_outer)
-	create_sprite.call(overall_rotation, scale_inner)
-	create_sprite.call(overall_rotation, scale_ghost)
-
-
-func update_rotation_state():
-	
-	# 1. Count how many cells are currently animating (stopping or restarting)
-	var currently_animating = 0
-	for i in range(TOTAL_CELLS):
-		# A cell is animating if it's currently stopping (target 0.0) 
-		# OR if it's restarting (target 1.0 but hasn't finished the RESTART_DURATION time yet)
-		if cell_rotation_target[i] == 0.0 or cell_rotation_timer[i] < RESTART_DURATION:
-			currently_animating += 1
-
-	# 2. If the current animation count is below the quantum-driven target count, 
-	#    find a random idle cell and start its stop rotation animation.
-	if currently_animating < target_active_count:
-		
-		# Find all cells that are currently idle (target 1.0 AND finished restarting)
-		var idle_indices = []
-		for i in range(TOTAL_CELLS):
-			if cell_rotation_target[i] == 1.0 and cell_rotation_timer[i] >= RESTART_DURATION:
-				idle_indices.append(i)
-		
-		# If there are idle cells, randomly select one to stop
-		if idle_indices.size() > 0:
-			var cell_index = idle_indices.pick_random()
-			cell_rotation_target[cell_index] = 0.0 # Stop target
-			cell_rotation_timer[cell_index] = 0.0 # Start timer for STOP_DURATION
