@@ -67,7 +67,7 @@ var target_active_count: int = 0
 
 func _ready() -> void:
 	super._ready()
-	NEXT_SCENE_PATH = "res://templates/04_WormDance.tscn" 
+	NEXT_SCENE_PATH = "res://templates/01_Geometric_Superpositions.tscn"
 
 	# Initialize element-based rotation arrays
 	cell_rotation_timer.resize(TOTAL_CELLS)
@@ -149,23 +149,20 @@ func draw_board(delta):
 	
 	var start_x = -(total_width * 0.5) + (step * 0.5)
 	var start_y = -(total_height * 0.5) + (step * 0.5)
-	#var  max_loop = 100
+	var  max_loop = 100
 	#if time_passed >= 3.0:
 		#clear_board()
 		#time_passed = 0.0
 		#pass
 	#else: 
-	var current_rotation_speed = 1.0
-	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed)
+	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,max_loop)
 
-	var current_rotation_speed1 = 4.0
-	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed1)
-func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, current_rotation_speed):
-	#var loop_count = 0
+func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, max_loop=null):
+	var loop_count = 0
 	for col in range(GRID_COLUMNS):
 		for row in range(GRID_ROWS):
-			#if max_loop != null and loop_count >= max_loop:
-				#return
+			if max_loop != null and loop_count >= max_loop:
+				return
 				
 			var x_pos = start_x + (col * step)
 			var base_y = start_y + (row * step)
@@ -192,14 +189,27 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 			var cell_index = (row * GRID_COLUMNS) + col
 			
 			# Draw the star stack passing the unique cell index
-			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index, current_rotation_speed)
-			#loop_count += 1
+			draw_star_pattern(star_pos, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index)
+			loop_count += 1
 			#print(loop_count)
 
-func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int, current_rotation_speed):
+func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
-	#var current_rotation_speed = 1.0 # Default (full speed)
-
+	var current_rotation_speed = 1.0 # Default (full speed)
+	
+	#if cell_index < TOTAL_CELLS:
+		#var target = cell_rotation_target[cell_index]
+		#var current_time = cell_rotation_timer[cell_index]
+		
+		#if target == 0.0: # STOPPING PHASE (1.0 speed -> 0.0 speed, Ease Out)
+			#var t = clamp(current_time / STOP_DURATION, 0.0, 1.0)
+			#var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
+			#current_rotation_speed = lerp(1.0, target, ease_t)
+			#
+		#elif target == 1.0: # RESTARTING PHASE (0.0 speed -> 1.0 speed, Ease In)
+			#var t = clamp(current_time / RESTART_DURATION, 0.0, 1.0)
+			#var ease_t = pow(t, 3) # Cubic Ease In
+			#current_rotation_speed = lerp(0.0, target, ease_t)
 			
 	# The final speed multiplier for this cell's rotation
 	var final_rotation_multiplier = current_rotation_speed 

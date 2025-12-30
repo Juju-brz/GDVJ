@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb5p3oy57drns"]
+
+[ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_p84bl"]
+[ext_resource type="Script" uid="uid://4gtmfcgw8xwb" path="res://scripts/07_Geometric_Superpositions.gd" id="2_v1brf"]
+[ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="3_bgeos"]
+[ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="4_v1brf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w5pw7"]
+resource_local_to_scene = true
+shader = ExtResource("3_bgeos")
+
+[node name="Node2D" instance=ExtResource("1_p84bl")]
+script = ExtResource("2_v1brf")
+
+[node name="ColorRect2" parent="." index="1"]
+material = SubResource("ShaderMaterial_w5pw7")
+
+[node name="Square" parent="." index="3"]
+texture = ExtResource("4_v1brf")
