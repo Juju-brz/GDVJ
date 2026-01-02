@@ -156,11 +156,11 @@ func draw_board(delta):
 		#pass
 	#else: 
 	var current_rotation_speed = 1.0
-	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed)
+	loop(start_x, start_y, step, screen_center, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed)
 
 	var current_rotation_speed1 = 4.0
-	loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed1)
-func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_outer, current_scale_inner, current_scale_ghost, current_rotation_speed):
+	loop(start_x, start_y, step, screen_center, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed1)
+func loop(start_x, start_y, step, screen_center, current_scale_outer, current_scale_inner, current_scale_ghost, current_rotation_speed):
 	#var loop_count = 0
 	for col in range(GRID_COLUMNS):
 		for row in range(GRID_ROWS):
@@ -189,14 +189,14 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 				rot_direction = -1.0
 			
 			# --- CALCULATE UNIQUE CELL INDEX ---
-			var cell_index = (row * GRID_COLUMNS) + col
+			#var cell_index = (row * GRID_COLUMNS) + col
 			
 			# Draw the star stack passing the unique cell index
-			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, cell_index, current_rotation_speed)
+			draw_star_pattern(star_pos, current_scale_outer, current_scale_inner, current_scale_ghost, rot_direction, current_rotation_speed)
 			#loop_count += 1
 			#print(loop_count)
 
-func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, cell_index: int, current_rotation_speed):
+func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float, scale_ghost: float, rot_dir: float, current_rotation_speed):
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
 	#var current_rotation_speed = 1.0 # Default (full speed)
 
