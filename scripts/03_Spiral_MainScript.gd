@@ -1,5 +1,4 @@
 extends mainScript
-#class_name Spiral
 
 #### VARIABLES ####
 
@@ -56,7 +55,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	super._process(delta)
-	#print(speed)
 	# 1. UPDATE TIMERS
 	time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta * speed
@@ -66,7 +64,7 @@ func _process(delta: float) -> void:
 	#RADIUS = slider_spacing.value 
 	
 	# 3. HANDLE ADDING/REMOVING SPRITES
-	handle_slider_logic()
+	#handle_slider_logic()
 	
 	# 4. MOVE SPRITES (The Spiral Logic)
 	update_sprites_transform(delta)
@@ -113,22 +111,6 @@ func update_sprites_transform(delta):
 			# Restore the rotation logic: rotation = angle
 			sprite.rotation = angle + overall_rotation
 			sprite.scale = Vector2(target_scale, target_scale)
-
-
-#### HELPER FUNCTIONS ####
-
-#func handle_slider_logic():
-	#var current_slider_int = int(slider.value)
-	#if current_slider_int > old_slider_val_int:
-		#for i in range(current_slider_int - old_slider_val_int):
-			#increment()
-		#old_slider_val_int = current_slider_int
-	#elif current_slider_int < old_slider_val_int:
-		#for i in range(old_slider_val_int - current_slider_int):
-			#decrement()
-		#old_slider_val_int = current_slider_int
-
-
 
 
 func _on_file_selected(path: String):

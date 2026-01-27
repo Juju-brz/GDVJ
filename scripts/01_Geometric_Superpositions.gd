@@ -22,20 +22,9 @@ var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0)
 
 var stamp_angles: Array[float] = []
 
-# --- BACKGROUND GRADIENT ---
-#@onready var backsquare = $ColorRect 
-
-#var current_color_time: float = 0.0
 var current_gradient_angle: float = 0.0
 var GRADIENT_SPEED: float = 0.1
 var GRADIENT_ANGLE_SPEED: float = 10.0
-
-# --- RANDOMNESS (Not quantum related, existing logic) ---
-#var cycle_timer: float = 0.0
-#const CYCLE_INTERVAL: float = 10.0 
-#var rand_val_a: float = 0.0
-#var rand_val_b: float = 0.0
-#var smooth_random_value: float = 0.0 
 
 
 # ---------------------------------------------------------

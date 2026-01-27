@@ -14,13 +14,14 @@ class_name  mainScript
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
 @onready var old_slider_val_int: int = int(slider.value)
+@onready var old_slider_spacing_val = int(slider.value)
 var hide_ui :bool = false
 var NEXT_SCENE_PATH : String = ""
 #var mouse_activation = true
 
 #joy
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
-var joy_speed := 1.2
+var joy_speed : float= 0.8
 
 ## duplication ##
 var duplicated_spriteslist :Array = []
@@ -156,17 +157,23 @@ func decrement():
 
 #### HELPER FUNCTIONS ####
 
-func handle_slider_logic():
-	var current_slider_int = int(slider.value)
-	if current_slider_int > old_slider_val_int:
-		#for i in range(current_slider_int - old_slider_val_int):
-		#increment()
-		old_slider_val_int = current_slider_int
-	elif current_slider_int < old_slider_val_int:
-		#for i in range(old_slider_val_int - current_slider_int):
-		#decrement()
-		old_slider_val_int = current_slider_int
+#func handle_slider_logic():
+	#var current_slider_int = int(slider.value)
+	#if current_slider_int > old_slider_val_int:
+		##for i in range(current_slider_int - old_slider_val_int):
+		##increment()
+		#old_slider_val_int = current_slider_int
+	#elif current_slider_int < old_slider_val_int:
+		##for i in range(old_slider_val_int - current_slider_int):
+		##decrement()
+		#old_slider_val_int = current_slider_int
 
+
+func Radius_Incr():
+	RADIUS = RADIUS + 1.0 
+
+func Radius_Decr():
+	RADIUS = RADIUS - 1.0
 
 func _ready() -> void:
 	duplication_count = duplicated_spriteslist.size()
@@ -189,12 +196,15 @@ func _ready() -> void:
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 
+func slider_visual_update(a, b, slider):
+	if a != b:
+		a = b
+		slider.value = a
+
+
 func _process(delta: float) -> void:
-	if duplication_count != duplicated_spriteslist.size():
-		duplication_count = duplicated_spriteslist.size()
-		slider.value = duplication_count
-		print("mainScript:", "duplication count",duplication_count, duplicated_spriteslist.size())
-	
+	slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
+	#slider_visual_update(RADIUS,old_slider_spacing_val, slider_spacing)
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
 		increment()
@@ -225,9 +235,3 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("joy_radius_decr"):
 		Radius_Decr()
-
-func Radius_Incr():
-	RADIUS = RADIUS + 1.0 
-
-func Radius_Decr():
-	RADIUS = RADIUS - 1.0

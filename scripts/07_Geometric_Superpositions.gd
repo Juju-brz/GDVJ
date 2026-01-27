@@ -1,8 +1,5 @@
 extends mainScript
 
-# ---------------------------------------------------------
-# VARIABLES: VISUAL SETTINGS
-# ---------------------------------------------------------
 
 # --- GRID SETTINGS ---
 var GRID_COLUMNS: int = 10 

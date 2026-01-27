@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 	queue_redraw() 
 
 	# 3. HANDLE ADDING/REMOVING SPRITES
-	handle_slider_logic()
+	#handle_slider_logic()
 	
 	# 4. MOVE & SCALE SPRITES
 	update_sprites_transform(delta)
