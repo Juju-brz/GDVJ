@@ -20,7 +20,7 @@ var array_points: Array[Vector2] = []
 # Trackers
 
 #var duplicated_spriteslist = []
-@onready var old_slider_val_int: int = int(slider.value)
+#@onready var old_slider_val_int: int = int(slider.value)
 @onready var old_slider_spacing_val: float = slider_spacing.value
 
 # --- BACKGROUND GRADIENT VARIABLES ---
@@ -54,7 +54,7 @@ func _ready() -> void:
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
 	slider.max_value = 300 
-	slider.value = 3 
+	slider.value = 10 
 	old_slider_val_int = 0 # Reset tracker so the logic below triggers
 	
 	# 6. Spawn Initial Sprites
@@ -134,27 +134,6 @@ func update_sprites_transform(delta):
 			sprite.scale = Vector2(target_scale, target_scale)
 			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y * 0.5) 
 			sprite.rotation = overall_rotation + (col * 0.52) * rotation_influence
-
-
-#### HELPER FUNCTIONS ####
-
-func handle_slider_logic():
-	var current_slider_int = int(slider.value)
-	if current_slider_int > old_slider_val_int:
-		for i in range(current_slider_int - old_slider_val_int):
-			increment()
-		old_slider_val_int = current_slider_int
-	elif current_slider_int < old_slider_val_int:
-		for i in range(old_slider_val_int - current_slider_int):
-			decrement()
-		old_slider_val_int = current_slider_int
-
-
-#func toggle_ui():
-	#if hide_ui:
-		#control.show(); BG.show(); hide_ui = false
-	#else:
-		#control.hide(); BG.hide(); hide_ui = true
 
 
 

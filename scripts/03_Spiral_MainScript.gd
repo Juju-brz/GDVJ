@@ -9,7 +9,7 @@ extends mainScript
 var ANGLE_STEP: float = 0.5 
 
 # We use the slider to control the Radius (Distance from center)
-var RADIUS: float = 100.0 
+#var RADIUS: float = 100.0 
 
 var time_passed: float = 0.0 
 #var speed: float = 2.0 
@@ -20,7 +20,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
 
 
 #var duplicated_spriteslist = []
-@onready var old_slider_val_int: int = int(slider.value)
+#@onready var old_slider_val_int: int = int(slider.value)
 
 
 #### FUNCTIONS ####
@@ -43,8 +43,8 @@ func _ready() -> void:
 
 	
 	# 5. INITIALIZE SLIDERS
-	slider.max_value = 200 
-	slider.value = 50   # Start with 50 items
+	#slider.max_value = 200 
+	slider.value = 100
 	old_slider_val_int = 0 
 	
 	# 6. Spawn Initial Sprites
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 	
 	# 2. UPDATE RADIUS FROM SLIDER
 	# In original script, slider_spacing controlled Radius
-	RADIUS = slider_spacing.value 
+	#RADIUS = slider_spacing.value 
 	
 	# 3. HANDLE ADDING/REMOVING SPRITES
 	handle_slider_logic()
@@ -117,16 +117,16 @@ func update_sprites_transform(delta):
 
 #### HELPER FUNCTIONS ####
 
-func handle_slider_logic():
-	var current_slider_int = int(slider.value)
-	if current_slider_int > old_slider_val_int:
-		for i in range(current_slider_int - old_slider_val_int):
-			increment()
-		old_slider_val_int = current_slider_int
-	elif current_slider_int < old_slider_val_int:
-		for i in range(old_slider_val_int - current_slider_int):
-			decrement()
-		old_slider_val_int = current_slider_int
+#func handle_slider_logic():
+	#var current_slider_int = int(slider.value)
+	#if current_slider_int > old_slider_val_int:
+		#for i in range(current_slider_int - old_slider_val_int):
+			#increment()
+		#old_slider_val_int = current_slider_int
+	#elif current_slider_int < old_slider_val_int:
+		#for i in range(old_slider_val_int - current_slider_int):
+			#decrement()
+		#old_slider_val_int = current_slider_int
 
 
 

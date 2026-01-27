@@ -2,7 +2,7 @@ extends Node2D
 class_name  mainScript
 
 
-#### VARIABLES ####
+#### 		VARIABLES 		####
 
 ### CONTROLS ###
 @onready var control = $Control
@@ -13,22 +13,31 @@ class_name  mainScript
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
-
+@onready var old_slider_val_int: int = int(slider.value)
 var hide_ui :bool = false
-var NEXT_SCENE_PATH = ""
+var NEXT_SCENE_PATH : String = ""
 #var mouse_activation = true
 
 #joy
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
 var joy_speed := 1.2
 
-var duplicated_spriteslist :Array= []
+## duplication ##
+var duplicated_spriteslist :Array = []
+var duplication_count = 0
+var old_duplication_count = 0
 
-### TO DO
-# add control speed
+## SPEED ##
 var speed : float = 2.0
 
-#### FUNCTIONS ####
+
+## RADIUS ##
+var RADIUS: float = 100.0 
+
+
+#### 		FUNCTIONS 		####
+
+
 func open_dialog():
 	dialogue_change_image.popup_centered()
 
@@ -54,9 +63,10 @@ func _on_next_tpt_pressed() -> void:
 
 	if error != OK:
 		# Handle the error if the scene file wasn.t found
-		print("SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
-	print("Error code: ", error)
+		print("mainScript : SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
+	print("mainScript : Error code: ", error)
 
+### CONTROL INPUT ###
 func get_mouse() -> Vector2:
 	var mouse_pos = get_viewport().get_mouse_position()
 	return mouse_pos
@@ -86,6 +96,7 @@ func _input(event: InputEvent) -> void:
 	#if Input.is_action_pressed("joy_decrement"):
 		#decrement()
 
+#CREATE MOUSE CONTROL
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
 	#var mouse_pos = get_viewport().get_mouse_position()
@@ -94,7 +105,7 @@ func mouse_control():
 	var norm_y = clamp(get_mouse().y / viewport_rect.size.y, 0.0, 1.0)
 	return Vector2(norm_x, norm_y)
 
-
+#CREATE joystick and Controler CONTROL
 func joystick_control(delta: float) -> Vector2:
 	var x = Input.get_action_strength("joy_right") - Input.get_action_strength("joy_left")
 	var y = Input.get_action_strength("joy_down") - Input.get_action_strength("joy_up")
@@ -115,13 +126,21 @@ func control_norm(delta):
 		control_norm = joystick_control(delta)
 	return control_norm
 
-func increment(): 
-	if not original_sprite: return
-	var new_sprite = original_sprite.duplicate()
-	new_sprite.visible = true 
-	add_child(new_sprite)
-	duplicated_spriteslist.append(new_sprite)
 
+###CREATE ANOTHER GEO
+func increment(): 
+	if duplicated_spriteslist.size() >= 200.0:
+		pass
+	else:
+		print(duplicated_spriteslist.size())
+		if not original_sprite: return
+		var new_sprite = original_sprite.duplicate()
+		new_sprite.visible = true 
+		add_child(new_sprite)
+		duplicated_spriteslist.append(new_sprite)
+
+
+###DESTROY  LAST GEO
 func decrement(): 
 	if duplicated_spriteslist.size() <= 0:
 		pass
@@ -134,8 +153,24 @@ func decrement():
 #func speed_up():
 	#speed +=1
 
+
+#### HELPER FUNCTIONS ####
+
+func handle_slider_logic():
+	var current_slider_int = int(slider.value)
+	if current_slider_int > old_slider_val_int:
+		#for i in range(current_slider_int - old_slider_val_int):
+		#increment()
+		old_slider_val_int = current_slider_int
+	elif current_slider_int < old_slider_val_int:
+		#for i in range(old_slider_val_int - current_slider_int):
+		#decrement()
+		old_slider_val_int = current_slider_int
+
+
 func _ready() -> void:
-	
+	duplication_count = duplicated_spriteslist.size()
+	old_duplication_count = duplication_count
 	control.hide()
 	BG.hide()
 	dialogue_change_image.hide()
@@ -155,21 +190,44 @@ func _ready() -> void:
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 
 func _process(delta: float) -> void:
+	if duplication_count != duplicated_spriteslist.size():
+		duplication_count = duplicated_spriteslist.size()
+		slider.value = duplication_count
+		print("mainScript:", "duplication count",duplication_count, duplicated_spriteslist.size())
+	
+	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
 		increment()
+		#print("mainSript :", "increment" )
+		
+		#slider.set_value_no_signal(duplicated_spriteslist.size())
+		#print("mainSript :", duplicated_spriteslist.size() )
 
 	if Input.is_action_pressed("joy_decrement"):
 		decrement()
+		#slider.value = duplicated_spriteslist.size()
 
 	if Input.is_action_pressed("joy_speed_down"):
 		if speed <= 1:
 			pass
 		else:
-			speed -= 1.0
-			print(speed)
+			speed -= 0.5
+			#print("mainScript :" , "speed" , speed)
 	if Input.is_action_pressed("joy_speed_up"):
 		if speed >= 20.0:
 			pass
 		else:
-			speed += 1.0
-			print(speed)
+			speed += 0.5
+			#print("mainScript :" , "speed" , speed)
+	
+	if Input.is_action_pressed("joy_radius_incr"):
+		Radius_Incr()
+	
+	if Input.is_action_pressed("joy_radius_decr"):
+		Radius_Decr()
+
+func Radius_Incr():
+	RADIUS = RADIUS + 1.0 
+
+func Radius_Decr():
+	RADIUS = RADIUS - 1.0

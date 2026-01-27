@@ -1,6 +1,6 @@
 extends Node
 
-var ShaderFrag = "shader_type canvas_item;
+var ShaderFrag : String = "shader_type canvas_item;
 
 void fragment() {
 
@@ -13,7 +13,7 @@ void fragment() {
 	vec3 color = mix(color3, color2, uv.x + sin(TIME *0.5));
 	COLOR = vec4(color, 0.5);
 }"
-var ShaderVer = "shader_type canvas_item; 
+var ShaderVer : String = "shader_type canvas_item; 
 
 
 void vertex() {
@@ -32,7 +32,7 @@ void vertex() {
 	VERTEX;
 }"
 
-var mouse_activation = true
+var mouse_activation : bool = true
 #var ShaderVer = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

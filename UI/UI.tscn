@@ -40,7 +40,9 @@ text = "Duplication"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
-max_value = 50.0
+min_value = 1.0
+max_value = 200.0
+value = 1.0
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 visible = false
