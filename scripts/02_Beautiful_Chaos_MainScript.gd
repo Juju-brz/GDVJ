@@ -21,7 +21,7 @@ var array_points: Array[Vector2] = []
 
 #var duplicated_spriteslist = []
 #@onready var old_slider_val_int: int = int(slider.value)
-@onready var old_slider_spacing_val: float = slider_spacing.value
+#@onready var old_slider_spacing_val: float = slider_spacing.value
 
 # --- BACKGROUND GRADIENT VARIABLES ---
 @onready var backsquare = $ColorRect 

@@ -60,6 +60,7 @@ func _on_next_tpt_pressed() -> void:
 	# We don't want the thread trying to write back to the old, closing scene.
 
 	# 2. Get the SceneTree and change the scene
+	
 	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
 
 	if error != OK:

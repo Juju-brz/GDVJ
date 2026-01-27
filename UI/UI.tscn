@@ -186,7 +186,7 @@ position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_q0uhn")
 
-[connection signal="pressed" from="Control/TabContainer/Fragment/Execute" to="Control/TabContainer/Fragment" method="_on_button_pressed"]
 [connection signal="pressed" from="Control/TabContainer/Fragment/Execute" to="Control/TabContainer/Fragment" method="_on_execute_pressed"]
-[connection signal="pressed" from="Control/TabContainer/Vertex/Execute" to="Control/TabContainer/Vertex" method="_on_button_pressed"]
+[connection signal="pressed" from="Control/TabContainer/Fragment/Execute" to="Control/TabContainer/Fragment" method="_on_button_pressed"]
 [connection signal="pressed" from="Control/TabContainer/Vertex/Execute" to="Control/TabContainer/Vertex" method="_on_execute_pressed"]
+[connection signal="pressed" from="Control/TabContainer/Vertex/Execute" to="Control/TabContainer/Vertex" method="_on_button_pressed"]
