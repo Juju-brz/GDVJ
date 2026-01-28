@@ -27,15 +27,8 @@ var GRADIENT_SPEED: float = 0.1
 var GRADIENT_ANGLE_SPEED: float = 10.0
 
 
-# ---------------------------------------------------------
-# VARIABLES: UI & CONTROLS
-# ---------------------------------------------------------
-
 var output: Array = []
 
-# ----------------------------------------------------------------------
-# 1. Configuration 
-# ----------------------------------------------------------------------			
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int = 90 # 10 columns * 9 rows

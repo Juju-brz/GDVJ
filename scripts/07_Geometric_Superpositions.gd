@@ -4,8 +4,8 @@ extends mainScript
 # --- GRID SETTINGS ---
 var GRID_COLUMNS: int = 10 
 var GRID_ROWS: int = 9 
-var CELL_SIZE: float = 100.0 
-
+#var CELL_SIZE: float = 100.0 
+var CELL_SIZE: float = 100.0
 # --- RANDOM MOVEMENT SETTINGS ---
 var time_passed: float = 0.0
 var JITTER_SPEED: float = 1.5      
@@ -19,26 +19,6 @@ var GROUP_ROTATION_SPEED: float = deg_to_rad(5.0)
 
 var stamp_angles: Array[float] = []
 
-# --- BACKGROUND GRADIENT ---
-#@onready var backsquare = $ColorRect 
-
-#var current_color_time: float = 0.0
-var current_gradient_angle: float = 0.0
-var GRADIENT_SPEED: float = 0.1
-var GRADIENT_ANGLE_SPEED: float = 10.0
-
-# --- RANDOMNESS (Not quantum related, existing logic) ---
-#var cycle_timer: float = 0.0
-#const CYCLE_INTERVAL: float = 10.0 
-#var rand_val_a: float = 0.0
-#var rand_val_b: float = 0.0
-#var smooth_random_value: float = 0.0 
-
-
-# ---------------------------------------------------------
-# VARIABLES: UI & CONTROLS
-# ---------------------------------------------------------
-
 var output: Array = []
 
 # ----------------------------------------------------------------------
@@ -47,16 +27,11 @@ var output: Array = []
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int = 90 # 10 columns * 9 rows
-# Max time to stop rotation (1.0 speed -> 0.0 speed, Ease Out)
 const STOP_DURATION: float = 0.4 
-# Max time to restart rotation (0.0 speed -> 1.0 speed, Ease In)
 const RESTART_DURATION: float = 3.0
 
-# Tracks the current animation progress/state for all 90 cells.
 var cell_rotation_timer: Array[float] = [] 
-# Tracks the final rotation target (0.0=stop, 1.0=start)
 var cell_rotation_target: Array[float] = [] 
-# Tracks the current number of active cells to avoid repeated activation
 var target_active_count: int = 0
 
 
@@ -87,7 +62,7 @@ func _ready() -> void:
 			current_angle += 45.0
 		add_small_step = not add_small_step
 
-
+	slider_duplication.value = 100
 
 
 
@@ -100,12 +75,7 @@ func _process(delta: float) -> void:
 	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta
 	group_rotation += GROUP_ROTATION_SPEED * delta * speed
-	#current_color_time += GRADIENT_SPEED * delta
-	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
-	#print(time_passed)
-	#if  time_passed > 6.0:
-		#pass
-	#else:
+	
 	queue_redraw()
 	clear_board()
 	draw_board(delta)
@@ -140,13 +110,14 @@ func draw_board(delta):
 
 	# 2. Grid Calculations
 	var screen_center = get_viewport_rect().size * 0.5
+	#var step = RADIUS * 2.0
 	var step = CELL_SIZE * 2.0
 	var total_width = GRID_COLUMNS * step
 	var total_height = GRID_ROWS * step
 	
 	var start_x = -(total_width * 0.5) + (step * 0.5)
 	var start_y = -(total_height * 0.5) + (step * 0.5)
-	var  max_loop = 100
+	var  max_loop = slider_duplication.value
 	#if time_passed >= 3.0:
 		#clear_board()
 		#time_passed = 0.0
@@ -165,13 +136,13 @@ func loop(start_x, start_y, step, screen_center, active_stamps, current_scale_ou
 			var base_y = start_y + (row * step)
 			#print(loop_count)
 			# Deterministic Random Jitter
-			var random_seed = (col * 11 + row * 17) % 100
+			#var random_seed = (col * 11 + row * 17) % 100
 			var y_offset = 0.0
 			
-			if random_seed < 30:
-				y_offset = sin(time_passed + random_seed) * JITTER_HEIGHT
-			else:
-				y_offset = 0.0
+			#if random_seed < 30:
+				#y_offset = sin(time_passed + random_seed) * JITTER_HEIGHT
+			#else:
+				#y_offset = 0.0
 			
 			var y_pos = base_y + y_offset
 			var star_pos = screen_center + Vector2(x_pos, y_pos)
@@ -194,21 +165,7 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 	# ------------------ ANIMATED ROTATION LOOKUP ------------------
 	var current_rotation_speed = 1.0 # Default (full speed)
 	
-	#if cell_index < TOTAL_CELLS:
-		#var target = cell_rotation_target[cell_index]
-		#var current_time = cell_rotation_timer[cell_index]
-		
-		#if target == 0.0: # STOPPING PHASE (1.0 speed -> 0.0 speed, Ease Out)
-			#var t = clamp(current_time / STOP_DURATION, 0.0, 1.0)
-			#var ease_t = 1.0 - pow(1.0 - t, 3) # Cubic Ease Out
-			#current_rotation_speed = lerp(1.0, target, ease_t)
-			#
-		#elif target == 1.0: # RESTARTING PHASE (0.0 speed -> 1.0 speed, Ease In)
-			#var t = clamp(current_time / RESTART_DURATION, 0.0, 1.0)
-			#var ease_t = pow(t, 3) # Cubic Ease In
-			#current_rotation_speed = lerp(0.0, target, ease_t)
-			
-	# The final speed multiplier for this cell's rotation
+
 	var final_rotation_multiplier = current_rotation_speed 
 
 	# Helper to create sprite
@@ -218,8 +175,6 @@ func draw_star_pattern(location: Vector2, active_stamps_list: Array[float], scal
 		add_child(s)
 		s.position = location
 		
-		# APPLY ROTATION SPEED MULTIPLIER HERE
-		# We multiply the group rotation by the cell's speed multiplier
 		s.rotation = rot_angle_rad + (group_rotation * rot_dir * final_rotation_multiplier)
 		
 		s.scale = Vector2(sprite_scale, sprite_scale)

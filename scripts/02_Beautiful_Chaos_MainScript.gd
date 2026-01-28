@@ -16,14 +16,6 @@ var ROTATION_SPEED: float = deg_to_rad(10.0)
 var array_points: Array[Vector2] = []
 
 
-#const NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn" # <-- CHANGE THIS PATH!
-# Trackers
-
-#var duplicated_spriteslist = []
-#@onready var old_slider_val_int: int = int(slider.value)
-#@onready var old_slider_spacing_val: float = slider_spacing.value
-
-# --- BACKGROUND GRADIENT VARIABLES ---
 @onready var backsquare = $ColorRect 
 
 
@@ -50,8 +42,6 @@ func _ready() -> void:
 	
 	
 
-	# 5. FORCE SLIDER START
-	# Force the slider to 50 so we definitely spawn items
 	slider_duplication.max_value = 300 
 	slider_duplication.value = 50 
 	old_slider_val_int = 0 # Reset tracker so the logic below triggers
@@ -97,11 +87,8 @@ func update_sprites_transform(delta):
 		
 	var target_scale = lerp(0.2, 1.5, mouse_norm.x) 
 	
-	# --- B. CENTER GRID ON SCREEN ---
-	# Instead of using original_sprite.position, we calculate the screen center
 	var screen_center = viewport_rect.size * 0.5
 	
-	# Calculate total grid size to center it perfectly
 	var total_sprites = duplicated_spriteslist.size()
 	if total_sprites == 0: return # Prevent crash if empty
 	
@@ -136,17 +123,6 @@ func update_sprites_transform(delta):
 			sprite.scale = Vector2(target_scale, target_scale)
 			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y) 
 			sprite.rotation = overall_rotation + (col * 0.1) * rotation_influence
-
-
-
-
-
-#func toggle_ui():
-	#if hide_ui:
-		#control.show(); BG.show(); hide_ui = false
-	#else:
-		#control.hide(); BG.hide(); hide_ui = true
-
 
 
 

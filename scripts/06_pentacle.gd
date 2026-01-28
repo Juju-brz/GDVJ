@@ -27,10 +27,10 @@ var array_points: Array[Vector2] = []
 @onready var backsquare = $ColorRect 
 
 
-var current_color_time: float = 0.0
-var current_gradient_angle: float = 0.0
-var GRADIENT_SPEED: float = 0.1
-var GRADIENT_ANGLE_SPEED: float = 10.0
+#var current_color_time: float = 0.0
+#var current_gradient_angle: float = 0.0
+#var GRADIENT_SPEED: float = 0.1
+#var GRADIENT_ANGLE_SPEED: float = 10.0
 
 
 #### FUNCTIONS ####
@@ -53,7 +53,7 @@ func _ready() -> void:
 
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
-	slider_duplication.max_value = 300 
+	#slider_duplication.max_value = 300 
 	slider_duplication.value = 10 
 	old_slider_val_int = 0 # Reset tracker so the logic below triggers
 	
@@ -62,7 +62,7 @@ func _ready() -> void:
 	for i in range(start_count):
 		increment()
 	
-	print("Created ", duplicated_spriteslist.size(), " items.")
+	#print("Created ", duplicated_spriteslist.size(), " items.")
 
 
 func _process(delta: float) -> void:
@@ -70,12 +70,12 @@ func _process(delta: float) -> void:
 	# 1. UPDATE TIMERS
 	#time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta * speed
-	SPACING = slider_radius.value
+	RADIUS = slider_radius.value
 	
 	# 2. UPDATE BACKGROUND
-	current_color_time += GRADIENT_SPEED * delta
-	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
-	queue_redraw() 
+	#current_color_time += GRADIENT_SPEED * delta
+	#current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
+	#queue_redraw() 
 
 	# 3. HANDLE ADDING/REMOVING SPRITES
 	#handle_slider_logic()
