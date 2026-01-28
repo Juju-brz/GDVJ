@@ -128,7 +128,7 @@ func increment():
 	if duplicated_spriteslist.size() >= 200.0:
 		pass
 	else:
-		print(duplicated_spriteslist.size())
+		#print(duplicated_spriteslist.size())
 		if not original_sprite: return
 		var new_sprite = original_sprite.duplicate()
 		new_sprite.visible = true 

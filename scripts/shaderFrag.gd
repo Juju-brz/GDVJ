@@ -12,7 +12,6 @@ func _ready():
 	if colorRect == null:
 		print("Error: colorRect is null.")
 	
-	print(code)
 	code.text = GLOBAL.ShaderFrag
 
 
