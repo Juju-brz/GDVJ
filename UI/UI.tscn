@@ -38,7 +38,7 @@ grow_horizontal = 0
 layout_mode = 2
 text = "Duplication"
 
-[node name="HSlider" type="HSlider" parent="VBoxContainer"]
+[node name="HSlider_duplication" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
 max_value = 200.0
@@ -53,9 +53,9 @@ text = "Animation"
 layout_mode = 2
 text = "RADIUS"
 
-[node name="HSlider_spacing" type="HSlider" parent="VBoxContainer"]
+[node name="HSlider_radius" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
-min_value = 50.0
+min_value = 1.0
 value = 50.0
 
 [node name="Btn_Change_Image" type="Button" parent="VBoxContainer"]

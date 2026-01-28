@@ -53,12 +53,12 @@ func _ready() -> void:
 
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
-	slider.max_value = 300 
-	slider.value = 10 
+	slider_duplication.max_value = 300 
+	slider_duplication.value = 10 
 	old_slider_val_int = 0 # Reset tracker so the logic below triggers
 	
 	# 6. Spawn Initial Sprites
-	var start_count = int(slider.value)
+	var start_count = int(slider_duplication.value)
 	for i in range(start_count):
 		increment()
 	
@@ -70,7 +70,7 @@ func _process(delta: float) -> void:
 	# 1. UPDATE TIMERS
 	#time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta * speed
-	SPACING = slider_spacing.value 
+	SPACING = slider_radius.value
 	
 	# 2. UPDATE BACKGROUND
 	current_color_time += GRADIENT_SPEED * delta

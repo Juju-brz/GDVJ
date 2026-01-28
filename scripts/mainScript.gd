@@ -7,14 +7,14 @@ class_name  mainScript
 ### CONTROLS ###
 @onready var control = $Control
 @onready var BG = $BG_For_Controls
-@onready var slider = $Control/VBoxContainer/HSlider
-@onready var slider_spacing = $Control/VBoxContainer/HSlider_spacing
+@onready var slider_duplication = $Control/VBoxContainer/HSlider_duplication
+@onready var slider_radius = $Control/VBoxContainer/HSlider_radius
 @onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
 @onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
 @onready var original_sprite = $Square  
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
-@onready var old_slider_val_int: int = int(slider.value)
-@onready var old_slider_spacing_val = int(slider.value)
+@onready var old_slider_val_int: int = int(slider_duplication.value)
+@onready var old_slider_radius_val = int(slider_radius.value)
 var hide_ui :bool = false
 var NEXT_SCENE_PATH : String = ""
 #var mouse_activation = true
@@ -201,20 +201,29 @@ func slider_visual_update(a, b, slider):
 
 func _process(delta: float) -> void:
 	#slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
-	if slider.value > duplicated_spriteslist.size():
+	if slider_duplication.value > duplicated_spriteslist.size():
 		increment()
-	if slider.value < duplicated_spriteslist.size():
+	if slider_duplication.value < duplicated_spriteslist.size():
 		decrement()
+	
+	
+	if slider_radius.value > old_slider_radius_val:
+		Radius_Incr()
+		old_slider_radius_val = slider_radius.value
+	if slider_radius.value < old_slider_radius_val:
+		Radius_Decr()
+		old_slider_radius_val = slider_radius.value
+	
 	#slider_visual_update(RADIUS,old_slider_spacing_val, slider_spacing)
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
 		#increment()
-		slider.value += 1
+		slider_duplication.value += 1
 
 
 	if Input.is_action_pressed("joy_decrement"):
 		#decrement()
-		slider.value -= 1
+		slider_duplication.value -= 1
 	
 	if Input.is_action_pressed("joy_speed_down"):
 		if speed <= 1:
@@ -230,7 +239,9 @@ func _process(delta: float) -> void:
 			#print("mainScript :" , "speed" , speed)
 	
 	if Input.is_action_pressed("joy_radius_incr"):
-		Radius_Incr()
+		#Radius_Incr()
+		slider_radius.value += 1
 	
 	if Input.is_action_pressed("joy_radius_decr"):
-		Radius_Decr()
+		#Radius_Decr()
+		slider_radius.value -= 1

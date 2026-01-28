@@ -40,12 +40,12 @@ func _ready() -> void:
 
 	
 	# 5. INITIALIZE SLIDERS
-	slider.max_value = 200 
-	slider.value = 100
+	slider_duplication.max_value = 200 
+	slider_duplication.value = 100
 	old_slider_val_int = 0 
 	
 	# 6. Spawn Initial Sprites
-	var start_count = int(slider.value)
+	var start_count = int(slider_duplication.value)
 	for i in range(start_count):
 		increment()
 

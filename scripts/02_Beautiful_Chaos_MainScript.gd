@@ -40,15 +40,7 @@ func _ready() -> void:
 	
 	speed = 5.0 
 	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
-	# 1. SAFETY: Create a placeholder texture if missing
-	# This ensures you see SOMETHING even if the sprite is empty
-	#if original_sprite.texture == null:
-		#print("No texture found! Creating placeholder.")
-		#var placeholder = PlaceholderTexture2D.new()
-		#placeholder.size = Vector2(64, 64)
-		#original_sprite.texture = placeholder
-		#original_sprite.modulate = Color(1, 0, 1) # Make it Pink so you see it
-		
+
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 		
@@ -60,12 +52,12 @@ func _ready() -> void:
 
 	# 5. FORCE SLIDER START
 	# Force the slider to 50 so we definitely spawn items
-	slider.max_value = 300 
-	slider.value = 50 
+	slider_duplication.max_value = 300 
+	slider_duplication.value = 50 
 	old_slider_val_int = 0 # Reset tracker so the logic below triggers
 	
 	# 6. Spawn Initial Sprites
-	var start_count = int(slider.value)
+	var start_count = int(slider_duplication.value)
 	for i in range(start_count):
 		increment()
 	
@@ -77,7 +69,7 @@ func _process(delta: float) -> void:
 	# 1. UPDATE TIMERS
 	time_passed += delta * speed
 	overall_rotation += ROTATION_SPEED * delta 
-	SPACING = slider_spacing.value 
+	SPACING = slider_radius.value 
 	
 	# 2. UPDATE BACKGROUND
 	current_color_time += GRADIENT_SPEED * delta
