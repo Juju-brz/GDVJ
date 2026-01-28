@@ -91,12 +91,6 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_scene"):
 		_on_next_tpt_pressed()
 	
-	#if Input.is_action_pressed("joy_increment"):
-		#increment()
-	##if Input.act("joy_increment"):
-		##increment()
-	#if Input.is_action_pressed("joy_decrement"):
-		#decrement()
 
 #CREATE MOUSE CONTROL
 func mouse_control():
@@ -140,6 +134,7 @@ func increment():
 		new_sprite.visible = true 
 		add_child(new_sprite)
 		duplicated_spriteslist.append(new_sprite)
+		
 
 
 ###DESTROY  LAST GEO
@@ -201,23 +196,26 @@ func slider_visual_update(a, b, slider):
 	if a != b:
 		a = b
 		slider.value = a
-
+	if a < b:
+		decrement()
 
 func _process(delta: float) -> void:
-	slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
+	#slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
+	if slider.value > duplicated_spriteslist.size():
+		increment()
+	if slider.value < duplicated_spriteslist.size():
+		decrement()
 	#slider_visual_update(RADIUS,old_slider_spacing_val, slider_spacing)
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
-		increment()
-		#print("mainSript :", "increment" )
-		
-		#slider.set_value_no_signal(duplicated_spriteslist.size())
-		#print("mainSript :", duplicated_spriteslist.size() )
+		#increment()
+		slider.value += 1
+
 
 	if Input.is_action_pressed("joy_decrement"):
-		decrement()
-		#slider.value = duplicated_spriteslist.size()
-
+		#decrement()
+		slider.value -= 1
+	
 	if Input.is_action_pressed("joy_speed_down"):
 		if speed <= 1:
 			pass
