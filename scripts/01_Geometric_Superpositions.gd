@@ -1,8 +1,5 @@
 extends mainScript
 
-# ---------------------------------------------------------
-# VARIABLES: VISUAL SETTINGS
-# ---------------------------------------------------------
 
 # --- GRID SETTINGS ---
 var GRID_COLUMNS: int = 10 
@@ -71,9 +68,6 @@ func _ready() -> void:
 		else:
 			current_angle += 45.0
 		add_small_step = not add_small_step
-
-
-
 
 
 func _process(delta: float) -> void:
@@ -193,8 +187,6 @@ func draw_star_pattern(location: Vector2, scale_outer: float, scale_inner: float
 		add_child(s)
 		s.position = location
 		
-		# APPLY ROTATION SPEED MULTIPLIER HERE
-		# We multiply the group rotation by the cell's speed multiplier
 		s.rotation = rot_angle_rad + (group_rotation * rot_dir * final_rotation_multiplier)
 		
 		s.scale = Vector2(sprite_scale, sprite_scale)

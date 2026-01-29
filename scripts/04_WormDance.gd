@@ -18,15 +18,10 @@ var SPIRAL_SPEED: float = 2.0
 # --- BACKGROUND COLORS ---
 @onready var backsquare = $ColorRect 
 
-
 # --- SPRITE MANAGEMENT ---
 var trail_sprites: Array[Sprite2D] = []
 var trail_positions: Array[Vector2] = []
 var trail_velocities: Array[Vector2] = []
-
-# ---------------------------------------------------------
-# VARIABLES: UI & CONTROLS
-# ---------------------------------------------------------
 
 
 func _ready() -> void:
@@ -40,7 +35,7 @@ func _ready() -> void:
 	if backsquare: backsquare.show()
 	
 	# 2. SPAWN TRAIL AT CENTER OF SCREEN
-	var viewport_center = get_viewport_rect().size * 0.5
+	var viewport_center = get_viewport_rect().size * 0.5 #* slider_radius.value
 	
 	for i in range(TRAIL_LENGTH):
 		var s = original_sprite.duplicate()
@@ -52,7 +47,6 @@ func _ready() -> void:
 		trail_velocities.append(Vector2.ZERO)
 
 		
-	#print("!!! SCRIPT READY: Center Spawn + Mirror Movement + Invisible Head !!!")
 
 func increment():
 	pass

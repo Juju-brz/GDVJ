@@ -210,11 +210,12 @@ func _process(delta: float) -> void:
 	if slider_radius.value > old_slider_radius_val:
 		Radius_Incr()
 		old_slider_radius_val = slider_radius.value
+		#old_slider_radius_val += old_slider_radius_val 
 	if slider_radius.value < old_slider_radius_val:
 		Radius_Decr()
 		old_slider_radius_val = slider_radius.value
+		#old_slider_radius_val -= old_slider_radius_val
 	
-	#slider_visual_update(RADIUS,old_slider_spacing_val, slider_spacing)
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
 		#increment()

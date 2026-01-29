@@ -21,9 +21,6 @@ var stamp_angles: Array[float] = []
 
 var output: Array = []
 
-# ----------------------------------------------------------------------
-# 1. Configuration 
-# ----------------------------------------------------------------------			
 
 # --- ROTATION STOP VARIABLES (Element-based) ---
 const TOTAL_CELLS : int = 90 # 10 columns * 9 rows

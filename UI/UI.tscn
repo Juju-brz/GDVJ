@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgw5hdy3h13ff"]
+[gd_scene load_steps=8 format=3 uid="uid://cgw5hdy3h13ff"]
 
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/shaderFrag.gd" id="1_dhe1o"]
+[ext_resource type="StyleBox" uid="uid://imp0otaas7y3" path="res://UI/Slider_Color.tres" id="1_e707p"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="2_q0uhn"]
 [ext_resource type="Script" uid="uid://dfek5ideno8o" path="res://scripts/shaderVer.gd" id="3_q0uhn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0uhn"]
+bg_color = Color(0.4255382, 0.57451874, 0.99099296, 1)
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_dhe1o"]
 number_color = Color(0.30875906, 0.5115807, 0.9547095, 1)
@@ -40,6 +44,8 @@ text = "Duplication"
 
 [node name="HSlider_duplication" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_styles/grabber_area = ExtResource("1_e707p")
+theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
 min_value = 1.0
 max_value = 200.0
 value = 1.0
@@ -55,6 +61,8 @@ text = "RADIUS"
 
 [node name="HSlider_radius" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
+theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
 min_value = 1.0
 value = 50.0
 
