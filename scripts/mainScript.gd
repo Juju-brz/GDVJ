@@ -167,9 +167,10 @@ func decrement():
 
 func Radius_Incr():
 	RADIUS = RADIUS + 1.0 
-
+	old_slider_radius_val = RADIUS
 func Radius_Decr():
 	RADIUS = RADIUS - 1.0
+	old_slider_radius_val = RADIUS
 
 func _ready() -> void:
 	duplication_count = duplicated_spriteslist.size()
@@ -209,11 +210,11 @@ func _process(delta: float) -> void:
 	
 	if slider_radius.value > old_slider_radius_val:
 		Radius_Incr()
-		old_slider_radius_val = slider_radius.value
+		#old_slider_radius_val = slider_radius.value
 		#old_slider_radius_val += old_slider_radius_val 
 	if slider_radius.value < old_slider_radius_val:
 		Radius_Decr()
-		old_slider_radius_val = slider_radius.value
+		#old_slider_radius_val = slider_radius.value
 		#old_slider_radius_val -= old_slider_radius_val
 	
 	## CONTROLS ##
