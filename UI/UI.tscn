@@ -14,6 +14,10 @@ number_color = Color(0.30980393, 0.50980395, 0.9529412, 1)
 symbol_color = Color(0.20784314, 0.62352943, 0.36078432, 1)
 function_color = Color(0.99215686, 0.79607844, 0, 1)
 member_variable_color = Color(0.9607843, 0.65882355, 0.7529412, 1)
+keyword_colors = {
+"TIME": Color(0.8039216, 0.4745098, 0.1882353, 1),
+"UV": Color(0.8039216, 0.4745098, 0.1882353, 1)
+}
 color_regions = {
 "//": Color(0.39215687, 0.3882353, 0.4, 1)
 }
