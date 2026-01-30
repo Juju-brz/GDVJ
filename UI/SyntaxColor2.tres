@@ -1,0 +1,21 @@
+[gd_resource type="CodeHighlighter" format=3 uid="uid://slm4j1utevg6"]
+
+[resource]
+number_color = Color(0.30875906, 0.5115807, 0.9547095, 1)
+symbol_color = Color(0.20757037, 0.6253251, 0.35961342, 1)
+function_color = Color(0.99215686, 0.79607844, 0, 1)
+member_variable_color = Color(0.9589761, 0.6601775, 0.754872, 1)
+keyword_colors = {
+"//": Color(0.8787422, 0, 0, 1),
+"TIME": Color(0.8039216, 0.4745098, 0.1882353, 1),
+"UV": Color(0.805388, 0.47427702, 0.1897483, 1),
+"float": Color(0.9999259, 0.4861694, 0.4186818, 1),
+"int": Color(1, 0.4862745, 0.41960785, 1),
+"return": Color(0.8801906, 0.65974784, 0.8757751, 1),
+"vec2": Color(1, 0.4862745, 0.41960785, 1),
+"vec3": Color(1, 0.4862745, 0.41960785, 1),
+"vec4": Color(1, 0.4862745, 0.41960785, 1)
+}
+color_regions = {
+"//": Color(0.39096233, 0.38732284, 0.3982344, 1)
+}
