@@ -63,9 +63,7 @@ func _close_all_ui():
 
 #Button for change Scene
 func _on_next_tpt_pressed() -> void:
-	
 	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
-
 	if error != OK:
 		# Handle the error if the scene file wasn.t found
 		print("mainScript : SCENE SWITCH ERROR: Could not load scene file: ", NEXT_SCENE_PATH)
