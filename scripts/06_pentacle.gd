@@ -27,7 +27,7 @@ var array_points: Array[Vector2] = []
 func _ready() -> void:
 	super._ready()
 	
-	speed = 5.0 
+	SPEED = 5.0 
 	NEXT_SCENE_PATH = "res://templates/07_Geometric_Superpositions.tscn"
 
 		
@@ -54,13 +54,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 
-	overall_rotation += ROTATION_SPEED * delta * speed
+	overall_rotation += ROTATION_SPEED * delta * SPEED
 	RADIUS = slider_radius.value
 	
 
 	update_sprites_transform(delta)
-
-
 
 
 func update_sprites_transform(delta):
@@ -111,8 +109,6 @@ func update_sprites_transform(delta):
 			sprite.scale = Vector2(target_scale, target_scale)
 			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y * 0.5) 
 			sprite.rotation = overall_rotation + (col * 0.52) * rotation_influence
-
-
 
 
 func _on_file_selected(path: String):

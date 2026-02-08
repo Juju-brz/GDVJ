@@ -61,8 +61,6 @@ func _ready() -> void:
 
 	slider_duplication.value = 100
 
-
-
 func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. Update Timers
@@ -71,13 +69,11 @@ func _process(delta: float) -> void:
 	
 	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta
-	group_rotation += GROUP_ROTATION_SPEED * delta * speed
+	group_rotation += GROUP_ROTATION_SPEED * delta * SPEED
 	
 	queue_redraw()
 	clear_board()
 	draw_board(delta)
-
-
 
 func clear_board():
 	for sprite in duplicated_spriteslist:

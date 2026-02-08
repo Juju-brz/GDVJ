@@ -2,24 +2,16 @@ extends mainScript
 
 #### VARIABLES ####
 
-# --- VISUAL SETTINGS ---
-# In your original script, SPACING was the angle step. 
-# 0.5 radians is about 30 degrees, creating a nice spiral.
+
 var ANGLE_STEP: float = 0.5 
 
-# We use the slider to control the Radius (Distance from center)
-#var RADIUS: float = 100.0 
 
 var time_passed: float = 0.0 
-#var speed: float = 2.0 
 
 # --- MOUSE INTERACTION ---
 var overall_rotation: float = 0.0
 var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
 
-
-#var duplicated_spriteslist = []
-#@onready var old_slider_val_int: int = int(slider.value)
 
 
 #### FUNCTIONS ####
@@ -27,7 +19,7 @@ var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
 func _ready() -> void:
 	super._ready()
 	
-	speed = 1.0
+	SPEED = 1.0
 	NEXT_SCENE_PATH = "res://templates/05_CircleStar.tscn"
 	# 1. SAFETY: Create placeholder if needed
 	if original_sprite.texture == null:
@@ -56,17 +48,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. UPDATE TIMERS
-	time_passed += delta * speed
-	overall_rotation += ROTATION_SPEED * delta * speed
-	
-	# 2. UPDATE RADIUS FROM SLIDER
-	# In original script, slider_spacing controlled Radius
-	#RADIUS = slider_spacing.value 
-	
-	# 3. HANDLE ADDING/REMOVING SPRITES
-	#handle_slider_logic()
-	
-	# 4. MOVE SPRITES (The Spiral Logic)
+	time_passed += delta * SPEED
+	overall_rotation += ROTATION_SPEED * delta * SPEED
+
 	update_sprites_transform(delta)
 
 
@@ -96,9 +80,7 @@ func update_sprites_transform(delta):
 			# Angle increases with index 'i'
 			var angle = i * ANGLE_STEP
 			
-			# --- WAVE FUNCTION (COMMENTED OUT AS REQUESTED) ---
-			# var wave_offset = sin(time_passed + (i * 0.2)) * 20.0
-			# var current_radius = RADIUS + wave_offset
+
 			var current_radius = RADIUS # Use static radius
 			
 			# Calculate Position based on Angle and Radius

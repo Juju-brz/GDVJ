@@ -69,7 +69,6 @@ func _ready() -> void:
 			current_angle += 45.0
 		add_small_step = not add_small_step
 
-
 func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. Update Timers
@@ -78,7 +77,7 @@ func _process(delta: float) -> void:
 	
 	# Rotation and Background updates
 	overall_rotation += ROTATION_SPEED * delta
-	group_rotation += GROUP_ROTATION_SPEED * delta * speed
+	group_rotation += GROUP_ROTATION_SPEED * delta * SPEED
 	#current_color_time += GRADIENT_SPEED * delta
 	current_gradient_angle += GRADIENT_ANGLE_SPEED * delta
 	#print(time_passed)
@@ -88,8 +87,6 @@ func _process(delta: float) -> void:
 	queue_redraw()
 	clear_board()
 	draw_board(delta)
-
-
 
 func clear_board():
 	for sprite in duplicated_spriteslist:
@@ -136,6 +133,7 @@ func draw_board(delta):
 
 	var current_rotation_speed1 = 4.0
 	loop(start_x, start_y, step, screen_center, current_scale_outer, current_scale_inner, current_scale_ghost,current_rotation_speed1)
+
 func loop(start_x, start_y, step, screen_center, current_scale_outer, current_scale_inner, current_scale_ghost, current_rotation_speed):
 	#var loop_count = 0
 	for col in range(GRID_COLUMNS):

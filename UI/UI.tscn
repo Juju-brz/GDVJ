@@ -40,9 +40,9 @@ offset_left = -309.0
 offset_bottom = 228.0
 grow_horizontal = 0
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
+[node name="Label_duplication" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Duplication"
+text = "DUPLICATION"
 
 [node name="HSlider_duplication" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
@@ -57,7 +57,7 @@ visible = false
 layout_mode = 2
 text = "Animation"
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label_radius" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "RADIUS"
 
@@ -67,6 +67,19 @@ theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
 theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
 min_value = 1.0
 value = 50.0
+
+[node name="Label_speed" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "SPEED"
+
+[node name="HSlider_speed" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
+theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
+min_value = 1.0
+max_value = 15.0
+step = 0.5
+value = 1.0
 
 [node name="Btn_Change_Image" type="Button" parent="VBoxContainer"]
 layout_mode = 2

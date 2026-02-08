@@ -7,17 +7,26 @@ class_name  mainScript
 ### CONTROLS ###
 @onready var control = $Control
 @onready var BG = $BG_For_Controls
+#slider
 @onready var slider_duplication = $Control/VBoxContainer/HSlider_duplication
 @onready var slider_radius = $Control/VBoxContainer/HSlider_radius
-@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
-@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
-@onready var original_sprite = $Square  
-@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
+@onready var slider_speed = $Control/VBoxContainer/HSlider_speed
+#slider old value
 @onready var old_slider_val_int: int = int(slider_duplication.value)
 @onready var old_slider_radius_val = int(slider_radius.value)
+@onready var old_slider_speed_val = int(slider_speed.value)
+#change scene
+@onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
+#change geo
+@onready var btn_change_image = $Control/VBoxContainer/Btn_Change_Image
+
+@onready var dialogue_change_image = $Control/VBoxContainer/Dlg_Change_Image
+@onready var original_sprite = $Square  
 var hide_ui :bool = false
+
+
+#CHANGE SCENE
 var NEXT_SCENE_PATH : String = ""
-#var mouse_activation = true
 
 #joy
 var joy_pos := Vector2(0.5, 0.5) # position virtuelle normalisée
@@ -28,11 +37,8 @@ var duplicated_spriteslist :Array = []
 var duplication_count = 0
 var old_duplication_count = 0
 
-## SPEED ##
-var speed : float = 2.0
-
-
-## RADIUS ##
+## Slider Variables ##
+var SPEED : float = 1.0
 var RADIUS: float = 100.0 
 
 
@@ -55,11 +61,8 @@ func _on_file_selected(path: String):
 func _close_all_ui():
 	control.hide(); BG.hide(); dialogue_change_image.hide(); hide_ui = true
 
+#Button for change Scene
 func _on_next_tpt_pressed() -> void:
-	# 1. Close the external Python thread cleanly (important!)
-	# We don't want the thread trying to write back to the old, closing scene.
-
-	# 2. Get the SceneTree and change the scene
 	
 	var error = get_tree().change_scene_to_file(NEXT_SCENE_PATH)
 
@@ -90,7 +93,7 @@ func _input(event: InputEvent) -> void:
 		GLOBAL.mouse_activation = !GLOBAL.mouse_activation
 	if Input.is_action_just_pressed("change_scene"):
 		_on_next_tpt_pressed()
-	
+
 
 #CREATE MOUSE CONTROL
 func mouse_control():
@@ -123,7 +126,9 @@ func control_norm(delta):
 	return control_norm
 
 
-###CREATE ANOTHER GEO
+## SLIDER FUNCTION ##
+
+#CREATE ANOTHER GEO
 func increment(): 
 	if duplicated_spriteslist.size() >= 200.0:
 		pass
@@ -134,10 +139,9 @@ func increment():
 		new_sprite.visible = true 
 		add_child(new_sprite)
 		duplicated_spriteslist.append(new_sprite)
-		
 
 
-###DESTROY  LAST GEO
+#DESTROY  LAST GEO
 func decrement(): 
 	if duplicated_spriteslist.size() <= 0:
 		pass
@@ -147,31 +151,30 @@ func decrement():
 			if is_instance_valid(last_sprite):
 				last_sprite.queue_free()
 
-#func speed_up():
-	#speed +=1
-
-
-#### HELPER FUNCTIONS ####
-
-#func handle_slider_logic():
-	#var current_slider_int = int(slider.value)
-	#if current_slider_int > old_slider_val_int:
-		##for i in range(current_slider_int - old_slider_val_int):
-		##increment()
-		#old_slider_val_int = current_slider_int
-	#elif current_slider_int < old_slider_val_int:
-		##for i in range(old_slider_val_int - current_slider_int):
-		##decrement()
-		#old_slider_val_int = current_slider_int
-
-
 func Radius_Incr():
 	RADIUS = RADIUS + 1.0 
 	old_slider_radius_val = RADIUS
+
 func Radius_Decr():
 	RADIUS = RADIUS - 1.0
 	old_slider_radius_val = RADIUS
 
+func Speed_Incr():
+	SPEED = SPEED + 1.0
+	old_slider_speed_val = SPEED
+
+func Speed_Decr():
+	SPEED = SPEED - 1.0
+	old_slider_speed_val = SPEED
+
+#func slider_visual_update(a, b, slider):
+	#if a != b:
+		#a = b
+		#slider.value = a
+	#if a < b:
+		#decrement()
+
+## READY & PROCESS ##
 func _ready() -> void:
 	duplication_count = duplicated_spriteslist.size()
 	old_duplication_count = duplication_count
@@ -180,6 +183,7 @@ func _ready() -> void:
 	dialogue_change_image.hide()
 	hide_ui = true
 	
+	#SPEED = slider_speed.value
 	# 3. CONNECT SIGNALS
 	if not btn_change_image.pressed.is_connected(open_dialog):
 		btn_change_image.pressed.connect(open_dialog)
@@ -193,13 +197,6 @@ func _ready() -> void:
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
 		next_tpt.pressed.connect(_on_next_tpt_pressed)
 
-func slider_visual_update(a, b, slider):
-	if a != b:
-		a = b
-		slider.value = a
-	if a < b:
-		decrement()
-
 func _process(delta: float) -> void:
 	#slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
 	if slider_duplication.value > duplicated_spriteslist.size():
@@ -210,12 +207,15 @@ func _process(delta: float) -> void:
 	
 	if slider_radius.value > old_slider_radius_val:
 		Radius_Incr()
-		#old_slider_radius_val = slider_radius.value
-		#old_slider_radius_val += old_slider_radius_val 
+
 	if slider_radius.value < old_slider_radius_val:
 		Radius_Decr()
-		#old_slider_radius_val = slider_radius.value
-		#old_slider_radius_val -= old_slider_radius_val
+
+	if slider_speed.value > old_slider_speed_val:
+		Speed_Incr()
+
+	if slider_speed.value < old_slider_speed_val:
+		Speed_Decr()
 	
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
@@ -228,22 +228,14 @@ func _process(delta: float) -> void:
 		slider_duplication.value -= 1
 	
 	if Input.is_action_pressed("joy_speed_down"):
-		if speed <= 1:
-			pass
-		else:
-			speed -= 0.5
-			#print("mainScript :" , "speed" , speed)
+		slider_speed.value -= 0.5
+
 	if Input.is_action_pressed("joy_speed_up"):
-		if speed >= 20.0:
-			pass
-		else:
-			speed += 0.5
-			#print("mainScript :" , "speed" , speed)
+		slider_speed.value += 0.5
+
 	
 	if Input.is_action_pressed("joy_radius_incr"):
-		#Radius_Incr()
 		slider_radius.value += 1
 	
 	if Input.is_action_pressed("joy_radius_decr"):
-		#Radius_Decr()
 		slider_radius.value -= 1

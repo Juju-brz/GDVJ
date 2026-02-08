@@ -6,7 +6,6 @@ extends mainScript
 var SPACING: float = 60.0 
 var GRID_COLUMNS: int = 15 
 var time_passed: float = 0.0 
-#var speed: float = 5.0 
 
 # --- MOUSE INTERACTION SETTINGS ---
 var overall_rotation: float = 0.0
@@ -30,7 +29,7 @@ var GRADIENT_ANGLE_SPEED: float = 10.0
 func _ready() -> void:
 	super._ready()
 	
-	speed = 5.0 
+	SPEED = 5.0 
 	NEXT_SCENE_PATH = "res://templates/03-Spiral.tscn"
 
 	if not next_tpt.pressed.is_connected(_on_next_tpt_pressed):
@@ -53,11 +52,10 @@ func _ready() -> void:
 	
 	print("Created ", duplicated_spriteslist.size(), " items.")
 
-
 func _process(delta: float) -> void:
 	super._process(delta)
 	# 1. UPDATE TIMERS
-	time_passed += delta * speed
+	time_passed += delta * SPEED
 	overall_rotation += ROTATION_SPEED * delta 
 	SPACING = slider_radius.value 
 	
@@ -71,9 +69,6 @@ func _process(delta: float) -> void:
 	
 	# 4. MOVE & SCALE SPRITES
 	update_sprites_transform(delta)
-
-
-
 
 func update_sprites_transform(delta):
 	# --- A. MOUSE INFLUENCE ---
@@ -123,8 +118,6 @@ func update_sprites_transform(delta):
 			sprite.scale = Vector2(target_scale, target_scale)
 			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y) 
 			sprite.rotation = overall_rotation + (col * 0.1) * rotation_influence
-
-
 
 func _on_file_selected(path: String):
 	var image = Image.new()

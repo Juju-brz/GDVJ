@@ -27,7 +27,7 @@ var trail_velocities: Array[Vector2] = []
 func _ready() -> void:
 	super._ready()
 	NEXT_SCENE_PATH = "res://templates/02_BeautifulChaos.tscn" 
-	speed = 8.0
+	SPEED = 8.0
 	# 1. HIDE THE FIXED ORIGINAL IMAGE
 	if original_sprite:
 		original_sprite.hide() 
@@ -46,7 +46,6 @@ func _ready() -> void:
 		trail_positions.append(viewport_center)
 		trail_velocities.append(Vector2.ZERO)
 
-		
 
 func increment():
 	pass
@@ -58,7 +57,6 @@ func _process(delta: float) -> void:
 	time_passed += delta
 	
 	update_trail_physics(delta)
-
 
 func update_trail_physics(delta: float):
 	var viewport_center = get_viewport_rect().size * 0.5  
@@ -97,7 +95,7 @@ func update_trail_physics(delta: float):
 		s.position = trail_positions[i]
 		
 		# Rotation Logic
-		var spiral_rot = (float(i) * 0.1) + (time_passed * (speed *0.3))
+		var spiral_rot = (float(i) * 0.1) + (time_passed * (SPEED *0.3))
 		var glitch_rot = 0.0
 		if chaos_level > 0.5 and randf() < 0.1:
 			glitch_rot = deg_to_rad(90.0 * (randi() % 4))
@@ -122,7 +120,6 @@ func update_trail_physics(delta: float):
 		else:
 			# Fade out tail normally
 			s.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
-
 
 func _on_file_selected(path: String):
 	var image = Image.new()

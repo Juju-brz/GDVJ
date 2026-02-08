@@ -5,7 +5,6 @@ extends mainScript
 
 var ANGLE_STEP: float = 0.5 
 
-
 var time_passed: float = 0.0 
 #var speed: float = 2.0 
 
@@ -42,17 +41,14 @@ func _ready() -> void:
 	for i in range(start_count):
 		increment()
 
-
-
 func _process(delta: float) -> void:
 	super._process(delta)
 
 	# 1. UPDATE TIMERS
-	time_passed += delta * speed
-	overall_rotation += ROTATION_SPEED * delta * speed 
+	time_passed += delta * SPEED
+	overall_rotation += ROTATION_SPEED * delta * SPEED 
 
 	update_sprites_transform(delta)
-
 
 #### THE LOGIC (SPIRAL RESTORED) ####
 
@@ -90,10 +86,9 @@ func update_sprites_transform(delta):
 			
 			# --- ROTATION & SCALE ---
 			# Restore the rotation logic: rotation = angle
-			sprite.rotation = angle + overall_rotation * speed
+			sprite.rotation = angle + overall_rotation * SPEED
 			sprite.scale = Vector2(target_scale, target_scale)
 			
-
 
 func _on_file_selected(path: String):
 	var image = Image.new()
