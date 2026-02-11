@@ -254,8 +254,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("joy_radius_decr"):
 		slider_radius.value -= 1
 	
-	if Input.is_action_just_pressed("joy_shear_incr"):
-		slider_shear.value += 1
+	if Input.is_action_pressed("joy_shear_incr"):
+		slider_shear.value += 0.03
 	
-	if Input.is_action_just_pressed("joy_shear_decr"):
-		slider_shear.value -= 1
+	if Input.is_action_pressed("joy_shear_decr"):
+		slider_shear.value -= 0.03
