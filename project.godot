@@ -8,12 +8,16 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="GDVJ"
 config/version="1.1.0 beta"
 run/main_scene="uid://dn5hnojjq0cu2"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -108,6 +112,16 @@ joy_radius_incr={
 joy_radius_decr={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
+]
+}
+joy_shear_incr={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":-1.0,"script":null)
+]
+}
+joy_shear_decr={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
 ]
 }
 

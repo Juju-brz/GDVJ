@@ -1,15 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://qywxpr5vvcjj"]
+[gd_scene format=3 uid="uid://qywxpr5vvcjj"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_gh05c"]
 [ext_resource type="Script" uid="uid://c4hfbx71iow0l" path="res://scripts/01_Geometric_Superpositions.gd" id="2_mgxbi"]
 [ext_resource type="Texture2D" uid="uid://bbgu6clrixshr" path="res://Shapes/Pattern-Square.png" id="3_wmo22"]
 [ext_resource type="Shader" uid="uid://b0jcj53b5croi" path="res://shaders/mainShader.gdshader" id="4_slan0"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_faa0j"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6cyax"]
 resource_local_to_scene = true
 shader = ExtResource("4_slan0")
 
-[node name="Node2D" instance=ExtResource("1_gh05c")]
+[node name="Node2D" unique_id=1262517312 instance=ExtResource("1_gh05c")]
 script = ExtResource("2_mgxbi")
 
 [node name="ColorRect" parent="." index="0"]
@@ -20,7 +20,7 @@ offset_right = 2067.0
 offset_bottom = 1183.0
 
 [node name="ColorRect2" parent="." index="1"]
-material = SubResource("ShaderMaterial_faa0j")
+material = SubResource("ShaderMaterial_6cyax")
 offset_right = 1921.0
 
 [node name="Square" parent="." index="3"]

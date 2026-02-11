@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://g456p5ok7jm1"]
+[gd_scene format=3 uid="uid://g456p5ok7jm1"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_uylkl"]
 [ext_resource type="Script" uid="uid://bcwyiixxykkv8" path="res://scripts/03_Spiral_MainScript.gd" id="2_uylkl"]
@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 shader = ExtResource("4_srw7j")
 
-[node name="Node2D" instance=ExtResource("1_uylkl")]
+[node name="Node2D" unique_id=606541423 instance=ExtResource("1_uylkl")]
 script = ExtResource("2_uylkl")
 
 [node name="ColorRect" parent="." index="0"]

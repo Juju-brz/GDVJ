@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn5hnojjq0cu2"]
+[gd_scene format=3 uid="uid://dn5hnojjq0cu2"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_w8uyb"]
 [ext_resource type="Script" uid="uid://chvs7d1s1gvft" path="res://scripts/04_WormDance.gd" id="2_8in7r"]
@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 shader = ExtResource("4_5k6ko")
 
-[node name="Node2D2" instance=ExtResource("1_w8uyb")]
+[node name="Node2D2" unique_id=205789884 instance=ExtResource("1_w8uyb")]
 script = ExtResource("2_8in7r")
 
 [node name="ColorRect" parent="." index="0"]

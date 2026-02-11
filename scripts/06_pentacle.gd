@@ -109,7 +109,7 @@ func update_sprites_transform(delta):
 			sprite.scale = Vector2(target_scale, target_scale)
 			var rotation_influence = lerp(1.0, 5.0, mouse_norm.y * 0.5) 
 			sprite.rotation = overall_rotation + (col * 0.52) * rotation_influence
-
+		sprite.skew = SHEAR
 
 func _on_file_selected(path: String):
 	var image = Image.new()

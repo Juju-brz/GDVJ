@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgw5hdy3h13ff"]
+[gd_scene format=3 uid="uid://cgw5hdy3h13ff"]
 
 [ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/shaderFrag.gd" id="1_dhe1o"]
 [ext_resource type="StyleBox" uid="uid://imp0otaas7y3" path="res://UI/Slider_Color.tres" id="1_e707p"]
@@ -30,14 +30,14 @@ color_regions = {
 "//": Color(0.39215687, 0.3882353, 0.4, 1)
 }
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1876606309]
 z_index = 5
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1924.0
 offset_bottom = 1080.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=385398077]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.907
@@ -48,11 +48,11 @@ offset_left = -309.0
 offset_bottom = 228.0
 grow_horizontal = 0
 
-[node name="Label_duplication" type="Label" parent="VBoxContainer"]
+[node name="Label_duplication" type="Label" parent="VBoxContainer" unique_id=1333263999]
 layout_mode = 2
 text = "DUPLICATION"
 
-[node name="HSlider_duplication" type="HSlider" parent="VBoxContainer"]
+[node name="HSlider_duplication" type="HSlider" parent="VBoxContainer" unique_id=2129177865]
 layout_mode = 2
 theme_override_styles/grabber_area = ExtResource("1_e707p")
 theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
@@ -60,27 +60,27 @@ min_value = 1.0
 max_value = 200.0
 value = 1.0
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1967817536]
 visible = false
 layout_mode = 2
 text = "Animation"
 
-[node name="Label_radius" type="Label" parent="VBoxContainer"]
+[node name="Label_radius" type="Label" parent="VBoxContainer" unique_id=1202745064]
 layout_mode = 2
 text = "RADIUS"
 
-[node name="HSlider_radius" type="HSlider" parent="VBoxContainer"]
+[node name="HSlider_radius" type="HSlider" parent="VBoxContainer" unique_id=281273866]
 layout_mode = 2
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
 theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
 min_value = 1.0
 value = 50.0
 
-[node name="Label_speed" type="Label" parent="VBoxContainer"]
+[node name="Label_speed" type="Label" parent="VBoxContainer" unique_id=1165162659]
 layout_mode = 2
 text = "SPEED"
 
-[node name="HSlider_speed" type="HSlider" parent="VBoxContainer"]
+[node name="HSlider_speed" type="HSlider" parent="VBoxContainer" unique_id=1290581209]
 layout_mode = 2
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
 theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
@@ -89,11 +89,23 @@ max_value = 15.0
 step = 0.5
 value = 1.0
 
-[node name="Btn_Change_Image" type="Button" parent="VBoxContainer"]
+[node name="Label_shear" type="Label" parent="VBoxContainer" unique_id=460477242]
+layout_mode = 2
+text = "SHEAR"
+
+[node name="HSlider_shear" type="HSlider" parent="VBoxContainer" unique_id=2019063617]
+layout_mode = 2
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_q0uhn")
+theme_override_styles/grabber_area_highlight = ExtResource("1_e707p")
+min_value = -10.0
+max_value = 10.0
+step = 0.03
+
+[node name="Btn_Change_Image" type="Button" parent="VBoxContainer" unique_id=1846465650]
 layout_mode = 2
 text = "Choose Pattern Motif"
 
-[node name="Dlg_Change_Image" type="FileDialog" parent="VBoxContainer"]
+[node name="Dlg_Change_Image" type="FileDialog" parent="VBoxContainer" unique_id=1608563384]
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 1
@@ -101,19 +113,19 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.png", "*.svg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1128349930]
 layout_direction = 2
 layout_mode = 2
 size_flags_stretch_ratio = 0.35
 alignment = 1
 
-[node name="Btn_Switch_algorithm" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Btn_Switch_algorithm" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1160877628]
 layout_mode = 2
 size_flags_horizontal = 15
 text = "Switch to Next Algorithm"
 icon_alignment = 1
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1579058778]
 layout_mode = 1
 anchor_left = 0.023
 anchor_top = 0.5
@@ -124,13 +136,13 @@ offset_right = 658.0
 offset_bottom = 476.5
 grow_vertical = 2
 
-[node name="TabContainer" type="TabContainer" parent="Control"]
+[node name="TabContainer" type="TabContainer" parent="Control" unique_id=263029719]
 layout_mode = 0
 offset_right = 653.0
 offset_bottom = 939.0
 current_tab = 0
 
-[node name="Fragment" type="CodeEdit" parent="Control/TabContainer"]
+[node name="Fragment" type="CodeEdit" parent="Control/TabContainer" unique_id=1104231432]
 layout_mode = 2
 text = "shader_type canvas_item;
 
@@ -153,7 +165,7 @@ draw_spaces = true
 script = ExtResource("1_dhe1o")
 metadata/_tab_index = 0
 
-[node name="Execute" type="Button" parent="Control/TabContainer/Fragment"]
+[node name="Execute" type="Button" parent="Control/TabContainer/Fragment" unique_id=2079741509]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -165,12 +177,12 @@ offset_top = -42.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Play" type="Sprite2D" parent="Control/TabContainer/Fragment/Execute"]
+[node name="Play" type="Sprite2D" parent="Control/TabContainer/Fragment/Execute" unique_id=8680247]
 position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_q0uhn")
 
-[node name="Vertex" type="CodeEdit" parent="Control/TabContainer"]
+[node name="Vertex" type="CodeEdit" parent="Control/TabContainer" unique_id=721642526]
 visible = false
 layout_mode = 2
 text = "shader_type canvas_item; 
@@ -200,7 +212,7 @@ draw_spaces = true
 script = ExtResource("3_q0uhn")
 metadata/_tab_index = 1
 
-[node name="Execute" type="Button" parent="Control/TabContainer/Vertex"]
+[node name="Execute" type="Button" parent="Control/TabContainer/Vertex" unique_id=1073882211]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -212,7 +224,7 @@ offset_top = -42.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Play" type="Sprite2D" parent="Control/TabContainer/Vertex/Execute"]
+[node name="Play" type="Sprite2D" parent="Control/TabContainer/Vertex/Execute" unique_id=104835145]
 position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_q0uhn")

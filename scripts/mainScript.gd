@@ -7,14 +7,18 @@ class_name  mainScript
 ### CONTROLS ###
 @onready var control = $Control
 @onready var BG = $BG_For_Controls
-#slider
+##slider ##
 @onready var slider_duplication = $Control/VBoxContainer/HSlider_duplication
 @onready var slider_radius = $Control/VBoxContainer/HSlider_radius
 @onready var slider_speed = $Control/VBoxContainer/HSlider_speed
+@onready var slider_shear = $Control/VBoxContainer/HSlider_shear
+
 #slider old value
 @onready var old_slider_val_int: int = int(slider_duplication.value)
 @onready var old_slider_radius_val = int(slider_radius.value)
 @onready var old_slider_speed_val = int(slider_speed.value)
+@onready var old_slider_shear_val = int(slider_shear.value)
+
 #change scene
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
 #change geo
@@ -40,7 +44,7 @@ var old_duplication_count = 0
 ## Slider Variables ##
 var SPEED : float = 1.0
 var RADIUS: float = 100.0 
-
+var SHEAR : float = 0.0
 
 #### 		FUNCTIONS 		####
 
@@ -138,7 +142,6 @@ func increment():
 		add_child(new_sprite)
 		duplicated_spriteslist.append(new_sprite)
 
-
 #DESTROY  LAST GEO
 func decrement(): 
 	if duplicated_spriteslist.size() <= 0:
@@ -165,12 +168,17 @@ func Speed_Decr():
 	SPEED = SPEED - 1.0
 	old_slider_speed_val = SPEED
 
-#func slider_visual_update(a, b, slider):
-	#if a != b:
-		#a = b
-		#slider.value = a
-	#if a < b:
-		#decrement()
+func Shear_Incr():
+	SHEAR = SHEAR + 0.03
+	old_slider_shear_val = SHEAR
+	original_sprite.skew = SHEAR
+	print("Shear", original_sprite.skew)
+
+func Shear_Decr():
+	SHEAR = SHEAR - 0.03
+	old_slider_shear_val = SHEAR
+	original_sprite.skew = SHEAR
+	print("Shear", original_sprite.skew)
 
 ## READY & PROCESS ##
 func _ready() -> void:
@@ -180,6 +188,7 @@ func _ready() -> void:
 	BG.hide()
 	dialogue_change_image.hide()
 	hide_ui = true
+	
 	
 	#SPEED = slider_speed.value
 	# 3. CONNECT SIGNALS
@@ -197,6 +206,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	#slider_visual_update(duplication_count, duplicated_spriteslist.size(), slider)
+	#original_sprite.Skew = 0.0
 	if slider_duplication.value > duplicated_spriteslist.size():
 		increment()
 	if slider_duplication.value < duplicated_spriteslist.size():
@@ -214,6 +224,12 @@ func _process(delta: float) -> void:
 
 	if slider_speed.value < old_slider_speed_val:
 		Speed_Decr()
+		
+	if slider_shear.value > old_slider_shear_val:
+		Shear_Incr()
+	
+	if slider_shear.value < old_slider_shear_val:
+		Shear_Decr()
 	
 	## CONTROLS ##
 	if Input.is_action_pressed("joy_increment"):
@@ -237,3 +253,9 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("joy_radius_decr"):
 		slider_radius.value -= 1
+	
+	if Input.is_action_just_pressed("joy_shear_incr"):
+		slider_shear.value += 1
+	
+	if Input.is_action_just_pressed("joy_shear_decr"):
+		slider_shear.value -= 1

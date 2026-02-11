@@ -91,8 +91,8 @@ func update_trail_physics(delta: float):
 				trail_positions[i] = current.lerp(target, move_speed * 0.5)
 			
 		# UPDATE SPRITE
-		var s = trail_sprites[i]
-		s.position = trail_positions[i]
+		var sprite = trail_sprites[i]
+		sprite.position = trail_positions[i]
 		
 		# Rotation Logic
 		var spiral_rot = (float(i) * 0.1) + (time_passed * (SPEED *0.3))
@@ -100,7 +100,7 @@ func update_trail_physics(delta: float):
 		if chaos_level > 0.5 and randf() < 0.1:
 			glitch_rot = deg_to_rad(90.0 * (randi() % 4))
 		
-		s.rotation = spiral_rot + glitch_rot
+		sprite.rotation = spiral_rot + glitch_rot
 		
 		# Scale Logic
 		var pulse = sin(time_passed * 3.0 + (i * 0.2))
@@ -111,16 +111,17 @@ func update_trail_physics(delta: float):
 		var base_scale = lerp(0.8, 0.2, float(i)/float(TRAIL_LENGTH))
 		var final_scale = base_scale * (1.0 + (pulse * 0.2)) * chaos_scale
 		
-		s.scale = Vector2(final_scale, final_scale)
+		sprite.scale = Vector2(final_scale, final_scale)
 		
 		# --- ALPHA LOGIC (The Fix) ---
 		if i == 0:
 			# Hide the head completely!
-			s.modulate.a = 0.0 
+			sprite.modulate.a = 0.0 
 		else:
 			# Fade out tail normally
-			s.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
-
+			sprite.modulate.a = lerp(1.0, 0.0, float(i)/float(TRAIL_LENGTH))
+		
+		sprite.skew = SHEAR
 func _on_file_selected(path: String):
 	var image = Image.new()
 	if image.load(path) != OK: return

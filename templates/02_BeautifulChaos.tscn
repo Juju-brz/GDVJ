@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy283yydm3eyd"]
+[gd_scene format=3 uid="uid://cy283yydm3eyd"]
 
 [ext_resource type="PackedScene" uid="uid://bp8w6tlng3j86" path="res://baseScene.tscn" id="1_hrqrm"]
 [ext_resource type="Script" uid="uid://dni8j477fdhwu" path="res://scripts/02_Beautiful_Chaos_MainScript.gd" id="2_w5kta"]
@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 shader = ExtResource("4_ogbv1")
 
-[node name="Node2D" instance=ExtResource("1_hrqrm")]
+[node name="Node2D" unique_id=1097440539 instance=ExtResource("1_hrqrm")]
 script = ExtResource("2_w5kta")
 
 [node name="ColorRect" parent="." index="0"]
@@ -22,7 +22,7 @@ offset_bottom = 1183.0
 [node name="ColorRect2" parent="." index="1"]
 material = SubResource("ShaderMaterial_81po7")
 
-[node name="Square" parent="." index="2"]
+[node name="Square" parent="." index="3"]
 z_index = 2
 position = Vector2(1023, 499)
 scale = Vector2(1, 1)

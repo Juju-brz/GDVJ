@@ -2,15 +2,12 @@ extends mainScript
 
 #### VARIABLES ####
 
-
 var ANGLE_STEP: float = 0.5 
-
-
 var time_passed: float = 0.0 
 
 # --- MOUSE INTERACTION ---
 var overall_rotation: float = 0.0
-var ROTATION_SPEED: float = deg_to_rad(10.0) #* speed
+var ROTATION_SPEED: float = deg_to_rad(10.0)
 
 
 
@@ -42,7 +39,6 @@ func _ready() -> void:
 	var start_count = int(slider_duplication.value)
 	for i in range(start_count):
 		increment()
-
 
 
 func _process(delta: float) -> void:
@@ -93,7 +89,7 @@ func update_sprites_transform(delta):
 			# Restore the rotation logic: rotation = angle
 			sprite.rotation = angle + overall_rotation
 			sprite.scale = Vector2(target_scale, target_scale)
-
+		sprite.skew = SHEAR
 
 func _on_file_selected(path: String):
 	var image = Image.new()
