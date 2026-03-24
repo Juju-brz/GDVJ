@@ -100,7 +100,6 @@ func _input(event: InputEvent) -> void:
 #CREATE MOUSE CONTROL
 func mouse_control():
 	var viewport_rect = get_viewport_rect()
-	#var mouse_pos = get_viewport().get_mouse_position()
 	
 	var norm_x = clamp(get_mouse().x / viewport_rect.size.x, 0.0, 1.0)
 	var norm_y = clamp(get_mouse().y / viewport_rect.size.y, 0.0, 1.0)
