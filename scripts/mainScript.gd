@@ -8,6 +8,7 @@ class_name  mainScript
 @onready var control = $Control
 @onready var BG = $BG_For_Controls
 ##slider ##
+@onready var slider_group = $Control/VBoxContainer
 @onready var slider_duplication = $Control/VBoxContainer/HSlider_duplication
 @onready var slider_radius = $Control/VBoxContainer/HSlider_radius
 @onready var slider_speed = $Control/VBoxContainer/HSlider_speed
@@ -18,6 +19,7 @@ class_name  mainScript
 @onready var old_slider_radius_val = int(slider_radius.value)
 @onready var old_slider_speed_val = int(slider_speed.value)
 @onready var old_slider_shear_val = int(slider_shear.value)
+@onready var code = $Control/Control
 
 #change scene
 @onready var next_tpt = $Control/VBoxContainer/HBoxContainer/Btn_Switch_algorithm
@@ -86,6 +88,19 @@ func _input(event: InputEvent) -> void:
 		else:
 			control.hide(); BG.hide(); hide_ui = true
 			
+	## TO DO ##
+	if Input.is_action_just_pressed("hide_code_panel"):
+		if hide_ui:
+			code.show(); BG.show(); hide_ui = false
+		else:
+			code.hide(); BG.hide(); hide_ui = true
+			
+	if Input.is_action_just_pressed("hide_slider_panel"):
+		if hide_ui:
+			slider_group.show(); BG.show(); hide_ui = false
+		else:
+			slider_group.hide(); BG.hide(); hide_ui = true
+
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
