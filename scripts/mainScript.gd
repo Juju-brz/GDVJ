@@ -91,15 +91,15 @@ func _input(event: InputEvent) -> void:
 	## TO DO ##
 	if Input.is_action_just_pressed("hide_code_panel"):
 		if hide_ui:
-			code.show(); BG.show(); hide_ui = false
+			code.show(); hide_ui = false
 		else:
-			code.hide(); BG.hide(); hide_ui = true
+			code.hide();  hide_ui = true
 			
 	if Input.is_action_just_pressed("hide_slider_panel"):
 		if hide_ui:
-			slider_group.show(); BG.show(); hide_ui = false
+			slider_group.show(); hide_ui = false
 		else:
-			slider_group.hide(); BG.hide(); hide_ui = true
+			slider_group.hide(); hide_ui = true
 
 	if Input.is_action_just_pressed("reset"):
 		get_tree().reload_current_scene()
