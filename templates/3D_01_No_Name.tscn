@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://duggtnb6rp2jq"]
+
+[ext_resource type="Script" uid="uid://b3t8uxlqcxail" path="res://scripts/3d_01_no_name.gd" id="1_tftir"]
+[ext_resource type="PackedScene" uid="uid://cgw5hdy3h13ff" path="res://UI/UI.tscn" id="2_4acwg"]
+[ext_resource type="Shader" uid="uid://b5kcsrgpo2yhw" path="res://shaders/3D_01_No_Name.gdshader" id="3_i5usf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4acwg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_viqri"]
+shader = ExtResource("3_i5usf")
+
+[sub_resource type="Sky" id="Sky_42ecw"]
+sky_material = SubResource("ShaderMaterial_viqri")
+
+[sub_resource type="Environment" id="Environment_4acwg"]
+background_mode = 2
+background_energy_multiplier = 0.5
+sky = SubResource("Sky_42ecw")
+
+[node name="Node3D" type="Node3D" unique_id=195534289]
+script = ExtResource("1_tftir")
+
+[node name="Control" parent="." unique_id=1876606309 instance=ExtResource("2_4acwg")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=901428850]
+mesh = SubResource("BoxMesh_4acwg")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1320470463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6750692, 1)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1049406274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.6855712)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=12419803]
+environment = SubResource("Environment_4acwg")

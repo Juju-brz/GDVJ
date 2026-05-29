@@ -12,8 +12,8 @@ shader = ExtResource("2_8mno4")
 [node name="Node2D" unique_id=451912021 instance=ExtResource("1_3e42k")]
 script = ExtResource("2_r1p4q")
 
-[node name="ColorRect2" parent="." index="1"]
+[node name="ColorRect2" parent="." index="1" unique_id=776279934]
 material = SubResource("ShaderMaterial_r1p4q")
 
-[node name="Square" parent="." index="3"]
+[node name="Square" parent="." index="3" unique_id=468435141]
 texture = ExtResource("3_8mno4")
