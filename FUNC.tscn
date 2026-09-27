@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bwpj2yjmtyfl1"]
+
+[ext_resource type="CodeHighlighter" uid="uid://slm4j1utevg6" path="res://UI/SyntaxColor2.tres" id="1_0iihn"]
+
+[node name="FUNC" type="Control" unique_id=1747238652]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SplitContainer2" type="SplitContainer" parent="." unique_id=920157586]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offsets = PackedInt32Array(-39)
+vertical = true
+split_offset = -39
+
+[node name="Control" type="Control" parent="SplitContainer2" unique_id=1483089171]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TabContainer" type="TabContainer" parent="SplitContainer2" unique_id=742793875]
+layout_mode = 2
+current_tab = 0
+tabs_position = 1
+deselect_enabled = true
+tab_3/disabled = true
+
+[node name="CodeEdit2" type="CodeEdit" parent="SplitContainer2/TabContainer" unique_id=1146750169]
+layout_mode = 2
+syntax_highlighter = ExtResource("1_0iihn")
+metadata/_tab_index = 0
+
+[node name="CodeEdit" type="CodeEdit" parent="SplitContainer2/TabContainer" unique_id=1635551057]
+visible = false
+layout_mode = 2
+syntax_highlighter = ExtResource("1_0iihn")
+metadata/_tab_index = 1
+
+[node name="CodeEdit3" type="CodeEdit" parent="SplitContainer2/TabContainer" unique_id=2115629891]
+visible = false
+layout_mode = 2
+syntax_highlighter = ExtResource("1_0iihn")
+metadata/_tab_index = 2
+
+[node name="create_func" type="Button" parent="SplitContainer2/TabContainer" unique_id=778782797]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
