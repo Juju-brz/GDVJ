@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://jopskob2g5d0"]
+[gd_scene format=3 uid="uid://jopskob2g5d0"]
 
-[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/shaderFrag.gd" id="1_pkw46"]
+[ext_resource type="Script" uid="uid://dopbw671o2emm" path="res://scripts/ui/shaderFrag.gd" id="1_pkw46"]
 [ext_resource type="Texture2D" uid="uid://cwr75hikdjaj7" path="res://play.svg" id="2_feb6b"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_yswlb"]
@@ -9,7 +9,7 @@ symbol_color = Color(0.20757037, 0.6253251, 0.35961342, 1)
 function_color = Color(0.99215686, 0.79607844, 0, 1)
 member_variable_color = Color(0.9589761, 0.6601775, 0.754872, 1)
 
-[node name="CodeEdit" type="CodeEdit"]
+[node name="CodeEdit" type="CodeEdit" unique_id=2115613787]
 offset_right = 652.0
 offset_bottom = 954.0
 text = "shader_type canvas_item;
@@ -33,7 +33,7 @@ draw_tabs = true
 draw_spaces = true
 script = ExtResource("1_pkw46")
 
-[node name="Execute" type="Button" parent="."]
+[node name="Execute" type="Button" parent="." unique_id=2133468487]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -45,7 +45,7 @@ offset_top = -42.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Play" type="Sprite2D" parent="Execute"]
+[node name="Play" type="Sprite2D" parent="Execute" unique_id=399273982]
 position = Vector2(21.5, 22.135)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_feb6b")

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dyn7jrkhosgup"]
+
+[ext_resource type="CodeHighlighter" uid="uid://bcw6yvw3ohsbo" path="res://UI/SyntaxColor3.tres" id="1_jp5i1"]
+
+[node name="CodeEdit2" type="CodeEdit" unique_id=1371457778]
+placeholder_text = "write your func here"
+syntax_highlighter = ExtResource("1_jp5i1")
+metadata/_tab_index = 0
