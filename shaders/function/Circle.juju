@@ -1,0 +1,7 @@
+//shader_type canvas_item;
+
+float Circle(vec2 uv)
+{
+    return length(uv);
+}
+

@@ -28,10 +28,14 @@ func _input(event: InputEvent) -> void:
 func _on_execute_pressed() -> void:
 	var user_code = self.text
 	
-
 	var mat = colorRect.material
 	if mat is ShaderMaterial:
 		var shader = mat.shader
 		if shader:
 			shader.code = user_code 
 			GLOBAL.ShaderFrag = user_code
+
+func _on_completion() -> void:
+	code.add_code_completion_option(CodeEdit.KIND_FUNCTION, "move", "move(\"")
+	code.add_code_completion_option(CodeEdit.KIND_FUNCTION, "say", "say(\"")
+	code.update_code_completion_options(true)
